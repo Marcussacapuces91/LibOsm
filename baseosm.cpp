@@ -199,41 +199,28 @@ cerr << "Ok" << endl;
 
 void BaseOsm::createStatments()
 {
-    fSelectTag.setStatment(fpSqlite3,
-                           "SELECT id FROM tag WHERE (key=? AND value=?)");
-    fInsertTag.setStatment(fpSqlite3,
-                           "INSERT INTO tag (key, value) VALUES (?,?)");
+    fSelectTag.setStatment(fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)");
+    fInsertTag.setStatment(fpSqlite3, "INSERT INTO tag (key, value) VALUES (?,?)");
 
-    fInsertChangeset.setStatment(fpSqlite3,
-                                 "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)");
-    fInsertChangesetTags.setStatment(fpSqlite3,
-                                     "INSERT INTO changeset_tags (id_changeset, id_tag) VALUES (?,?)");
+    fInsertChangeset.setStatment(fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)");
+    fInsertChangesetTags.setStatment(fpSqlite3, "INSERT INTO changeset_tags (id_changeset, id_tag) VALUES (?,?)");
 
-    fInsertNode.setStatment(fpSqlite3,
-                            "INSERT INTO node (id,version,changeset,user,uid,visible,timestamp,coord) VALUES (?,?,?,?,?,?,?,?)");
-    fInsertNodeTags.setStatment(fpSqlite3,
-                                "INSERT INTO node_tags (id_node, id_tag) VALUES (?,?)");
+    fInsertNode.setStatment(fpSqlite3, "INSERT INTO node (id,version,changeset,user,uid,visible,timestamp,coord) VALUES (?,?,?,?,?,?,?,?)");
+    fInsertNodeTags.setStatment(fpSqlite3, "INSERT INTO node_tags (id_node, id_tag) VALUES (?,?)");
 
-    fInsertWay.setStatment(fpSqlite3,
-                           "INSERT INTO way (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
-    fInsertWayTags.setStatment(fpSqlite3,
-                               "INSERT INTO way_tags (id_way, id_tag) VALUES (?,?)");
-    fInsertWayNodes.setStatment(fpSqlite3,
-                                "INSERT INTO way_nodes (id_way, id_node, rang) VALUES (?,?,?)");
+    fInsertWay.setStatment(fpSqlite3, "INSERT INTO way (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
+    fInsertWayTags.setStatment(fpSqlite3, "INSERT INTO way_tags (id_way, id_tag) VALUES (?,?)");
+    fInsertWayNodes.setStatment(fpSqlite3, "INSERT INTO way_nodes (id_way, id_node, rang) VALUES (?,?,?)");
 
-    fInsertRelation.setStatment(fpSqlite3,
-                                "INSERT INTO relation (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
-    fInsertRelationTags.setStatment(fpSqlite3,
-                                    "INSERT INTO relation_tags (id_relation, id_tag) VALUES (?,?)");
-    fInsertRelationMembers.setStatment(fpSqlite3,
-                                       "INSERT INTO relation_members (id_relation, type, id_member, role, rang) VALUES (?,?,?,?,?)");
+    fInsertRelation.setStatment(fpSqlite3, "INSERT INTO relation (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
+    fInsertRelationTags.setStatment(fpSqlite3, "INSERT INTO relation_tags (id_relation, id_tag) VALUES (?,?)");
+    fInsertRelationMembers.setStatment(fpSqlite3, "INSERT INTO relation_members (id_relation, type, id_member, role, rang) VALUES (?,?,?,?,?)");
 }
 
 unsigned long BaseOsm::getIdTag(const string& aKey, const string& aValue)
 {
 //    assert(!aKey.empty());
 //    assert(!aValue.empty());
-// if (aValue.empty() || aKey.empty()) cerr << endl << "Tag : " << aKey << "=" << aValue << endl;
     check(sqlite3_bind_text(*fSelectTag, 1, aKey.c_str(), aKey.size(), SQLITE_STATIC), __FILE__, __LINE__, __PRETTY_FUNCTION__);
     check(sqlite3_bind_text(*fSelectTag, 2, aValue.c_str(), aValue.size(), SQLITE_STATIC), __FILE__, __LINE__, __PRETTY_FUNCTION__);
     unsigned long idTag = 0;
@@ -310,8 +297,6 @@ void BaseOsm::add(const Changeset& aChangeset)
 
 void BaseOsm::insertNode(const Node& aNode)
 {
-// cerr << '<';
-// cerr << aNode;
     check(sqlite3_reset(*fInsertNode), __FILE__, __LINE__, __PRETTY_FUNCTION__);
     check(sqlite3_bind_int64(*fInsertNode, 1, aNode.id()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
     check(sqlite3_bind_int64(*fInsertNode, 2, aNode.version()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
@@ -336,7 +321,6 @@ void BaseOsm::insertNode(const Node& aNode)
        cerr << err << " " << sqlite3_errmsg(fpSqlite3) << endl;
        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     }
-// cerr << '>';
 }
 
 void BaseOsm::insertNodeTags(const Top& aTop,
@@ -355,13 +339,9 @@ void BaseOsm::insertNodeTags(const Top& aTop,
 
 void BaseOsm::add(const Node& aNode)
 {
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertNode(aNode);
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertNodeTags(aNode, aNode.tags());
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     ++fNbNodes;
-// cerr << __FILE__ << ':' << __LINE__ << endl;
 }
 
 void BaseOsm::insertWay(const Way& aWay)
@@ -415,15 +395,10 @@ void BaseOsm::insertWayNodes(const Top& aTop,
 
 void BaseOsm::add(const Way& aWay)
 {
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertWay(aWay);
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertWayTags(aWay, aWay.tags());
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertWayNodes(aWay, aWay.nodes());
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     ++fNbWays;
-// cerr << __FILE__ << ':' << __LINE__ << endl;
 }
 
 void BaseOsm::insertRelation(const Relation& aRelation)
@@ -483,14 +458,9 @@ void BaseOsm::insertRelationMembers(const Top& aTop,
 
 void BaseOsm::add(const Relation& aRelation)
 {
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertRelation(aRelation);
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertRelationTags(aRelation, aRelation.tags());
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     insertRelationMembers(aRelation, aRelation.getMembers());
-// cerr << __FILE__ << ':' << __LINE__ << endl;
     ++fNbRelations;
-// cerr << __FILE__ << ':' << __LINE__ << endl;
 }
 
