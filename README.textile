@@ -1,0 +1,15 @@
+h3. Présentation
+
+LibOsm est une librairie C++ permettant de manipuler et de stocker les éléments d'OSM v0.6.
+
+Elle est maintenue par Marc Sibert et est sous licence LGPL v3.
+
+h3. Dépendances :
+ 
+* SQLite3 (Domaine Public) 
+* Spatialite (MPLv1.1)
+* TCLAP pour parser les paramètres de la ligne de commande (Licence MIT)
+* Expat, 
+* Geos, 
+* Proj4 et
+* Iconv pour Windows
