@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert 
 
     This file is part of LIBOSM
 
@@ -46,175 +46,175 @@ BaseOsm::BaseOsm(const string& aPath,
 
 	exec("PRAGMA synchronous = OFF");
 	exec("PRAGMA cache_size = 1000000");
-    exec("PRAGMA journal_mode = OFF");
-    exec("PRAGMA temp_store =  MEMORY");
+	exec("PRAGMA journal_mode = OFF");
+	exec("PRAGMA temp_store =  MEMORY");
 
-//    sqlite3_progress_handler(fpSqlite3, 1000, BaseOsm::progress, this);
+//	sqlite3_progress_handler(fpSqlite3, 1000, BaseOsm::progress, this);
 
-    createTables();
-    createStatments();
+	createTables();
+	createStatments();
 }
 
 int BaseOsm::progress(void *const apBaseOsm)
 {
-    BaseOsm *const pBaseOsm = static_cast<BaseOsm *const>(apBaseOsm);
+	BaseOsm *const pBaseOsm = static_cast<BaseOsm *const>(apBaseOsm);
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
 void BaseOsm::createTables()
 {
 //
-// Table pour stocker les tags (pour tous les éléments).
+// Table pour stocker les tags (pour tous les Ã©lÃ©ments).
 //
-    exec("CREATE TABLE IF NOT EXISTS tag (                                     \
-              id INTEGER PRIMARY KEY AUTOINCREMENT,                            \
-              key TEXT,                                                        \
-              value TEXT,                                                      \
-              UNIQUE (key, value))");
+	exec("CREATE TABLE IF NOT EXISTS tag (			\
+			id INTEGER PRIMARY KEY AUTOINCREMENT,	\
+			key TEXT,									\
+			value TEXT,								\
+			UNIQUE (key, value))");
 
 //
-// Tables pour gérer les changesets.
+// Tables pour gÃ©rer les changesets.
 //
-    exec("CREATE TABLE IF NOT EXISTS changeset (                               \
-              id INTEGER PRIMARY KEY,                                          \
-              user TEXT DEFAULT NULL,                                          \
-              uid INTEGER DEFAULT NULL,                                        \
-              created_at TEXT NOT NULL,                                        \
-              closed_at TEXT DEFAULT NULL,                                     \
-              open INTEGER(1) NOT NULL);                                       \
+	exec("CREATE TABLE IF NOT EXISTS changeset (                               \
+			id INTEGER PRIMARY KEY,                                          \
+			user TEXT DEFAULT NULL,                                          \
+			uid INTEGER DEFAULT NULL,                                        \
+			created_at TEXT NOT NULL,                                        \
+			closed_at TEXT DEFAULT NULL,                                     \
+			open INTEGER(1) NOT NULL);                                       \
                                                                                \
-	      SELECT AddGeometryColumn('changeset', 'mbr', 4326, 'POLYGON', 2, 1); \
+		SELECT AddGeometryColumn('changeset', 'mbr', 4326, 'POLYGON', 2, 1); \
                                                                                \
-          CREATE TABLE IF NOT EXISTS changeset_tags (                          \
-              id_changeset INTEGER NOT NULL REFERENCES changeset,              \
-              id_tag INTEGER NOT NULL REFERENCES tag,                          \
-              PRIMARY KEY (id_changeset, id_tag))");
+		CREATE TABLE IF NOT EXISTS changeset_tags (                          \
+			id_changeset INTEGER NOT NULL REFERENCES changeset,              \
+			id_tag INTEGER NOT NULL REFERENCES tag,                          \
+			PRIMARY KEY (id_changeset, id_tag))");
 
 //
-// Tables pour gérer les nodes.
+// Tables pour gÃ©rer les nodes.
 //
 	exec("CREATE TABLE IF NOT EXISTS node (                                    \
-              id INTEGER PRIMARY KEY,                                          \
-              version INTEGER,                                                 \
-              changeset INTEGER REFERENCES changeset,                          \
-              user TEXT NULL,                                                  \
-              uid INTEGER NULL,                                                \
-              visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
-              timestamp TEXT NOT NULL);                                        \
+			id INTEGER PRIMARY KEY,                                          \
+			version INTEGER,                                                 \
+			changeset INTEGER REFERENCES changeset,                          \
+			user TEXT NULL,                                                  \
+			uid INTEGER NULL,                                                \
+			visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+			timestamp TEXT NOT NULL);                                        \
                                                                                \
-          SELECT AddGeometryColumn('node', 'coord', 4326, 'POINT', 2, 1);      \
+		SELECT AddGeometryColumn('node', 'coord', 4326, 'POINT', 2, 1);      \
                                                                                \
-          CREATE TABLE IF NOT EXISTS node_tags (                               \
-              id_node INTEGER NOT NULL REFERENCES node,                        \
-              id_tag INTEGER NOT NULL REFERENCES tag,                          \
-              PRIMARY KEY (id_node, id_tag))");
+		CREATE TABLE IF NOT EXISTS node_tags (                               \
+			id_node INTEGER NOT NULL REFERENCES node,                        \
+			id_tag INTEGER NOT NULL REFERENCES tag,                          \
+			PRIMARY KEY (id_node, id_tag))");
 
 
-//        SELECT CreateSpatialIndex('node','coord');                           \
+//		SELECT CreateSpatialIndex('node','coord');                           \
 
 //
-// Tables pour gérer les way.
+// Tables pour gÃ©rer les way.
 //
 	exec("CREATE TABLE IF NOT EXISTS way (                                     \
-              id INTEGER PRIMARY KEY,                                          \
-              version INTEGER,                                                 \
-              changeset INTEGER REFERENCES changeset,                          \
-              user TEXT NULL,                                                  \
-              uid INTEGER NULL,                                                \
-              visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
-              timestamp TEXT NOT NULL);                                        \
+			id INTEGER PRIMARY KEY,                                          \
+			version INTEGER,                                                 \
+			changeset INTEGER REFERENCES changeset,                          \
+			user TEXT NULL,                                                  \
+			uid INTEGER NULL,                                                \
+			visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+			timestamp TEXT NOT NULL);                                        \
                                                                                \
-          CREATE TABLE way_nodes (                                             \
-              id_way INTEGER REFERENCES way,                                   \
-              rang INTEGER(5),                                                 \
-              id_node INTEGER REFERENCES node,                                 \
-              PRIMARY KEY (id_way, rang, id_node));                            \
+		CREATE TABLE way_nodes (                                             \
+			id_way INTEGER REFERENCES way,                                   \
+			rang INTEGER(5),                                                 \
+			id_node INTEGER REFERENCES node,                                 \
+			PRIMARY KEY (id_way, rang));                            \
                                                                                \
-          CREATE TABLE IF NOT EXISTS way_tags (                                \
-              id_way INTEGER NOT NULL REFERENCES way,                          \
-              id_tag INTEGER NOT NULL REFERENCES tag,                          \
-              PRIMARY KEY (id_way, id_tag))");
+		CREATE TABLE IF NOT EXISTS way_tags (                                \
+			id_way INTEGER NOT NULL REFERENCES way,                          \
+			id_tag INTEGER NOT NULL REFERENCES tag,                          \
+			PRIMARY KEY (id_way, id_tag))");
 
 //
-// Tables pour gérer les relations.
+// Tables pour gÃ©rer les relations.
 //
 	exec("CREATE TABLE IF NOT EXISTS relation (                                \
-              id INTEGER(10) PRIMARY KEY,                                      \
-              version INTEGER,                                                 \
-              changeset INTEGER REFERENCES changeset,                          \
-              user TEXT NULL,                                                  \
-              uid INTEGER NULL,                                                \
-              visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
-              timestamp TEXT NOT NULL);                                        \
+			id INTEGER(10) PRIMARY KEY,                                      \
+			version INTEGER,                                                 \
+			changeset INTEGER REFERENCES changeset,                          \
+			user TEXT NULL,                                                  \
+			uid INTEGER NULL,                                                \
+			visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+			timestamp TEXT NOT NULL);                                        \
                                                                                \
-          CREATE TABLE IF NOT EXISTS relation_tags (                           \
-              id_relation INTEGER NOT NULL REFERENCES relation,                \
-              id_tag INTEGER NOT NULL REFERENCES tag,                          \
-              PRIMARY KEY (id_relation, id_tag));                              \
+		CREATE TABLE IF NOT EXISTS relation_tags (                           \
+			id_relation INTEGER NOT NULL REFERENCES relation,                \
+			id_tag INTEGER NOT NULL REFERENCES tag,                          \
+			PRIMARY KEY (id_relation, id_tag));                              \
                                                                                \
-          CREATE TABLE IF NOT EXISTS relation_members (                        \
-              id_relation INTEGER NOT NULL REFERENCES relation,                \
-              rang INTEGER(5),                                                 \
-              type INTEGER(1) NOT NULL,                                        \
-              id_member INTEGER NOT NULL,                                      \
-              role TEXT NULL,                                                  \
-              PRIMARY KEY (id_relation, rang, type, id_member))");
+		CREATE TABLE IF NOT EXISTS relation_members (                        \
+			id_relation INTEGER NOT NULL REFERENCES relation,                \
+			rang INTEGER(5),                                                 \
+			type INTEGER(1) NOT NULL,                                        \
+			id_member INTEGER NOT NULL,                                      \
+			role TEXT NULL,                                                  \
+			PRIMARY KEY (id_relation, rang, type, id_member))");
 }
 
 void BaseOsm::createIndexes()
 {
-    exec("BEGIN");
+	exec("BEGIN");
 // Changesets
 cerr << endl << "Indexes de Changeset : ";
-    exec("SELECT CreateMbrCache('changeset','mbr')");
+	exec("SELECT CreateMbrCache('changeset','mbr')");
 cerr << "Ok" << endl;
 
 // Nodes
 cerr << endl << "Indexes de Node : ";
-//    exec("SELECT CreateSpatialIndex('node','coord');                           \
-    exec("CREATE INDEX IF NOT EXISTS node_tags_id_tag ON node_tags (id_tag)");
+//	exec("SELECT CreateSpatialIndex('node','coord');                           \
+	exec("CREATE INDEX IF NOT EXISTS node_tags_id_tag ON node_tags (id_tag)");
 cerr << "Ok" << endl;
 
 // Ways
 cerr << endl << "Indexes de Way : ";
-    exec("CREATE INDEX IF NOT EXISTS way_nodes_id_node ON way_nodes (id_node); \
-          CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
+	exec("CREATE INDEX IF NOT EXISTS way_nodes_id_node ON way_nodes (id_node); \
+		CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
 cerr << "Ok" << endl;
 
 // Relations
 cerr << endl << "Indexes de Relation : ";
-    exec("CREATE INDEX IF NOT EXISTS relation_members_type_id_member           \
-              ON relation_members (type, id_member);                           \
-          CREATE INDEX IF NOT EXISTS relation_tags_id_tag ON relation_tags (id_tag)");
+	exec("CREATE INDEX IF NOT EXISTS relation_members_type_id_member           \
+		ON relation_members (type, id_member);                           \
+		CREATE INDEX IF NOT EXISTS relation_tags_id_tag ON relation_tags (id_tag)");
 cerr << "Ok" << endl;
 
-    exec("COMMIT");
+	exec("COMMIT");
 
 cerr << endl << "Analyse : ";
-    exec("ANALYZE");
+	exec("ANALYZE");
 cerr << "Ok" << endl;
 }
 
 
 void BaseOsm::createStatments()
 {
-    fSelectTag.setStatment(fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)");
-    fInsertTag.setStatment(fpSqlite3, "INSERT INTO tag (key, value) VALUES (?,?)");
+	fSelectTag.setStatment(fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)");
+	fInsertTag.setStatment(fpSqlite3, "INSERT INTO tag (key, value) VALUES (?,?)");
 
-    fInsertChangeset.setStatment(fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)");
-    fInsertChangesetTags.setStatment(fpSqlite3, "INSERT INTO changeset_tags (id_changeset, id_tag) VALUES (?,?)");
+	fInsertChangeset.setStatment(fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)");
+	fInsertChangesetTags.setStatment(fpSqlite3, "INSERT INTO changeset_tags (id_changeset, id_tag) VALUES (?,?)");
 
-    fInsertNode.setStatment(fpSqlite3, "INSERT INTO node (id,version,changeset,user,uid,visible,timestamp,coord) VALUES (?,?,?,?,?,?,?,?)");
-    fInsertNodeTags.setStatment(fpSqlite3, "INSERT INTO node_tags (id_node, id_tag) VALUES (?,?)");
+	fInsertNode.setStatment(fpSqlite3, "INSERT INTO node (id,version,changeset,user,uid,visible,timestamp,coord) VALUES (?,?,?,?,?,?,?,?)");
+	fInsertNodeTags.setStatment(fpSqlite3, "INSERT INTO node_tags (id_node, id_tag) VALUES (?,?)");
 
-    fInsertWay.setStatment(fpSqlite3, "INSERT INTO way (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
-    fInsertWayTags.setStatment(fpSqlite3, "INSERT INTO way_tags (id_way, id_tag) VALUES (?,?)");
-    fInsertWayNodes.setStatment(fpSqlite3, "INSERT INTO way_nodes (id_way, id_node, rang) VALUES (?,?,?)");
+	fInsertWay.setStatment(fpSqlite3, "INSERT INTO way (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
+	fInsertWayTags.setStatment(fpSqlite3, "INSERT INTO way_tags (id_way, id_tag) VALUES (?,?)");
+	fInsertWayNodes.setStatment(fpSqlite3, "INSERT INTO way_nodes (id_way, id_node, rang) VALUES (?,?,?)");
 
-    fInsertRelation.setStatment(fpSqlite3, "INSERT INTO relation (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
-    fInsertRelationTags.setStatment(fpSqlite3, "INSERT INTO relation_tags (id_relation, id_tag) VALUES (?,?)");
-    fInsertRelationMembers.setStatment(fpSqlite3, "INSERT INTO relation_members (id_relation, type, id_member, role, rang) VALUES (?,?,?,?,?)");
+	fInsertRelation.setStatment(fpSqlite3, "INSERT INTO relation (id,version,changeset,user,uid,visible,timestamp) VALUES (?,?,?,?,?,?,?)");
+	fInsertRelationTags.setStatment(fpSqlite3, "INSERT INTO relation_tags (id_relation, id_tag) VALUES (?,?)");
+	fInsertRelationMembers.setStatment(fpSqlite3, "INSERT INTO relation_members (id_relation, type, id_member, role, rang) VALUES (?,?,?,?,?)");
 }
 
 unsigned long BaseOsm::getIdTag(const string& aKey, const string& aValue)
@@ -382,7 +382,7 @@ void BaseOsm::insertWayNodes(const Top& aTop,
 {
     if (!aNodes.empty()) {
         check(sqlite3_bind_int64(*fInsertWayNodes, 1, aTop.id()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
-        unsigned rang = 0;  // commence à 1 car pré-incrémenté.
+        unsigned rang = 0;  // commence Ã  1 car prÃ©-incrÃ©mentÃ©.
         for (Way::ListeNodes::const_iterator it = aNodes.begin(); it != aNodes.end(); ++it) {
             check(sqlite3_bind_int64(*fInsertWayNodes, 2, *it), __FILE__, __LINE__, __PRETTY_FUNCTION__);
             check(sqlite3_bind_int(*fInsertWayNodes, 3, ++rang), __FILE__, __LINE__, __PRETTY_FUNCTION__);
@@ -438,7 +438,7 @@ void BaseOsm::insertRelationMembers(const Top& aTop,
 {
     if (!aMembers.empty()) {
         check(sqlite3_bind_int64(*fInsertRelationMembers, 1, aTop.id()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
-        unsigned rang = 0;  // commence à 1 car pré-incrémenté.
+        unsigned rang = 0;  // commence Ã  1 car prÃ©-incrÃ©mentÃ©.
         for (list<Member>::const_iterator it = aMembers.begin(); it != aMembers.end(); ++it) {
             check(sqlite3_bind_int(*fInsertRelationMembers, 2, it->getType()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
             check(sqlite3_bind_int64(*fInsertRelationMembers, 3, it->getId()), __FILE__, __LINE__, __PRETTY_FUNCTION__);
