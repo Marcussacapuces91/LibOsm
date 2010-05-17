@@ -140,7 +140,7 @@ void BaseOsm::createTables()
 // Tables pour gérer les relations.
 //
 	exec("CREATE TABLE IF NOT EXISTS relation (                                \
-			id INTEGER(10) PRIMARY KEY,                                      \
+			id INTEGER PRIMARY KEY,                                      \
 			version INTEGER,                                                 \
 			changeset INTEGER REFERENCES changeset,                          \
 			user TEXT NULL,                                                  \
