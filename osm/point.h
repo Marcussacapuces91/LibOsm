@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -35,7 +35,7 @@ using namespace std;
 
 /**
  * Classe abstraite commune aux TrkPt et Ville pour faire des mesures de
- * distance entre deux éléments.
+ * distance entre deux Ã©lÃ©ments.
  */
 class Point
 {
@@ -44,19 +44,19 @@ class Point
         static const double RAYON_TERRE;
 
     protected:
-/// Latitude en degrés géographiques.
+/// Latitude en degrÃ©s gÃ©ographiques.
         double fLatitude;
 
-/// Longitude en degrés géographiques.
+/// Longitude en degrÃ©s gÃ©ographiques.
         double fLongitude;
 
 	public:
 /**
  * Constructeur de l'instance.
- * Assure aussi la fonction de constructeur par défaut avec des coordonnées
+ * Assure aussi la fonction de constructeur par dÃ©faut avec des coordonnÃ©es
  * nulles.
- * @param aLatitude Latitude en degrés.
- * @param aLongitude Longitude en degrés.
+ * @param aLatitude Latitude en degrÃ©s.
+ * @param aLongitude Longitude en degrÃ©s.
  */
 		Point(const double& aLatitude = 0,
               const double& aLongitude = 0) :
@@ -66,7 +66,7 @@ class Point
 
 /**
  * Constructeur de copie.
- * @param aPoint Point servant à initialiser l'instance courante.
+ * @param aPoint Point servant Ã  initialiser l'instance courante.
  */
         Point(const Point& aPoint) :
             fLatitude(aPoint.fLatitude),
@@ -74,70 +74,70 @@ class Point
         {}
 
 /**
- * Opérateur d'affection.
- * @param aPoint Point à affecter à l'instance courante.
- * @return Une référence sur l'instance courante après affectation.
+ * OpÃ©rateur d'affection.
+ * @param aPoint Point Ã  affecter Ã  l'instance courante.
+ * @return Une rÃ©fÃ©rence sur l'instance courante aprÃ¨s affectation.
  */
         Point& operator=(const Point& aPoint);
 
 /**
- * Retourne la distance entre l'instance courante et le Point indiqué.
+ * Retourne la distance entre l'instance courante et le Point indiquÃ©.
  * @param aPoint Point avec lequel se fait la mesure de distance.
- * @return La distance en mètres.
+ * @return La distance en mÃ¨tres.
  */
         double distance(const Point& aPoint) const;
 
 /**
- * Indique sur l'instance et le point indiqué sont superposés ou même identiques.
+ * Indique sur l'instance et le point indiquÃ© sont superposÃ©s ou mÃªme identiques.
  * @param aPoint Instance qui sert de comparaison.
- * @return true si les 2 instances sont superposées ou identiques, ou false sinon.
+ * @return true si les 2 instances sont superposÃ©es ou identiques, ou false sinon.
  */
         bool operator==(const Point& aPoint);
 
 /**
- * Retourne la latitude en degrés.
+ * Retourne la latitude en degrÃ©s.
  * \return La valeur de la latitude.
  */
         const double& latitude() const { return fLatitude; }
 
 /**
- * Affecte la latitude et retourne une référence.
- * \param aLatitude laitude exprimée en degrés.
+ * Affecte la latitude et retourne une rÃ©fÃ©rence.
+ * \param aLatitude laitude exprimÃ©e en degrÃ©s.
  * \return La valeur de la latitude.
  */
         const double& latitude(const double& aLatitude) { return fLatitude = aLatitude; }
 
 /**
- * Retourne la longitude en degrés.
+ * Retourne la longitude en degrÃ©s.
  * @return La valeur de la longitude.
  */
         const double& longitude() const { return fLongitude; }
         const double& longitude(const double& aLongitude) { return fLongitude = aLongitude; }
 
 /**
- * Retourne un Point correspondant à l'instance déplacée suivant la distance et
- * la direction indiquées.
- * @param aDistance Distance du déplacement en mètres.
- * @param aBearing Direction du déplacement en degrés.
+ * Retourne un Point correspondant Ã  l'instance dÃ©placÃ©e suivant la distance et
+ * la direction indiquÃ©es.
+ * @param aDistance Distance du dÃ©placement en mÃ¨tres.
+ * @param aBearing Direction du dÃ©placement en degrÃ©s.
  * @return Un nouveau point.
  */
         Point decaller(const double& aDistance,
                        const float& aBearing) const;
 
 /**
- * Retourne le bearing depuis l'instance vers le Point indiqué.
- * @param aPoint Point vers lequel le bearing est calculé.
- * @return La valeur du bearing en degrés.
+ * Retourne le bearing depuis l'instance vers le Point indiquÃ©.
+ * @param aPoint Point vers lequel le bearing est calculÃ©.
+ * @return La valeur du bearing en degrÃ©s.
  */
         float bearing(const Point& aPoint) const;
 
 };
 
 /**
- * Opérateur d'injection d'une description d'un Point dans un flux de sortie.
- * @param aStream Le flux de sortie dans lequel est injecté la description.
- * @param aPoint Le Point dont la description sera injectée.
- * @return Le flux de sortie après injection.
+ * OpÃ©rateur d'injection d'une description d'un Point dans un flux de sortie.
+ * @param aStream Le flux de sortie dans lequel est injectÃ© la description.
+ * @param aPoint Le Point dont la description sera injectÃ©e.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
 inline ostream& operator<<(ostream& aStream, const Point& aPoint)
 {

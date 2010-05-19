@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -33,34 +33,34 @@ using namespace std;
 
 /**
  * Member est un des composants d'une Relation.
- * Cela peut être n'importe quel élément auquel on attribue un rôle.
+ * Cela peut Ãªtre n'importe quel Ã©lÃ©ment auquel on attribue un rÃ´le.
  */
 class Member
 {
     public:
         typedef enum {
-            NONE = 0,   ///< Sans élément associé (à l'initilisation seulement).
-            NODE,       ///< L'élément associé est un Node.
-            WAY,        ///< L'élément associé est une Way.
-            RELATION    ///< L'élément associé est une Relation.
+            NONE = 0,   ///< Sans Ã©lÃ©ment associÃ© (Ã  l'initilisation seulement).
+            NODE,       ///< L'Ã©lÃ©ment associÃ© est un Node.
+            WAY,        ///< L'Ã©lÃ©ment associÃ© est une Way.
+            RELATION    ///< L'Ã©lÃ©ment associÃ© est une Relation.
         } TypeElement;
 
     private:
-/// Type de l'Élément associé.
+/// Type de l'Ã‰lÃ©ment associÃ©.
         TypeElement fTypeElement;
 
-/// Identifiant de l'Élément associé.
+/// Identifiant de l'Ã‰lÃ©ment associÃ©.
         unsigned long fIdElement;
 
-/// Rôle de l'Élément associé.
+/// RÃ´le de l'Ã‰lÃ©ment associÃ©.
         string fRole;
 
 	public:
 /**
  * Constructeur de l'instance.
- * @param aTypeElement Type de l'élément composant la Relation.
- * @param aIdElement Identifiant de l'élément.
- * @param aRole Description du rôle donné à l'élément.
+ * @param aTypeElement Type de l'Ã©lÃ©ment composant la Relation.
+ * @param aIdElement Identifiant de l'Ã©lÃ©ment.
+ * @param aRole Description du rÃ´le donnÃ© Ã  l'Ã©lÃ©ment.
  */
         Member(const TypeElement& aTypeElement = NONE,
                const unsigned long& aIdElement = 0,
@@ -72,36 +72,36 @@ class Member
 		~Member() {};
 
 /**
- * Définit l'un des attributs d'un Membre.
+ * DÃ©finit l'un des attributs d'un Membre.
  * @param aKey Nom de l'attribut.
- * @param aValue Valeur à attribuer.
- * @throw OsmException si l'attribut est inconnu ou la valeur erronée.
+ * @param aValue Valeur Ã  attribuer.
+ * @throw OsmException si l'attribut est inconnu ou la valeur erronÃ©e.
  */
 		void setAttribut(const string& aKey, const string& aValue);
 
 /**
- * Injecte la description de l'instance dand le flux de sortie indiqué.
+ * Injecte la description de l'instance dand le flux de sortie indiquÃ©.
  * @param aStream Le flux de sortie.
- * @return Le flux de sortie après injection.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
         ostream& afficher(ostream& aStream) const;
 
 /**
  * Retourne le type de l'instance.
- * \return Une référence constante sur le type de l'instance.
+ * \return Une rÃ©fÃ©rence constante sur le type de l'instance.
  * \see TypeElement.
  */
         const TypeElement& getType() const { return fTypeElement; }
 
 /**
  * Retourne l'identifiant (id) de l'instance.
- * \return Une référence constante sur l'identifiant de l'instance.
+ * \return Une rÃ©fÃ©rence constante sur l'identifiant de l'instance.
  */
         const unsigned long&  getId() const { return fIdElement; }
 
 /**
- * Retourne le rôle attribué à l'instance.
- * \return Une référence constante sur la chaîne décrivant le rôle de l'instance.
+ * Retourne le rÃ´le attribuÃ© Ã  l'instance.
+ * \return Une rÃ©fÃ©rence constante sur la chaÃ®ne dÃ©crivant le rÃ´le de l'instance.
  */
         const string& getRole() const { return fRole; }
 
@@ -110,8 +110,8 @@ class Member
 /**
  * Injecte un membre dans un flux de sortie.
  * @param aStream Le flux de sortie.
- * @param aMember Le membre à injecter.
- * @return Le flux de sortie après injection.
+ * @param aMember Le membre Ã  injecter.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
 inline ostream& operator<<(ostream& aStream, const Member& aMember)
 { return aMember.afficher(aStream); }

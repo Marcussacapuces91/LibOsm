@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -35,7 +35,7 @@ using namespace std;
 #include "osm_exception.h"
 
 /**
- * Classe définit un élément Relation tel que décrit dans l'API Osm.
+ * Classe dÃ©finit un Ã©lÃ©ment Relation tel que dÃ©crit dans l'API Osm.
  */
 class Relation : public Element
 {
@@ -46,23 +46,23 @@ class Relation : public Element
 /**
  * Affiche la description de l'instance sous la forme d'un flux XML.
  * @param aStream Le flux de sortie dans lequel se fait l'injection.
- * @return Le flux de sortie après injection.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
         ostream& afficherMembers(ostream& aStream) const;
 
     public:
 /**
- * Constructeur par défaut de l'instance.
+ * Constructeur par dÃ©faut de l'instance.
  */
         Relation() {}
 
 /**
- * Permet d'ajouter un Member à la Relation.
- * @param aMember Membre à ajouter à la liste.
+ * Permet d'ajouter un Member Ã  la Relation.
+ * @param aMember Membre Ã  ajouter Ã  la liste.
  */
         void addMember(const Member& aMember);
 
-/// Nom de la classe utilisée par certaines méthodes templates de la classe ApiOsm.
+/// Nom de la classe utilisÃ©e par certaines mÃ©thodes templates de la classe ApiOsm.
         static const string NOM;
 
         ostream& afficher(ostream& aStream) const;

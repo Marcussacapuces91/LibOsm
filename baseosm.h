@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -31,49 +31,49 @@
 #include "osm/member.h"
 
 /**
- * Classe permettant d'instancier une base de données contenant les différents
- * éléments d'OSM.
- * Elle hérite de BaseSQLite3 pour ses primitives, et de l'interface
- * BaseInterface pour être utilisable par le parseur XML qui va y insérer les
- * éléments.
+ * Classe permettant d'instancier une base de donnÃ©es contenant les diffÃ©rents
+ * Ã©lÃ©ments d'OSM.
+ * Elle hÃ©rite de BaseSQLite3 pour ses primitives, et de l'interface
+ * BaseInterface pour Ãªtre utilisable par le parseur XML qui va y insÃ©rer les
+ * Ã©lÃ©ments.
  */
 class BaseOsm : public BaseSQLite3, public BaseInterface
 {
     private:
-/// Commande précompilée pour lire un enregistrement depuis la table tag.
+/// Commande prÃ©compilÃ©e pour lire un enregistrement depuis la table tag.
         Commande fSelectTag;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table tag.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table tag.
         Commande fInsertTag;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table changeset.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table changeset.
         Commande fInsertChangeset;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table changeset_tags.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table changeset_tags.
         Commande fInsertChangesetTags;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table node.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table node.
         Commande fInsertNode;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table node_tags.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table node_tags.
         Commande fInsertNodeTags;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table way.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table way.
         Commande fInsertWay;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table way_tags.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table way_tags.
         Commande fInsertWayTags;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table way_nodes.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table way_nodes.
         Commande fInsertWayNodes;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table relation.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table relation.
         Commande fInsertRelation;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table relation_tags.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table relation_tags.
         Commande fInsertRelationTags;
 
-/// Commande précompilée pour ajouter un enregistrement dans la table relation_members.
+/// Commande prÃ©compilÃ©e pour ajouter un enregistrement dans la table relation_members.
         Commande fInsertRelationMembers;
 
 /// Nombre de Changeset.
@@ -89,30 +89,30 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
         unsigned fNbRelations;
 
 /**
- * Crée toutes les tables dans la base courante.
+ * CrÃ©e toutes les tables dans la base courante.
  */
         void createTables();
 
 /**
- * Crée toutes les statments.
+ * CrÃ©e toutes les statments.
  */
         void createStatments();
 
 /**
- * Méthode statique qui est appelée régulièrement par le moteur SQLite3 afin
+ * MÃ©thode statique qui est appelÃ©e rÃ©guliÃ¨rement par le moteur SQLite3 afin
  * d'afficher la progression de l'application.
- * Pour le moment cette méthode est sans action.
+ * Pour le moment cette mÃ©thode est sans action.
  * \param apBaseOsm Un pointeur sur l'instance courante de BaseOsm.
- * \return Une valeur <> 0 provoque l'arrêt du moteur SQLite.
+ * \return Une valeur <> 0 provoque l'arrÃªt du moteur SQLite.
  */
         static int progress(void *const apBaseOsm);
 
 /**
- * Retourne l'identifiant d'une paire Key, Value et crée cette paire si elle
+ * Retourne l'identifiant d'une paire Key, Value et crÃ©e cette paire si elle
  * n'existe pas.
- * \param aKey Une chaîne contenant la clé du Tag
- * \param aValue Une chaîne contenant la valeur du Tag.
- * \return Un entier unique pour la paire clé / valeur.
+ * \param aKey Une chaÃ®ne contenant la clÃ© du Tag
+ * \param aValue Une chaÃ®ne contenant la valeur du Tag.
+ * \return Un entier unique pour la paire clÃ© / valeur.
  */
         unsigned long getIdTag(const string& aKey,
                                const string& aValue);
@@ -121,72 +121,72 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
     protected:
 /**
  * Ajoute un enregistrement dans la table Changeset.
- * \param aChangeset Une référence sur un Changeset.
+ * \param aChangeset Une rÃ©fÃ©rence sur un Changeset.
  */
         void insertChangeset(const Changeset& aChangeset);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table ChangesetTags.
- * \param aTop Une référence sur un Changeset.
- * \param aTags Une référence sur une liste de Tag associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table ChangesetTags.
+ * \param aTop Une rÃ©fÃ©rence sur un Changeset.
+ * \param aTags Une rÃ©fÃ©rence sur une liste de Tag associÃ©s.
  */
         void insertChangesetTags(const Top& aTop,
                                  const Top::ListeTags& aTags);
 
 /**
  * Ajoute un enregistrement dans la table Node.
- * \param aNode Une référence sur un Node.
+ * \param aNode Une rÃ©fÃ©rence sur un Node.
  */
         void insertNode(const Node& aNode);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table NodeTags.
- * \param aTop Une référence sur un Node.
- * \param aTags Une référence sur une liste de Tag associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table NodeTags.
+ * \param aTop Une rÃ©fÃ©rence sur un Node.
+ * \param aTags Une rÃ©fÃ©rence sur une liste de Tag associÃ©s.
  */
         void insertNodeTags(const Top& aTop,
                             const Top::ListeTags& aTags);
 
 /**
  * Ajoute un enregistrement dans la table Way.
- * \param aWay Une référence sur un Way.
+ * \param aWay Une rÃ©fÃ©rence sur un Way.
  */
         void insertWay(const Way& aWay);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table WayTags.
- * \param aTop Une référence sur un Way.
- * \param aTags Une référence sur une liste de Tag associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table WayTags.
+ * \param aTop Une rÃ©fÃ©rence sur un Way.
+ * \param aTags Une rÃ©fÃ©rence sur une liste de Tag associÃ©s.
  */
         void insertWayTags(const Top& aTop,
                            const Top::ListeTags& aTags);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table WayNodes.
- * \param aTop Une référence sur un Way.
- * \param aNodes Une référence sur une liste de Node associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table WayNodes.
+ * \param aTop Une rÃ©fÃ©rence sur un Way.
+ * \param aNodes Une rÃ©fÃ©rence sur une liste de Node associÃ©s.
  */
         void insertWayNodes(const Top& aTop,
                             const Way::ListeNodes& aNodes);
 
 /**
  * Ajoute un enregistrement dans la table Relation.
- * \param aRelation Une référence sur une Relation.
+ * \param aRelation Une rÃ©fÃ©rence sur une Relation.
  */
         void insertRelation(const Relation& aRelation);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table RelationTags.
- * \param aTop Une référence sur une Relation.
- * \param aTags Une référence sur une liste de Tag associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table RelationTags.
+ * \param aTop Une rÃ©fÃ©rence sur une Relation.
+ * \param aTags Une rÃ©fÃ©rence sur une liste de Tag associÃ©s.
  */
         void insertRelationTags(const Top& aTop,
                                 const Top::ListeTags& aTags);
 
 /**
- * Ajoute les enregistrements nécessaires dans la table RelationMembers.
- * \param aTop Une référence sur une Relation.
- * \param aMembers Une référence sur une liste de Member associés.
+ * Ajoute les enregistrements nÃ©cessaires dans la table RelationMembers.
+ * \param aTop Une rÃ©fÃ©rence sur une Relation.
+ * \param aMembers Une rÃ©fÃ©rence sur une liste de Member associÃ©s.
  */
         void insertRelationMembers(const Top& aTop,
                                    const list<Member>& aMembers);
@@ -197,8 +197,8 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
  * Constructeur de l'instance.
  * Initialise une connexion au fichier de la base SQLite3.
  * \param aPath Chemin vers le fichier.
- * \param aFlags Options d'ouverture du fichier. Par défaut en lecture/écriture
- *               et création en cas d'absence.
+ * \param aFlags Options d'ouverture du fichier. Par dÃ©faut en lecture/Ã©criture
+ *               et crÃ©ation en cas d'absence.
  */
 		BaseOsm(const string& aPath,
                 const bool aInitSpatialite = false,
@@ -212,30 +212,30 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
 
 /**
  * Ajoute un Changeset dans la base.
- * \param aChangeset Une référence sur un Changeset qui sera ajouté dans la base.
+ * \param aChangeset Une rÃ©fÃ©rence sur un Changeset qui sera ajoutÃ© dans la base.
  */
         void add(const Changeset& aChangeset);
 
 /**
  * Ajoute un Node dans la base.
- * \param aNode Une référence sur un Node qui sera ajouté dans la base.
+ * \param aNode Une rÃ©fÃ©rence sur un Node qui sera ajoutÃ© dans la base.
  */
         void add(const Node& aNode);
 
 /**
  * Ajoute un Way dans la base.
- * \param aWay Une référence sur un Way qui sera ajouté dans la base.
+ * \param aWay Une rÃ©fÃ©rence sur un Way qui sera ajoutÃ© dans la base.
  */
         void add(const Way& aWay);
 
 /**
  * Ajoute une Relation dans la base.
- * \param aRelation Une référence sur une Relation qui sera ajoutée dans la base.
+ * \param aRelation Une rÃ©fÃ©rence sur une Relation qui sera ajoutÃ©e dans la base.
  */
         void add(const Relation& aRelation);
 
 /**
- * Créé les indexes généralement nécessaires.
+ * CrÃ©Ã© les indexes gÃ©nÃ©ralement nÃ©cessaires.
  */
         void createIndexes();
 

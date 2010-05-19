@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -33,8 +33,8 @@
 using namespace std;
 
 /**
- * Classe wrapper de la bibliothèque Spatialite sous la forme d'un Singleton.
- *  Pour obtenir une instance, appeler la méthode makeSpatialite().
+ * Classe wrapper de la bibliothÃ¨que Spatialite sous la forme d'un Singleton.
+ *  Pour obtenir une instance, appeler la mÃ©thode makeSpatialite().
  */
 class Spatialite
 {
@@ -44,21 +44,21 @@ class Spatialite
 
 	protected:
 /**
- * Constructeur de l'instance. Il est protégé pour s'assurer du respect du
+ * Constructeur de l'instance. Il est protÃ©gÃ© pour s'assurer du respect du
  * singleton.
  */
 		Spatialite(void);
 
 	public:
 /**
- * Retourne une référence sur l'unique instance du singleton.
- * @return Une référence sur une instance de Spatialite.
+ * Retourne une rÃ©fÃ©rence sur l'unique instance du singleton.
+ * @return Une rÃ©fÃ©rence sur une instance de Spatialite.
  */
 		static Spatialite& makeSpatialite(void);
 
 /**
- * Retourne une chaîne décrivant les versions des bibliothèques utilisées.
- * @return Une chaîne de caractères.
+ * Retourne une chaÃ®ne dÃ©crivant les versions des bibliothÃ¨ques utilisÃ©es.
+ * @return Une chaÃ®ne de caractÃ¨res.
  */
 		string versions(void) const;
 

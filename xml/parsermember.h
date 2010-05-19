@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -42,31 +42,31 @@ using namespace std;
 
 
 /**
- * Classe implémentant un parser XML pour les Membres composant les Relations.
+ * Classe implÃ©mentant un parser XML pour les Membres composant les Relations.
  */
 class ParserMember : public Parser
 {
 	private:
-/// Référence sur une base de données acceptant les insertions des différents
+/// RÃ©fÃ©rence sur une base de donnÃ©es acceptant les insertions des diffÃ©rents
 /// Elements.
         BaseInterface& fBase;
 
-/// La Member renseigné par le parser.
+/// La Member renseignÃ© par le parser.
 		Member fMember;
 
 	protected:
 /**
- * Méthode virtuelle appelée en début d'élément XML inclus dans une Relation.
- * @param aName Le nom de l'élément XML.
- * @param aAtts Un tableau d'attributs XML liés à cet élément.
+ * MÃ©thode virtuelle appelÃ©e en dÃ©but d'Ã©lÃ©ment XML inclus dans une Relation.
+ * @param aName Le nom de l'Ã©lÃ©ment XML.
+ * @param aAtts Un tableau d'attributs XML liÃ©s Ã  cet Ã©lÃ©ment.
  */
 		virtual void startElement(const string& aName,
 				                  const vector< pair<string, string> >& aAtts);
 
 /**
- * Méthode virtuelle appelée en fin d'élément XML Relation.
- * @param aName Le nom de l'élément XML Relation.
- * @pre Le nom transmis doit être "relation".
+ * MÃ©thode virtuelle appelÃ©e en fin d'Ã©lÃ©ment XML Relation.
+ * @param aName Le nom de l'Ã©lÃ©ment XML Relation.
+ * @pre Le nom transmis doit Ãªtre "relation".
  */
         virtual void endElement(const string& aName);
 
@@ -74,12 +74,12 @@ class ParserMember : public Parser
 /**
  * Constructeur de l'instance.
  * @param apXML_Parser Un pointeur sur un parseur XML Expat.
- * @param aBase Une référence sur une base de données recevant les données parsées.
- * @param apParent Pointeur sur l'instance ayant appelé ce constructeur.
- * @param aName Nom de l'élément XML ayant déclenché l'appel de ce constructeur.
- * @param aAtts Tableau d'attributs XML liés à l'élément aName.
+ * @param aBase Une rÃ©fÃ©rence sur une base de donnÃ©es recevant les donnÃ©es parsÃ©es.
+ * @param apParent Pointeur sur l'instance ayant appelÃ© ce constructeur.
+ * @param aName Nom de l'Ã©lÃ©ment XML ayant dÃ©clenchÃ© l'appel de ce constructeur.
+ * @param aAtts Tableau d'attributs XML liÃ©s Ã  l'Ã©lÃ©ment aName.
  * @pre apXML_Parser est non-nul.
- * @pre aName est à "relation".
+ * @pre aName est Ã  "relation".
  */
 		ParserMember(XML_Parser *const apXML_Parser,
                      BaseInterface& aBase,

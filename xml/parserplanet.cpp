@@ -1,18 +1,18 @@
 /*
- * Le droit d'auteur français s'applique à ce fichier, toutefois cette création
- * est mise à disposition selon le Contrat Paternité 3.0 Unported disponible en
- * ligne http://creativecommons.org/licenses/by/3.0/ ou par courrier postal à
+ * Le droit d'auteur franÃ§ais s'applique Ã  ce fichier, toutefois cette crÃ©ation
+ * est mise Ã  disposition selon le Contrat PaternitÃ© 3.0 Unported disponible en
+ * ligne http://creativecommons.org/licenses/by/3.0/ ou par courrier postal Ã 
  * Creative Commons, 171 Second Street, Suite 300, San Francisco,
  * California 94105, USA.
  *
- * En aucun cas, l'auteur ne peut être tenu responsable de tous dommages directs
- * ou indirects ou encore d'un défaut de fonctionnement de ce code source ou
- * d'un périphérique résultant de l'utilisation de ce code source original ou
- * modifié.
+ * En aucun cas, l'auteur ne peut Ãªtre tenu responsable de tous dommages directs
+ * ou indirects ou encore d'un dÃ©faut de fonctionnement de ce code source ou
+ * d'un pÃ©riphÃ©rique rÃ©sultant de l'utilisation de ce code source original ou
+ * modifiÃ©.
  *
  * Ce code source est fourni tel quel. Les demandes d'aide, de correction de bug
- * ou d'ajout de fonctionnalité peuvent être demandées, par contre, l'auteur ne
- * garantit pas la correction de ce bug ou l'ajout de fonctionnalité.
+ * ou d'ajout de fonctionnalitÃ© peuvent Ãªtre demandÃ©es, par contre, l'auteur ne
+ * garantit pas la correction de ce bug ou l'ajout de fonctionnalitÃ©.
  *
  */
 
@@ -42,7 +42,7 @@ ParserPlanet::ParserPlanet(BaseInterface& aBase,
     assert(fpXML_Parser);
 	unsigned long long total = 0;
 	if (fStream.fail()) {
-		throw Exception("Erreur à la lecture du fichier",
+		throw Exception("Erreur Ã  la lecture du fichier",
                         __FILE__, __LINE__, __PRETTY_FUNCTION__);
 	}
 	XML_SetElementHandler(*fpXML_Parser, Parser::startElementHandler, Parser::endElementHandler);
@@ -50,7 +50,7 @@ ParserPlanet::ParserPlanet(BaseInterface& aBase,
 	const time_t debut = time(0);
 	while (!fStream.eof()) {
 		void *const pBuffer = XML_GetBuffer(*fpXML_Parser, aTailleBloc);
-		if (pBuffer) {	// si succès
+		if (pBuffer) {	// si succÃ¨s
 			fStream.read(static_cast<char*const>(pBuffer), aTailleBloc);
 			const unsigned lus = fStream.gcount();
 			total += lus;
@@ -71,15 +71,15 @@ ParserPlanet::ParserPlanet(BaseInterface& aBase,
             cout << " - Ways : " << fBase.nbWays();
             cout << " - Relations : " << fBase.nbRelations();
 		} else {				// sinon (pBuffer = 0), on utilise un bloc statique.
-			throw Exception("Réservation de mémoire par XML_GetBuffer impossible",
+			throw Exception("RÃ©servation de mÃ©moire par XML_GetBuffer impossible",
                             __FILE__, __LINE__, __PRETTY_FUNCTION__);
 		}
-	}			
+	}
 }
 
-ParserPlanet::~ParserPlanet() 
+ParserPlanet::~ParserPlanet()
 {
-// Comme c'est moi qui l'ai créé, je me permets de la supprimer.
+// Comme c'est moi qui l'ai crÃ©Ã©, je me permets de la supprimer.
 	XML_ParserFree(*fpXML_Parser);
     delete fpXML_Parser;
 }
@@ -91,7 +91,7 @@ XML_Parser* ParserPlanet::makeXML_Parser()
     return p;
 }
 
-void ParserPlanet::startElement(const string& aName, 
+void ParserPlanet::startElement(const string& aName,
                                 const vector< pair<string, string> >& aAtts)
 {
 	if (aName == "osm") {

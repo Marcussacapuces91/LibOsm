@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -55,12 +55,12 @@ class ParserPlanet : public Parser
 /**
  * Constructeur de classe.
  * Assure le parsing du flux bloc par bloc.
- * @param aBase Une référence sur une base de données instanciant l'interface
+ * @param aBase Une rÃ©fÃ©rence sur une base de donnÃ©es instanciant l'interface
  *              BaseInterface.
- * @param aStream Une référence sur le flux entrant qui sera consommé.
+ * @param aStream Une rÃ©fÃ©rence sur le flux entrant qui sera consommÃ©.
  * @param aTailleBloc Le nombre d'octets lus dans le flux d'un coup avant de
  *        lancer une phase de parsing XML.
- *        Par défaut, le bloc aura une taille de 1 Mo.
+ *        Par dÃ©faut, le bloc aura une taille de 1 Mo.
  * @throw Exception En cas d'erreur sur la lecture du flux ou l'utilisation des
  *                  fonctions d'expat.
  */
@@ -70,7 +70,7 @@ class ParserPlanet : public Parser
 
 /**
  * Destructeur de l'instance.
- * N'a ausune action sur les ressources transmises Ã  l'instanciation
+ * N'a ausune action sur les ressources transmises ÃƒÂ  l'instanciation
  * (flux et XML_Parser).
  */
 		virtual ~ParserPlanet();

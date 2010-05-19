@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -41,7 +41,7 @@ void Changeset::setAttribut(const string& aKey, const string& aValue)
         iss >> s;
         if (s == "false") fOpen = false;
         else if (s == "true") fOpen = true;
-        else throw OsmException("État incorrect pour l'attribut open (" + aValue + ")",
+        else throw OsmException("Ã‰tat incorrect pour l'attribut open (" + aValue + ")",
                                 __FILE__, __LINE__, __PRETTY_FUNCTION__);
     }
     else if (aKey == "min_lon") iss >> fMinLon;

@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -28,7 +28,7 @@
 #include <cmath>
 
 #ifndef M_PI
-/// Valeur de PI. Constante non dispo en C++ ANSI, sinon définie dans math.h.
+/// Valeur de PI. Constante non dispo en C++ ANSI, sinon dÃ©finie dans math.h.
 #define M_PI 3.14159265358979323846L
 #endif
 

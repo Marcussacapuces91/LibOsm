@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -49,7 +49,7 @@ void BaseSQLite3::exec(const string& aSql)
     assert(aSql.size());
 	const int err = sqlite3_exec(fpSqlite3, aSql.c_str(), 0, 0, 0);
     if (err != SQLITE_OK)
-		throw Exception(string(sqlite3_errmsg(fpSqlite3)) + " dans la requête " + aSql,
+		throw Exception(string(sqlite3_errmsg(fpSqlite3)) + " dans la requÃªte " + aSql,
                         __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 

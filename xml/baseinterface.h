@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -34,7 +34,7 @@ class Relation;
 
 /**
  * \interface BaseInterface
- * Classe virtuelle pure (interface) assurant la disponibilité de 4 méthodes
+ * Classe virtuelle pure (interface) assurant la disponibilitÃ© de 4 mÃ©thodes
  * permettant stocker des instances d'OSM dans une base.
  */
 class BaseInterface
@@ -42,25 +42,25 @@ class BaseInterface
   public:
 /**
  * Ajouter un Changeset dans la base.
- * @param aChangeset Une référence sur une instance de Changeset à inserer.
+ * @param aChangeset Une rÃ©fÃ©rence sur une instance de Changeset Ã  inserer.
  */
     virtual void add(const Changeset& aChangeset) = 0;
 
 /**
  * Ajouter un Node dans la base.
- * @param aNode Une référence sur une instance de Node à inserer.
+ * @param aNode Une rÃ©fÃ©rence sur une instance de Node Ã  inserer.
  */
     virtual void add(const Node& aNode) = 0;
 
 /**
  * Ajouter un Way dans la base.
- * @param aWay Une référence sur une instance de Way à inserer.
+ * @param aWay Une rÃ©fÃ©rence sur une instance de Way Ã  inserer.
  */
     virtual void add(const Way& aWay) = 0;
 
 /**
  * Ajouter une Relation dans la base.
- * @param aRelation Une référence sur une instance de Relation à inserer.
+ * @param aRelation Une rÃ©fÃ©rence sur une instance de Relation Ã  inserer.
  */
     virtual void add(const Relation& aRelation) = 0;
 

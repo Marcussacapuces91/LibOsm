@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -31,16 +31,16 @@ using namespace std;
 
 /**
  * \interface IsTaggableInterface
- * Classe virtuelle pure (interface) assurant la capacité d'ajouter un tag à
- * l'instance en héritant.
+ * Classe virtuelle pure (interface) assurant la capacitÃ© d'ajouter un tag Ã 
+ * l'instance en hÃ©ritant.
  */
 class IsTaggableInterface
 {
   public:
 /**
- * Ajoute un Tag à l'instance.
- * @param aKey Une référence sur la valeur de la clé.
- * @param aValue Une référence sur le contenu du Tag.
+ * Ajoute un Tag Ã  l'instance.
+ * @param aKey Une rÃ©fÃ©rence sur la valeur de la clÃ©.
+ * @param aValue Une rÃ©fÃ©rence sur le contenu du Tag.
  */
     virtual void addTag(const string& aKey,
                         const string& aValue) = 0;

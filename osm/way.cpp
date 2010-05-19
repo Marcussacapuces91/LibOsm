@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -64,11 +64,11 @@ const string Way::NOM = "way";
 
 bool Way::operator==(const Way& aWay) const
 {
-// Mêmes adresses ?
+// MÃªmes adresses ?
     if (this == &aWay) return true;
-// Héritages identiques ?
+// HÃ©ritages identiques ?
     if (!(Element::operator==(aWay))) return false;
-// Mêmes listes de Nodes ?
+// MÃªmes listes de Nodes ?
     if (fNodes.size() != aWay.fNodes.size()) return false;
 
     ListeNodes::const_iterator a = fNodes.begin();

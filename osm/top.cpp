@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -99,7 +99,7 @@ ostream& Top::afficherTags(ostream& aStream) const
 
 bool Top::operator==(const Top& aTop) const
 {
-// Même adresses ?
+// MÃªme adresses ?
     if (this == &aTop) return true;
 // Attributs identiques ?
     if ((fId != aTop.fId) ||
@@ -113,6 +113,6 @@ bool Top::operator==(const Top& aTop) const
     for (unsigned i = 0; i < fTags.size(); ++i) {
         if (*a++ != *b++) return false;
     }
-// Sinon ce sont les mêmes !
+// Sinon ce sont les mÃªmes !
     return true;
 }

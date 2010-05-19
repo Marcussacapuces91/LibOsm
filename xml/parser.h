@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -47,9 +47,9 @@ class Parser
 		Parser* fpEnfant;
 
 /**
- * Constructeur protégé de l'instance virtuelle pure.
+ * Constructeur protÃ©gÃ© de l'instance virtuelle pure.
  * @param apXML_Parser un pointeur sur une instance de XML_Parser existante ou 0
- *                     pour que ce constructeur instancie lui-même un XML_Parser.
+ *                     pour que ce constructeur instancie lui-mÃªme un XML_Parser.
  * @param apParent Un pointeur sur l'instance parente de celle-ci ou 0 s'il
  *                 s'agit de la racine.
  */

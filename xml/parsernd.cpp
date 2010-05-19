@@ -1,18 +1,18 @@
 /*
- * Le droit d'auteur français s'applique à ce fichier, toutefois cette création
- * est mise à disposition selon le Contrat Paternité 3.0 Unported disponible en
- * ligne http://creativecommons.org/licenses/by/3.0/ ou par courrier postal à
+ * Le droit d'auteur franÃ§ais s'applique Ã  ce fichier, toutefois cette crÃ©ation
+ * est mise Ã  disposition selon le Contrat PaternitÃ© 3.0 Unported disponible en
+ * ligne http://creativecommons.org/licenses/by/3.0/ ou par courrier postal Ã 
  * Creative Commons, 171 Second Street, Suite 300, San Francisco,
  * California 94105, USA.
  *
- * En aucun cas, l'auteur ne peut être tenu responsable de tous dommages directs
- * ou indirects ou encore d'un défaut de fonctionnement de ce code source ou
- * d'un périphérique résultant de l'utilisation de ce code source original ou
- * modifié.
+ * En aucun cas, l'auteur ne peut Ãªtre tenu responsable de tous dommages directs
+ * ou indirects ou encore d'un dÃ©faut de fonctionnement de ce code source ou
+ * d'un pÃ©riphÃ©rique rÃ©sultant de l'utilisation de ce code source original ou
+ * modifiÃ©.
  *
  * Ce code source est fourni tel quel. Les demandes d'aide, de correction de bug
- * ou d'ajout de fonctionnalité peuvent être demandées, par contre, l'auteur ne
- * garantit pas la correction de ce bug ou l'ajout de fonctionnalité.
+ * ou d'ajout de fonctionnalitÃ© peuvent Ãªtre demandÃ©es, par contre, l'auteur ne
+ * garantit pas la correction de ce bug ou l'ajout de fonctionnalitÃ©.
  *
  */
 

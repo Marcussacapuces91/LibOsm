@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -36,7 +36,7 @@
 using namespace std;
 
 /**
- * Classe définissant un Changset tel que le décrit l'Api OSM.
+ * Classe dÃ©finissant un Changset tel que le dÃ©crit l'Api OSM.
  */
 class Changeset : public Top
 {
@@ -57,7 +57,7 @@ class Changeset : public Top
 
     public:
 /**
- * Constructeur de l'instance faisant aussi office de constructeur par défaut.
+ * Constructeur de l'instance faisant aussi office de constructeur par dÃ©faut.
  */
         Changeset() :
             Top(0, "", 0),
@@ -76,29 +76,29 @@ class Changeset : public Top
         virtual ~Changeset() {}
 
 /**
- * Ajoute un attribut à l'instance Changeset.
- * L'attribut doit faire partie de la liste accepté par les ELements de l'Api osm.
+ * Ajoute un attribut Ã  l'instance Changeset.
+ * L'attribut doit faire partie de la liste acceptÃ© par les ELements de l'Api osm.
  * @param aKey Le nom de l'attribut.
- * @param aValue La valeur de l'attribut sous la forme d'une chaîne de caractères.
+ * @param aValue La valeur de l'attribut sous la forme d'une chaÃ®ne de caractÃ¨res.
  */
 		virtual void setAttribut(const string& aKey, const string& aValue);
 
 
-/// Nom de la classe utilisée par certaines méthodes templates de la classe ApiOsm.
+/// Nom de la classe utilisÃ©e par certaines mÃ©thodes templates de la classe ApiOsm.
         static const string NOM;
 
 /**
  * Injecte une description du Changeset au format XML de l'API Osm dans un flux
  * de sortie.
  * @param aStream Un flux de sortie.
- * @return Le flux de sortie après injection de la description de l'Element.
+ * @return Le flux de sortie aprÃ¨s injection de la description de l'Element.
  */
         ostream& afficher(ostream& aStream) const;
 
 /**
- * Test et retourne l'égalité des différents champs de l'instance.
- * @param aChangeset Une référence sur le Changeset comparé à l'instance.
- * @return true si les 2 Elements sont égaux, false sinon.
+ * Test et retourne l'Ã©galitÃ© des diffÃ©rents champs de l'instance.
+ * @param aChangeset Une rÃ©fÃ©rence sur le Changeset comparÃ© Ã  l'instance.
+ * @return true si les 2 Elements sont Ã©gaux, false sinon.
  */
         bool operator==(const Changeset& aChangeset) const;
 
@@ -119,10 +119,10 @@ class Changeset : public Top
 
 /**
  * Permet l'injection de la description d'une instance de Changeset dans un flux
- * de sortie. La présentation correspond à un flux XML.
+ * de sortie. La prÃ©sentation correspond Ã  un flux XML.
  * @param aStream Un flux de sortie recevant la description.
  * @param aChangeset L'instance dont la description est produite.
- * @return Le flux de sortie après injection de la description.
+ * @return Le flux de sortie aprÃ¨s injection de la description.
  */
 ostream& operator<<(ostream& aStream, const Changeset& aChangeset);
 

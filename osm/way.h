@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -34,11 +34,11 @@
 
 using namespace std;
 
-// Déclaration anticipée.
+// DÃ©claration anticipÃ©e.
 // class OsmSqlite3;
 
 /**
- * Classe définissant un Way composé d'identifiants de Node.
+ * Classe dÃ©finissant un Way composÃ© d'identifiants de Node.
  */
 class Way : public Element
 {
@@ -46,7 +46,7 @@ class Way : public Element
 //        friend class OsmSqlite3;
 
     public:
-/// Définition du type de la liste de Nodes.
+/// DÃ©finition du type de la liste de Nodes.
 /// @see fNodes
         typedef list<unsigned long> ListeNodes;
 
@@ -54,7 +54,7 @@ class Way : public Element
 /// Liste des identifiants des Nodes composant l'instance.
         ListeNodes fNodes;
 
-/// Définition du rectangle circonscrit (bound)
+/// DÃ©finition du rectangle circonscrit (bound)
 //        Bound fBound;
 
     public:
@@ -68,45 +68,45 @@ class Way : public Element
 //        const Bound& getBound() const { return fBound; }
 
 /**
- * Affiche la liste des identifiants des Nodes sous la forme d'une séquence XML.
- * @param aStream Un flux de sortie dans lequel la séquence est injectée.
- * @return Le flux de sortie après injection.
+ * Affiche la liste des identifiants des Nodes sous la forme d'une sÃ©quence XML.
+ * @param aStream Un flux de sortie dans lequel la sÃ©quence est injectÃ©e.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
         ostream& afficherNodes(ostream& aStream) const;
 
 /**
- * Ajoute un identifiant à la fin de la liste.
- * @param aNode Une référence sur le Node à ajouter. Ce n'est pas le Node
- *              lui-même qui est ajouté, mais seulement son Id et ses
- *              coordonnées qui sont utilisées pour calculer le Bound du Way.
+ * Ajoute un identifiant Ã  la fin de la liste.
+ * @param aNode Une rÃ©fÃ©rence sur le Node Ã  ajouter. Ce n'est pas le Node
+ *              lui-mÃªme qui est ajoutÃ©, mais seulement son Id et ses
+ *              coordonnÃ©es qui sont utilisÃ©es pour calculer le Bound du Way.
  */
 //        void addNode(const Node& aNode);
         void addNode(const unsigned long& aNode);
 
 /**
  * Retourne la liste des identifiants de Node.
- * @return Une référence sur la liste des identifiant de Nodes.
+ * @return Une rÃ©fÃ©rence sur la liste des identifiant de Nodes.
  */
         const ListeNodes& nodes() const { return fNodes; }
 
-/// Nom de la classe utilisée par certaines méthodes templates de la classe ApiOsm.
+/// Nom de la classe utilisÃ©e par certaines mÃ©thodes templates de la classe ApiOsm.
         static const string NOM;
 
 /**
- * Opérateur de comparaison de l'instance courante avec un Way.
+ * OpÃ©rateur de comparaison de l'instance courante avec un Way.
  * Il indique si les deux Way sont identiques sur tous leurs attributs, Tags, et
  * Nodes.
- * @param aWay Une référence sur un Way (ça peut être le même).
+ * @param aWay Une rÃ©fÃ©rence sur un Way (Ã§a peut Ãªtre le mÃªme).
  * @return true si les deux Ways sont identiques, false sinon.
  * @see operator!=().
  */
         bool operator==(const Way& aWay) const;
 
 /**
- * Opérateur de comparaison de l'instance courante avec un Way.
+ * OpÃ©rateur de comparaison de l'instance courante avec un Way.
  * Il indique si les deux Way sont identiques sur tous leurs attributs, Tags, et
  * Nodes.
- * @param aWay Une référence sur un Way (ça peut être le même).
+ * @param aWay Une rÃ©fÃ©rence sur un Way (Ã§a peut Ãªtre le mÃªme).
  * @return false si les deux Ways sont identiques, true sinon.
  * @see operator==().
  */
@@ -115,10 +115,10 @@ class Way : public Element
 };
 
 /**
- * Opérateur d'injection d'un Way dans un flux de sortie.
- * @param aStream Le flux de sortie dans lequel est injecté la description.
- * @param aWay L'instance de Way qui sera injectée.
- * @return Le flux de sortie après injection.
+ * OpÃ©rateur d'injection d'un Way dans un flux de sortie.
+ * @param aStream Le flux de sortie dans lequel est injectÃ© la description.
+ * @param aWay L'instance de Way qui sera injectÃ©e.
+ * @return Le flux de sortie aprÃ¨s injection.
  */
 ostream& operator<<(ostream& aStream, const Way& aWay);
 

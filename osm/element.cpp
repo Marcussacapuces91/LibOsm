@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -60,6 +60,6 @@ bool Element::operator==(const Element& aElement) const
 		(fVersion != aElement.fVersion) ||
 		(fChangeset != aElement.fChangeset) ||
         (fTimestamp != aElement.fTimestamp)) return false;
-// Sinon ce sont les mêmes !
+// Sinon ce sont les mÃªmes !
     return true;
 }

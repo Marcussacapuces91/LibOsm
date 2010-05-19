@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -30,7 +30,7 @@
 #include "point.h"
 
 /**
- * Cette classe permet de gérer le rectangle circonscrit d'un élement.
+ * Cette classe permet de gÃ©rer le rectangle circonscrit d'un Ã©lement.
  */
 class Bound
 {
@@ -40,9 +40,9 @@ class Bound
 
     public:
 /**
- * Constructeur de l'instance. Initialise par défaut les limites du Bound.
- * @param aMin Une référence sur les coordonnées minimum du Bound.
- * @param aMax Une référence sur les coordonnées maximum du Bound.
+ * Constructeur de l'instance. Initialise par dÃ©faut les limites du Bound.
+ * @param aMin Une rÃ©fÃ©rence sur les coordonnÃ©es minimum du Bound.
+ * @param aMax Une rÃ©fÃ©rence sur les coordonnÃ©es maximum du Bound.
  */
         Bound(const Point& aMin,
               const Point& aMax) :
@@ -51,9 +51,9 @@ class Bound
         {}
 
 /**
- * Constructeur avec un seul Point. Dans ce cas, les limites sont égales au
- * Point indiqué.
- * @param aPoint Une référence sur un Point.
+ * Constructeur avec un seul Point. Dans ce cas, les limites sont Ã©gales au
+ * Point indiquÃ©.
+ * @param aPoint Une rÃ©fÃ©rence sur un Point.
  */
         Bound(const Point& aPoint = Point()) :
             fMin(aPoint),
@@ -62,7 +62,7 @@ class Bound
 
 /**
  * Modifie les limites du rectangle circonscrit en fonction du Point transmis.
- * @param aPoint Une référence sur le point à intégrer dans le rectangle.
+ * @param aPoint Une rÃ©fÃ©rence sur le point Ã  intÃ©grer dans le rectangle.
  */
         void elargir(const Point& aPoint) {
 
@@ -80,25 +80,25 @@ class Bound
         }
 
 /**
- * Accesseur à la limite Est.
+ * Accesseur Ã  la limite Est.
  * @return La valeur de la limite Est.
  */
         const double& est() const { return fMax.longitude(); }
 
 /**
- * Accesseur à la limite Ouest.
+ * Accesseur Ã  la limite Ouest.
  * @return La valeur de la limite Ouest.
  */
         const double& ouest() const { return fMin.longitude(); }
 
 /**
- * Accesseur à la limite Nord.
+ * Accesseur Ã  la limite Nord.
  * @return La valeur de la limite Nord.
  */
         const double& nord() const { return fMax.latitude(); }
 
 /**
- * Accesseur à la limite Sud.
+ * Accesseur Ã  la limite Sud.
  * @return La valeur de la limite Sud.
  */
         const double& sud() const { return fMin.latitude(); }

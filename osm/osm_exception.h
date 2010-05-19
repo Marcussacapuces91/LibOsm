@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -35,7 +35,7 @@
 using namespace std;
 
 /*
- * Classe de l'exception utilisée par cette API.
+ * Classe de l'exception utilisÃ©e par cette API.
  */
 class OsmException : public exception
 {

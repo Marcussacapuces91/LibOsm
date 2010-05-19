@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -35,7 +35,7 @@
 using namespace std;
 
 /**
- * Classe instanciant les méthodes nécessaires à la gestion de la date et de
+ * Classe instanciant les mÃ©thodes nÃ©cessaires Ã  la gestion de la date et de
  * l'heure au format ISO8601. http://www.louisg.net/ISO_8601.htm
  */
 
@@ -45,7 +45,7 @@ class DateTimeISO8601
 /// Structure contenant la date et l'heure locale.
         tm fTm;
 
-/// Entier contenant le décallage en minutes entre la locale et l'UTC.
+/// Entier contenant le dÃ©callage en minutes entre la locale et l'UTC.
         int fOffset;
 
         static tm makeTm(const string& aDate)
@@ -56,7 +56,7 @@ class DateTimeISO8601
             iss >> t.tm_year >> c >> t.tm_mon >> c >> t.tm_mday >> c;
             iss >> t.tm_hour >> c >> t.tm_min >> c >> t.tm_sec;
             t.tm_year -= 1900;   // depuis 1900
-            t.tm_mon -= 1;       // 0 à 11
+            t.tm_mon -= 1;       // 0 Ã  11
             t.tm_wday = -1;
             t.tm_yday = -1;
             t.tm_isdst = -1;
@@ -93,7 +93,7 @@ class DateTimeISO8601
 
     public:
 /**
- * Constructeur par défaut de l'instance.
+ * Constructeur par dÃ©faut de l'instance.
  */
         DateTimeISO8601()
         {
@@ -111,8 +111,8 @@ class DateTimeISO8601
 
 /**
 * Constructeur de l'instance.
-* @param aTm Une référence sur une structure contenant l'heure locale.
-* @param aOffset Le décallage entre l'heure locale et l'UTC.
+* @param aTm Une rÃ©fÃ©rence sur une structure contenant l'heure locale.
+* @param aOffset Le dÃ©callage entre l'heure locale et l'UTC.
 */
         DateTimeISO8601(const tm& aTm,
                         const int& aOffset) :
@@ -121,8 +121,8 @@ class DateTimeISO8601
         {}
 
 /**
-* Constructeur de l'instance à partir d'une chaîne au format ISO 8601.
-* @param aDate Une Chaîne contenant l'heure au format ISO 8601.
+* Constructeur de l'instance Ã  partir d'une chaÃ®ne au format ISO 8601.
+* @param aDate Une ChaÃ®ne contenant l'heure au format ISO 8601.
 */
         DateTimeISO8601(const string& aDate) :
             fTm(makeTm(aDate)),
@@ -146,7 +146,7 @@ class DateTimeISO8601
 
 /**
 * Retourne la valeur de l'instance au format ISO 8601.
-* @return Une chaîne au format ISO 8601.
+* @return Une chaÃ®ne au format ISO 8601.
 */
         string iso8601() const
         {
@@ -177,18 +177,18 @@ class DateTimeISO8601
 
 /**
 * Retourne l'heure locale dans une structure tm.
-* @return Une référence sur une structure tm.
+* @return Une rÃ©fÃ©rence sur une structure tm.
 */
         const tm& getTm() const { return fTm; }
 
 /**
-* Retourne le décallage entre l'heure locale et l'UTC.
-* @return Un entier indiquant le nombre de minutes du décallage.
+* Retourne le dÃ©callage entre l'heure locale et l'UTC.
+* @return Un entier indiquant le nombre de minutes du dÃ©callage.
 */
         int getOffset() const { return fOffset; }
 
 /**
- * Operateur d'égalité. Indique l'égalité de l'instance et de la référence.
+ * Operateur d'Ã©galitÃ©. Indique l'Ã©galitÃ© de l'instance et de la rÃ©fÃ©rence.
  */
         bool operator==(const DateTimeISO8601& aDT) const
         {
@@ -198,7 +198,7 @@ class DateTimeISO8601
         }
 
 /**
- * Opérateur de différence. Indique la non-égalité entre l'instance et la référence.
+ * OpÃ©rateur de diffÃ©rence. Indique la non-Ã©galitÃ© entre l'instance et la rÃ©fÃ©rence.
  */
         bool operator!=(const DateTimeISO8601& aDT) const { return !(*this == aDT); }
 

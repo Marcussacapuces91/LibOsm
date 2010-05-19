@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -37,13 +37,13 @@
 using namespace std;
 
 /**
- * Classe abstraite ancètre des types d'éléments (Node, Way & Relation) contenus
+ * Classe abstraite ancÃ¨tre des types d'Ã©lÃ©ments (Node, Way & Relation) contenus
  * dans un Osm.
  */
 class Element : public Top
 {
     public:
-/// Status de visibilité.
+/// Status de visibilitÃ©.
         bool fVisible;
 
 /// Timestamp de modification dans la base.
@@ -56,7 +56,7 @@ class Element : public Top
 		unsigned long fChangeset;
 
 /**
- * Constructeur protégé par défaut de l'Element.
+ * Constructeur protÃ©gÃ© par dÃ©faut de l'Element.
  */
         Element() :
             Top(0, "", 0),
@@ -74,29 +74,29 @@ class Element : public Top
 		virtual ~Element() {}
 
 /**
- * Définit un des attributs de l'Element.
- * Les classes héritant de celle-ci doivent définir leur propres méthodes
+ * DÃ©finit un des attributs de l'Element.
+ * Les classes hÃ©ritant de celle-ci doivent dÃ©finir leur propres mÃ©thodes
  * setAttribut pour prendre en compte d'autres attributs.
  * @param aKey Nom de l'attribut.
- * @param aValue Chaîne contenant la valeur à affecter à l'attribut.
+ * @param aValue ChaÃ®ne contenant la valeur Ã  affecter Ã  l'attribut.
  * @throw OsmException si l'attribut n'existe pas pour cet Element.
  */
 		virtual void setAttribut(const string& aKey, const string& aValue);
 
 /**
- * Retourne l'état de visibilité de l'Element.
+ * Retourne l'Ã©tat de visibilitÃ© de l'Element.
  * @return Un boolean true si l'Element est visible, false sinon.
  */
     	bool visible() const { return fVisible; }
 
 /**
  * Retourne le timestamp de l'Element.
- * @return Une valeur time_t représentant le timestamp.
+ * @return Une valeur time_t reprÃ©sentant le timestamp.
  */
         const DateTimeISO8601& timestamp() const { return fTimestamp; }
 
 /**
- * Retourne le compte utilisateur qui a modifié l'Element.
+ * Retourne le compte utilisateur qui a modifiÃ© l'Element.
  * @return Le nom du compte.
  */
 	   const string& user() const { return fUser; }
@@ -115,14 +115,14 @@ class Element : public Top
  * Injecte une description de l'Element au format XML de l'API Osm dans un flux
  * de sortie.
  * @param aStream Un flux de sortie.
- * @return Le flux de sortie après injection de la description de l'Element.
+ * @return Le flux de sortie aprÃ¨s injection de la description de l'Element.
  */
 	   ostream& afficher(ostream& aStream) const;
 
 /**
- * Test et retourne l'égalité des différents champs de l'instance.
- * @param aElement Une référence sur l'Element comparé à l'instance.
- * @return true si les 2 Elements sont égaux, false sinon.
+ * Test et retourne l'Ã©galitÃ© des diffÃ©rents champs de l'instance.
+ * @param aElement Une rÃ©fÃ©rence sur l'Element comparÃ© Ã  l'instance.
+ * @return true si les 2 Elements sont Ã©gaux, false sinon.
  */
 	   bool operator==(const Element& aElement) const;
 

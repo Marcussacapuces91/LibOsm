@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -24,7 +24,7 @@
 
 #include "spatialite.h"
 
-#include "libspatialite/headers/spatialite.h"      // pour être plus explicite
+#include "libspatialite/headers/spatialite.h"      // pour Ãªtre plus explicite
 
 Spatialite::Spatialite(void)
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -31,19 +31,19 @@
 #include "point.h"
 
 /**
- * \brief Classe définissant un Node tel que le décrit l'Api OSM
+ * \brief Classe dÃ©finissant un Node tel que le dÃ©crit l'Api OSM
  * (http://wiki.openstreetmap.org/wiki/Node).
  *
- * Elle hérite aussi de Point pour permettre la manipulation de point de
- * coordonnées géographiques.
+ * Elle hÃ©rite aussi de Point pour permettre la manipulation de point de
+ * coordonnÃ©es gÃ©ographiques.
  */
 class Node : public Element, public Point
 {
     public:
 /**
- * Constructeur de l'instance faisant aussi office de constructeur par défaut.
- * @param aLatitude Latitude du Node en degrés géographiques.
- * @param aLongitude Longitude du Node en degrés géographiques.
+ * Constructeur de l'instance faisant aussi office de constructeur par dÃ©faut.
+ * @param aLatitude Latitude du Node en degrÃ©s gÃ©ographiques.
+ * @param aLongitude Longitude du Node en degrÃ©s gÃ©ographiques.
  */
         Node(const double& aLatitude = 0,
              const double& aLongitude = 0) :
@@ -51,24 +51,24 @@ class Node : public Element, public Point
         {}
 
 /**
- * Ajoute un attribut à l'instance Node.
- * L'attribut doit faire partie de la liste acceptée par les Nodes de l'Api osm.
+ * Ajoute un attribut Ã  l'instance Node.
+ * L'attribut doit faire partie de la liste acceptÃ©e par les Nodes de l'Api osm.
  * @param aKey Le nom de l'attribut.
- * @param aValue La valeur de l'attribut sous la forme d'une chaîne de caractères.
+ * @param aValue La valeur de l'attribut sous la forme d'une chaÃ®ne de caractÃ¨res.
  */
 		virtual void setAttribut(const string& aKey, const string& aValue);
 
-/// Nom de la classe utilisée par certaines méthodes templates de la classe ApiOsm.
+/// Nom de la classe utilisÃ©e par certaines mÃ©thodes templates de la classe ApiOsm.
 		static const string NOM;
 
 };
 
 /**
  * Permet l'injection de la description d'une instance de Node dans un flux de
- * sortie. La présentation correspond à un flux XML.
+ * sortie. La prÃ©sentation correspond Ã  un flux XML.
  * @param aStream Un flux de sortie recevant la description.
  * @param aNode L'instance dont la description est produite.
- * @return Le flux de sortie après injection de la description.
+ * @return Le flux de sortie aprÃ¨s injection de la description.
  */
 ostream& operator<<(ostream& aStream, const Node& aNode);
 

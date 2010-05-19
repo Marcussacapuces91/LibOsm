@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -49,7 +49,7 @@ This is free software, and you are welcome to redistribute it \
 under certain conditions; type option '--copyright' for details.";
 
 static const string COPYRIGHT = "\
-Parser de fichiers OSM (planet, OsmChange), les données lues sont insérées dans une base Sqlite/Spatialite\n\
+Parser de fichiers OSM (planet, OsmChange), les donnÃ©es lues sont insÃ©rÃ©es dans une base Sqlite/Spatialite\n\
 \n\
 Copyright (C) 2010 par Marc Sibert\n\
 \n\
@@ -67,11 +67,11 @@ You should have received a copy of the GNU Lesser General Public License \n\
 along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\
 \n\
 Attention ce programme fait appel ou inclue les librairies suivantes qui \n\
-peuvent utiliser des licences différentes :\n\
+peuvent utiliser des licences diffÃ©rentes :\n\
 \n\
   - eXpat sous licence \"MIT/X Consortium license\"\n\
   - TCLAP sous licence \"MIT License\" <http://opensource.org/licenses/mit-license.php>\n\
-  - SQLite3 versé au domaine public <http://www.sqlite.org/copyright.html> \n\
+  - SQLite3 versÃ© au domaine public <http://www.sqlite.org/copyright.html> \n\
   - Spatialite sous licence MPL v1.1 <http://www.mozilla.org/MPL/MPL-1.1.html>\n\
   - IConv sous licence GNU Lesser General Public Licence (LGPL) <http://www.gnu.org/copyleft/lesser.html>\n\
   - GEOS sous licence GNU Lesser General Public Licence (LGPL)\n\
@@ -79,7 +79,7 @@ peuvent utiliser des licences différentes :\n\
 ";
 
 /**
- * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de copyright.
+ * Classe hÃ©ritÃ© de TCLAP::Visitor pour assurer l'affichage du message de copyright.
  */
 class CopyrightVisitor : public Visitor
 {
@@ -92,7 +92,7 @@ class CopyrightVisitor : public Visitor
  * Fonction principale qui lance l'application.
  * \param argc Nombre d'arguments de la ligne de commande.
  * \param argv Tableau des arguments.
- * \return Un code indiquant le succès ou une erreur dans l'exécution.
+ * \return Un code indiquant le succÃ¨s ou une erreur dans l'exÃ©cution.
  */
 int main(int argc, char **argv)
 {
@@ -100,13 +100,13 @@ int main(int argc, char **argv)
 	try {
         CmdLine cmd(DESCRIPTION_COURTE, ' ', VERSION);
 //        SwitchArg tests("t", "test", "Lancement des tests unitaires", cmd, false);
-        ValueArg<string> input("i", "input", "Nom du fichier OSM en entrée", false, "", "string", cmd);
+        ValueArg<string> input("i", "input", "Nom du fichier OSM en entrÃ©e", false, "", "string", cmd);
         UnlabeledValueArg<string> pathBase("database", "Chemin vers le fichier de la base SQLite3", true, "", "string", cmd);
-        SwitchArg verbose("v", "verbose", "Génération des messages de progression", cmd, false);
+        SwitchArg verbose("v", "verbose", "GÃ©nÃ©ration des messages de progression", cmd, false);
         SwitchArg initSpatialite("", "initspatialite", "", cmd, false);
         SwitchArg indexes("", "indexes", "", cmd, false);
         ValueArg<unsigned> cache("c", "cache", "Taille du cache de la BD en pages", false, 0, "entier", cmd);
-        SwitchArg copyright("", "copyright", "Affiche les licences applicables à ce programme", cmd, false,
+        SwitchArg copyright("", "copyright", "Affiche les licences applicables Ã  ce programme", cmd, false,
                             new CopyrightVisitor() );
         cmd.parse( argc, argv );
 
