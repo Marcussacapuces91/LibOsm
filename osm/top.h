@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -25,26 +25,26 @@
 /**
  * \page arbo_elem Arborescence des classes d'OSM
  *
- * Cette arborescence correspond aux object métier de OSM tels que l'on peut les
- * appréhender au travers des différents flux XML fournis par les applications,
- * en particulier celle qui utilisent les différentes variation de .osm (http://wiki.openstreetmap.org/wiki/.osm) :
- * - les flux XML retournés par l'API v0.6 (http://wiki.openstreetmap.org/wiki/API_v0.6) ;
- * - ceux retournés par la version étendues XAPI (http://wiki.openstreetmap.org/wiki/Xapi) ;
+ * Cette arborescence correspond aux object mÃ©tier de OSM tels que l'on peut les
+ * apprÃ©hender au travers des diffÃ©rents flux XML fournis par les applications,
+ * en particulier celle qui utilisent les diffÃ©rentes variation de .osm (http://wiki.openstreetmap.org/wiki/.osm) :
+ * - les flux XML retournÃ©s par l'API v0.6 (http://wiki.openstreetmap.org/wiki/API_v0.6) ;
+ * - ceux retournÃ©s par la version Ã©tendues XAPI (http://wiki.openstreetmap.org/wiki/Xapi) ;
  * - les fichiers planet (http://wiki.openstreetmap.org/wiki/Planet) et les
  *   diffs (http://wiki.openstreetmap.org/wiki/Planet.osm/diffs) correspondants.
  *
  * L'arborescence ressence deux classes abstraites qui permettent de regrouper
- * certaines fonctionnalités communes aux classes héritées.
+ * certaines fonctionnalitÃ©s communes aux classes hÃ©ritÃ©es.
  * On trouvera donc :
- * - \ref Top : la classe ancètre ultime qui assurent les champs communs (comme l'id,
- *         le nom d'utilisateur, son identifiant) et l'aptitude à gérer les Tags.
- * - \ref Element : cette classe permet fédérer les éléments géométriques (Node, Way
+ * - \ref Top : la classe ancÃ¨tre ultime qui assurent les champs communs (comme l'id,
+ *         le nom d'utilisateur, son identifiant) et l'aptitude Ã  gÃ©rer les Tags.
+ * - \ref Element : cette classe permet fÃ©dÃ©rer les Ã©lÃ©ments gÃ©omÃ©triques (Node, Way
  *             et Relation).
  *
- * La classe Node hérite aussi d'une autre classe. Cette classe Point permet
- * quelques opérations sur les coordonnées angulaires comme des comparaisons
- * (operator==), des mesures de distance approximatives en projection sphérique
- * et des mesures d'angle par rapport au Nord géographique (Bearing).
+ * La classe Node hÃ©rite aussi d'une autre classe. Cette classe Point permet
+ * quelques opÃ©rations sur les coordonnÃ©es angulaires comme des comparaisons
+ * (operator==), des mesures de distance approximatives en projection sphÃ©rique
+ * et des mesures d'angle par rapport au Nord gÃ©ographique (Bearing).
  *
 
 \dot
@@ -88,35 +88,35 @@ digraph G {
 using namespace std;
 
 /**
- * Classe ancètre ultime des différents composants d'OSM.
- * Elle est rendues abstraite en protégeant son constructeur.
+ * Classe ancÃ¨tre ultime des diffÃ©rents composants d'OSM.
+ * Elle est rendues abstraite en protÃ©geant son constructeur.
  */
 class Top
 {
     public:
-/// Définition du type de la liste de Tags.
+/// DÃ©finition du type de la liste de Tags.
 /// @see fTags
         typedef map<string, string> ListeTags;
 
     protected:
-/// Identifiant de l'élément dans la base OSM.
+/// Identifiant de l'Ã©lÃ©ment dans la base OSM.
         unsigned long fId;
 
-/// Compte utilisateur ayant crée, modifié l'Element dans la base.
+/// Compte utilisateur ayant crÃ©e, modifiÃ© l'Element dans la base.
         string fUser;
 
 /// Identifiant utilisateur.
         unsigned long fUid;
 
-/// Liste des Tags affectés à cet Element.
+/// Liste des Tags affectÃ©s Ã  cet Element.
         ListeTags fTags;
 
 
         static string xmlEntities(const string& aXml);
 
 /**
- * Constructeur de classe. Initialise les différents attributs.
- * Ce constructeur est protégé pour assurer la non-instanciation de cette classe.
+ * Constructeur de classe. Initialise les diffÃ©rents attributs.
+ * Ce constructeur est protÃ©gÃ© pour assurer la non-instanciation de cette classe.
  */
 		Top(const unsigned long& aId = 0,
             const string& aUser = "",
@@ -128,22 +128,22 @@ class Top
 
 	public:
 /**
- * Destructeur virtuel de l'instance. Sans action particulière.
+ * Destructeur virtuel de l'instance. Sans action particuliÃ¨re.
  */
-		~Top() {};
+		virtual ~Top() {};
 
 /**
- * Définit un des attributs de l'Element.
- * Les classes héritant de celle-ci doivent définir leur propres méthodes
+ * DÃ©finit un des attributs de l'Element.
+ * Les classes hÃ©ritant de celle-ci doivent dÃ©finir leur propres mÃ©thodes
  * setAttribut pour prendre en compte d'autres attributs.
  * @param aKey Nom de l'attribut.
- * @param aValue Chaîne contenant la valeur à affecter à l'attribut.
+ * @param aValue ChaÃ®ne contenant la valeur Ã  affecter Ã  l'attribut.
  * @throw OsmException si l'attribut n'existe pas pour cet Element.
  */
 		virtual void setAttribut(const string& aKey, const string& aValue);
 
 /**
- * Ajoute un Tag à l'Element.
+ * Ajoute un Tag Ã  l'Element.
  * @param aKey Nom du Tag.
  * @param aValue Valeur du Tag.
  */
@@ -153,19 +153,19 @@ class Top
  * Retourne la valeur d'un Tag.
  * @param aKey Le nom du Tag dont on cherche la valeur.
  * @return La valeur du Tag.
- * @throw OsmException si le Tag n'est pas défini pour cet Element.
+ * @throw OsmException si le Tag n'est pas dÃ©fini pour cet Element.
  */
 		const string& getTag(const string& aKey) const;
 
 /**
  * Retourne La liste des Tags.
- * @return Une référence sur la liste des Tags.
+ * @return Une rÃ©fÃ©rence sur la liste des Tags.
  */
     	const ListeTags& tags() const { return fTags; }
 
 /**
  * Retourne l'Id de l'Element.
- * @return Un entier non-signé, nul si l'Element n'est pas référencé dans la
+ * @return Un entier non-signÃ©, nul si l'Element n'est pas rÃ©fÃ©rencÃ© dans la
  * base OSM.
  */
 	   const unsigned long& id() const { return fId; }
@@ -178,7 +178,7 @@ class Top
  * Injecte une description de l'Element au format XML de l'API Osm dans un flux
  * de sortie.
  * @param aStream Un flux de sortie.
- * @return Le flux de sortie après injection de la description de l'Element.
+ * @return Le flux de sortie aprÃ¨s injection de la description de l'Element.
  */
 	   virtual ostream& afficher(ostream& aStream) const;
 
@@ -186,14 +186,14 @@ class Top
  * Injecte une description l'ensemble des Tags au format XML de l'API Osm dans
  * un flux de sortie.
  * @param aStream Un flux de sortie.
- * @return Le flux de sortie après injection des Tags.
+ * @return Le flux de sortie aprÃ¨s injection des Tags.
  */
 	   ostream& afficherTags(ostream& aStream) const;
 
 /**
- * Test et retourne l'égalité des différents champs de l'instance.
- * @param aTop Une référence sur le Top comparé à l'instance.
- * @return true si les 2 Tops sont égaux, false sinon.
+ * Test et retourne l'Ã©galitÃ© des diffÃ©rents champs de l'instance.
+ * @param aTop Une rÃ©fÃ©rence sur le Top comparÃ© Ã  l'instance.
+ * @return true si les 2 Tops sont Ã©gaux, false sinon.
  */
 	   virtual bool operator==(const Top& aTop) const;
 

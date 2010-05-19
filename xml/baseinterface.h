@@ -26,8 +26,8 @@
 #define BASEINTERFACE_H
 
 //class Changeset;
-#include "osm/changeset.h"
-#include "osm/node.h"
+#include "../osm/changeset.h"
+#include "../osm/node.h"
 
 class Way;
 class Relation;

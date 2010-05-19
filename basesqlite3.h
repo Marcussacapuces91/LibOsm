@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert
+    Copyright Â© 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -25,7 +25,7 @@
 #ifndef BASESQLITE3_H
 #define BASESQLITE3_H
 
-#include <spatialite/sqlite3.h>
+#include "libspatialite/sqlite3.h"
 #include <string>
 #include <fstream>
 #include "exception.h"
@@ -35,18 +35,18 @@
 using namespace std;
 
 /**
- * Wrapper autour du sqlite3_stmt qui permet son instanciation aisée et sa
- * libération automatique après.
+ * Wrapper autour du sqlite3_stmt qui permet son instanciation aisÃ©e et sa
+ * libÃ©ration automatique aprÃ¨s.
  */
 class Commande
 {
     private:
 /**
- * Crée un sqlite_stmt à partir d'une requête SQL.
+ * CrÃ©e un sqlite_stmt Ã  partir d'une requÃªte SQL.
  * @param apSqlite3 Un pointeur vers une connexion SQLite3.
- * @param aSql Une chaîne contenant la requête SQL.
+ * @param aSql Une chaÃ®ne contenant la requÃªte SQL.
  * @return Un pointeur sur le sqlite3_stmt.
- * @throw Exception en cas d'erreur pendant la création.
+ * @throw Exception en cas d'erreur pendant la crÃ©ation.
  */
         static sqlite3_stmt* preparer(sqlite3 *const apSqlite3,
                                       const string& aSql)
@@ -60,10 +60,10 @@ class Commande
         }
 
     protected:
-// Une chaîne contenant la requête SQL.
+// Une chaÃ®ne contenant la requÃªte SQL.
 //        string fSql;
 
-/// Un pointeur sur la base concernée (nécessaire pour récupérer les messages
+/// Un pointeur sur la base concernÃ©e (nÃ©cessaire pour rÃ©cupÃ©rer les messages
 /// d'erreur).
         sqlite3* fpSqlite3;
 
@@ -73,7 +73,7 @@ class Commande
     public:
 
 /**
- * Constructeur de l'instance par défaut.
+ * Constructeur de l'instance par dÃ©faut.
  */
     Commande() :
 //        fSql(""),
@@ -83,10 +83,10 @@ class Commande
 
 /**
  * Constructeur d'instance.
- * Initialise et prépare la commande à partir de la requête SQL présentée.
- * @param apSqlite3 Un pointeur sur l'instance de base de données.
- * @param aSql Une chaîne contenant la requête SQL à préparer.
- * @throw Exception en cas d'erreur pendant la création.
+ * Initialise et prÃ©pare la commande Ã  partir de la requÃªte SQL prÃ©sentÃ©e.
+ * @param apSqlite3 Un pointeur sur l'instance de base de donnÃ©es.
+ * @param aSql Une chaÃ®ne contenant la requÃªte SQL Ã  prÃ©parer.
+ * @throw Exception en cas d'erreur pendant la crÃ©ation.
  */
     Commande(sqlite3 *const apSqlite3,
              const string aSql) :
@@ -102,8 +102,8 @@ class Commande
 /**
  * \brief Destructeur de l'instance.
  *
- * Libère toutes les ressources liées à la commande.
- * \throw Exception en cas d'erreur pendant la libération.
+ * LibÃ¨re toutes les ressources liÃ©es Ã  la commande.
+ * \throw Exception en cas d'erreur pendant la libÃ©ration.
  */
     ~Commande()
     {
@@ -115,12 +115,12 @@ class Commande
     }
 
 /**
- * \brief Redéfinit la commande.
+ * \brief RedÃ©finit la commande.
  *
- * Libère la commande existante et pré-calcule une nouvelle commande SQL.
- * @param apSqlite3 Un pointeur sur l'instance de base de données.
- * @param aSql Une chaîne contenant la requête SQL à préparer.
- * @throw Exception en cas d'erreur pendant la création.
+ * LibÃ¨re la commande existante et prÃ©-calcule une nouvelle commande SQL.
+ * @param apSqlite3 Un pointeur sur l'instance de base de donnÃ©es.
+ * @param aSql Une chaÃ®ne contenant la requÃªte SQL Ã  prÃ©parer.
+ * @throw Exception en cas d'erreur pendant la crÃ©ation.
  */
     void setStatment(sqlite3 *const apSqlite3,
                      const string& aSql)
@@ -138,7 +138,7 @@ class Commande
     }
 
 /**
- * Définit l'opérateur * (déréférencement) pour qu'il retourne le sqlite3_stmt
+ * DÃ©finit l'opÃ©rateur * (dÃ©rÃ©fÃ©rencement) pour qu'il retourne le sqlite3_stmt
  * sous-jacent.
  * @return Un pointeur sur le sqlite3_stmt.
  */
@@ -152,19 +152,19 @@ class Commande
 class BaseSQLite3
 {
 	protected:
-/// Handler de la connexion à la base de données.
+/// Handler de la connexion Ã  la base de donnÃ©es.
 		sqlite3* fpSqlite3;
 
 /**
- * Vérifie que le code erreur transmis est SQLITE_OK. Si la valeur est
- * différente, lève une exception avec le message d'erreur correspondant.
- * @warning dans certains cas (SQLITE_ROW), la méthode appelante doit filtrer
- *          avant de faire l'appel pour éviter la génération de l'exception.
- * @throw Exception Lorsque le code erreur transmis est différent de SQLITE_OK.
- * @param aError Le code erreur à analyser.
- * @param aFichier Nom du fichier où s'est fait l'appel, par défaut __FILE__.
- * @param aLigne Numéro de la ligne où s'est fait l'appel, par défaut __LINE__.
- * @param aFonction Fonction ou méthode où s'est fait l'appel, par défaut __PRETTY_FUNCTION__.
+ * VÃ©rifie que le code erreur transmis est SQLITE_OK. Si la valeur est
+ * diffÃ©rente, lÃ¨ve une exception avec le message d'erreur correspondant.
+ * @warning dans certains cas (SQLITE_ROW), la mÃ©thode appelante doit filtrer
+ *          avant de faire l'appel pour Ã©viter la gÃ©nÃ©ration de l'exception.
+ * @throw Exception Lorsque le code erreur transmis est diffÃ©rent de SQLITE_OK.
+ * @param aError Le code erreur Ã  analyser.
+ * @param aFichier Nom du fichier oÃ¹ s'est fait l'appel, par dÃ©faut __FILE__.
+ * @param aLigne NumÃ©ro de la ligne oÃ¹ s'est fait l'appel, par dÃ©faut __LINE__.
+ * @param aFonction Fonction ou mÃ©thode oÃ¹ s'est fait l'appel, par dÃ©faut __PRETTY_FUNCTION__.
  */
         inline void check(const int aError,
                           const string& aFichier = __FILE__,
@@ -182,10 +182,10 @@ class BaseSQLite3
 
   public:
 /**
- * Constructeur de classe. Initialise l'accès à la base de données.
- * @param aNom Chemin du fichier contenant la base de données.
- * @param aFlags Indicateurs SQLite précisant le mode d'ouverture du fichier.
- *               Par défaut, c'est en SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE.
+ * Constructeur de classe. Initialise l'accÃ¨s Ã  la base de donnÃ©es.
+ * @param aNom Chemin du fichier contenant la base de donnÃ©es.
+ * @param aFlags Indicateurs SQLite prÃ©cisant le mode d'ouverture du fichier.
+ *               Par dÃ©faut, c'est en SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE.
  */
 		BaseSQLite3(const string& aNom,
 		            const int aFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
@@ -196,14 +196,14 @@ class BaseSQLite3
 		virtual ~BaseSQLite3();
 
 /**
- * Exécute une requête SQL sans attendre de résultat.
- * @param aSql Une chaîne contenant la requête SQL.
+ * ExÃ©cute une requÃªte SQL sans attendre de rÃ©sultat.
+ * @param aSql Une chaÃ®ne contenant la requÃªte SQL.
  */
 		void exec(const string& aSql);
 
 /**
- * Exécute la/les requête(s) SQL présentent dans le fichier indiqué.
- * @param aPath Le chemin du fichier à exécuter.
+ * ExÃ©cute la/les requÃªte(s) SQL prÃ©sentent dans le fichier indiquÃ©.
+ * @param aPath Le chemin du fichier Ã  exÃ©cuter.
  */
 		void execFile(const string& aPath);
 

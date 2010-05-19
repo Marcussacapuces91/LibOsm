@@ -1,5 +1,5 @@
 /*
-    Copyright © 2010 par Marc Sibert 
+    Copyright © 2010 par Marc Sibert
 
     This file is part of LIBOSM
 
@@ -26,6 +26,7 @@
 
 #include <sstream>
 #include "exception.h"
+// #include "libspatialite/headers/spatialite.h"
 #include <spatialite/gaiageo.h>
 #include "osm/way.h"
 #include "osm/relation.h"
@@ -57,7 +58,7 @@ BaseOsm::BaseOsm(const string& aPath,
 
 int BaseOsm::progress(void *const apBaseOsm)
 {
-	BaseOsm *const pBaseOsm = static_cast<BaseOsm *const>(apBaseOsm);
+//	BaseOsm *const pBaseOsm = static_cast<BaseOsm *const>(apBaseOsm);
 
 	return EXIT_SUCCESS;
 }
@@ -111,7 +112,7 @@ void BaseOsm::createTables()
 			PRIMARY KEY (id_node, id_tag))");
 
 
-//		SELECT CreateSpatialIndex('node','coord');                           \
+//		SELECT CreateSpatialIndex('node','coord');
 
 //
 // Tables pour gérer les way.
@@ -172,21 +173,21 @@ cerr << "Ok" << endl;
 
 // Nodes
 cerr << endl << "Indexes de Node : ";
-//	exec("SELECT CreateSpatialIndex('node','coord');                           \
+//	exec("SELECT CreateSpatialIndex('node','coord');
 	exec("CREATE INDEX IF NOT EXISTS node_tags_id_tag ON node_tags (id_tag)");
 cerr << "Ok" << endl;
 
 // Ways
 cerr << endl << "Indexes de Way : ";
 	exec("CREATE INDEX IF NOT EXISTS way_nodes_id_node ON way_nodes (id_node); \
-		CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
+		  CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
 cerr << "Ok" << endl;
 
 // Relations
 cerr << endl << "Indexes de Relation : ";
 	exec("CREATE INDEX IF NOT EXISTS relation_members_type_id_member           \
-		ON relation_members (type, id_member);                           \
-		CREATE INDEX IF NOT EXISTS relation_tags_id_tag ON relation_tags (id_tag)");
+		  ON relation_members (type, id_member);                           \
+		  CREATE INDEX IF NOT EXISTS relation_tags_id_tag ON relation_tags (id_tag)");
 cerr << "Ok" << endl;
 
 	exec("COMMIT");
