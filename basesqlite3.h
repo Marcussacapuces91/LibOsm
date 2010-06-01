@@ -31,6 +31,7 @@
 #include "exception.h"
 #include <iostream>
 #include <sstream>
+#include <cassert>
 
 using namespace std;
 

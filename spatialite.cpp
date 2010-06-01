@@ -24,7 +24,7 @@
 
 #include "spatialite.h"
 
-#include "libspatialite/headers/spatialite.h"      // pour être plus explicite
+#include "libspatialite/headers/spatialite.h"
 
 Spatialite::Spatialite(void)
 {

@@ -30,6 +30,8 @@
 #include "libspatialite/headers/spatialite/gaiageo.h"
 #include "osm/way.h"
 #include "osm/relation.h"
+#include <cstdlib>
+
 
 using namespace std;
 
