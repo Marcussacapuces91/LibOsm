@@ -35,7 +35,8 @@ ParserMember::ParserMember(XML_Parser *const apXML_Parser,
             			   const string& aName,
             			   const vector< pair<string, string> >& aAtts) :
 	Parser(apXML_Parser, apParent),
-	fBase(aBase)
+	fBase(aBase),
+	fMember()
 {
 	assert(aName == "member");
 	for (vector< pair<string, string> >::const_iterator it = aAtts.begin(); it != aAtts.end(); ++it) {

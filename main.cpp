@@ -33,14 +33,15 @@
 #include "baseosm.h"
 #include "xml/parserplanet.h"
 #include <tclap/CmdLine.h>
-#include "tests.h"
+// #include "tests.h"
+#include "libspatialite/headers/spatialite.h"      // pour être plus explicite
 
 using namespace std;
 using namespace TCLAP;
 
 static const string VERSION = "0.1";
 static const string DESCRIPTION_COURTE = "\
-Parser de fichiers OSM (planet, OsmChange)\
+Parseur de fichiers OSM (planet, OsmChange)\
 \n\
 osm2sqlite Copyright (C) 2010 par Marc Sibert\
 \n\
@@ -96,7 +97,6 @@ class CopyrightVisitor : public Visitor
  */
 int main(int argc, char **argv)
 {
-
 	try {
         CmdLine cmd(DESCRIPTION_COURTE, ' ', VERSION);
 //        SwitchArg tests("t", "test", "Lancement des tests unitaires", cmd, false);
@@ -106,13 +106,15 @@ int main(int argc, char **argv)
         SwitchArg initSpatialite("", "initspatialite", "", cmd, false);
         SwitchArg indexes("", "indexes", "", cmd, false);
         ValueArg<unsigned> cache("c", "cache", "Taille du cache de la BD en pages", false, 0, "entier", cmd);
-        SwitchArg copyright("", "copyright", "Affiche les licences applicables à ce programme", cmd, false,
-                            new CopyrightVisitor() );
+        CopyrightVisitor copyrightVisitor;
+        SwitchArg copyright("", "copyright", "Affiche les licences applicables à ce programme", cmd, false, &copyrightVisitor);
         cmd.parse( argc, argv );
 
-		Spatialite& __attribute__((unused)) spatialite = Spatialite::makeSpatialite();    // Initialise la librairie Spatialite
+        spatialite_init(0);
+//		Spatialite& __attribute__((unused)) spatialite = Spatialite::returnSpatialite();    // Initialise la librairie Spatialite
         const string path = pathBase.getValue();
         const bool init = initSpatialite.getValue();
+
 		BaseOsm base(path, init);
         if (cache.isSet()) base.cacheSize(cache.getValue());
 
@@ -140,7 +142,6 @@ int main(int argc, char **argv)
                 cout << endl << "Fin de l'analyse - Duree : " << (double(fin) - double(debut)) / CLOCKS_PER_SEC << "s" << endl;
             }
         }
-
 	} catch (TCLAP::ArgException &e) { // catch any exceptions
 	    cerr << "erreur : " << e.error() << " pour l'argument " << e.argId() << endl;
 		return EXIT_FAILURE;

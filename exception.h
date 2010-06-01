@@ -31,34 +31,38 @@
 using namespace std;
 
 
+/**
+ * Classe d'exception permettant de transmettre la localisation du
+ * déclenchement de l'exception.
+ */
 class Exception : public exception
 {
-	private:
-		const string fLibelle;
-		const string fFichier;
-		const string fFonction;
-		const unsigned fLigne;
+    private:
+        const string fLibelle;
+        const string fFichier;
+        const string fFonction;
+        const unsigned fLigne;
 
-	public:
-		Exception(const string& aLibelle = "",
-              const string& aFichier = "",
-              const unsigned aLigne = 0,
-              const string& aFonction = "") :
-      fLibelle(aLibelle),
-      fFichier(aFichier),
-      fFonction(aFonction),
-      fLigne(aLigne)
-    {};
+    public:
+        Exception(const string& aLibelle = "",
+                  const string& aFichier = "",
+                  const unsigned aLigne = 0,
+                  const string& aFonction = "") :
+            fLibelle(aLibelle),
+            fFichier(aFichier),
+            fFonction(aFonction),
+            fLigne(aLigne)
+        {};
 
-		virtual ~Exception() throw() {};
+        virtual ~Exception() throw() {};
 
-		virtual const char* what() const throw()
-		{
-		  ostringstream oss;
-		  oss << "\"" << fLibelle << "\"" << endl;
-		  oss << fFichier << ":" << fLigne << ", " << fFonction;
-			return oss.str().c_str();
-		}
+        virtual const char* what() const throw()
+        {
+            ostringstream oss;
+            oss << "\"" << fLibelle << "\"" << endl;
+            oss << fFichier << ":" << fLigne << ", " << fFonction;
+            return oss.str().c_str();
+        }
 };
 
 #endif

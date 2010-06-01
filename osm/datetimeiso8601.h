@@ -95,7 +95,9 @@ class DateTimeISO8601
 /**
  * Constructeur par défaut de l'instance.
  */
-        DateTimeISO8601()
+        DateTimeISO8601() :
+            fTm(),
+            fOffset(0)
         {
             fTm.tm_year = 0;
             fTm.tm_mon = 0;
@@ -106,13 +108,12 @@ class DateTimeISO8601
             fTm.tm_wday = -1;
             fTm.tm_yday = -1;
             fTm.tm_isdst = -1;
-            fOffset = 0;
         }
 
 /**
 * Constructeur de l'instance.
-* @param aTm Une référence sur une structure contenant l'heure locale.
-* @param aOffset Le décallage entre l'heure locale et l'UTC.
+* \param aTm Une référence sur une structure contenant l'heure locale.
+* \param aOffset Le décallage entre l'heure locale et l'UTC.
 */
         DateTimeISO8601(const tm& aTm,
                         const int& aOffset) :
@@ -122,7 +123,7 @@ class DateTimeISO8601
 
 /**
 * Constructeur de l'instance à partir d'une chaîne au format ISO 8601.
-* @param aDate Une Chaîne contenant l'heure au format ISO 8601.
+* \param aDate Une Chaîne contenant l'heure au format ISO 8601.
 */
         DateTimeISO8601(const string& aDate) :
             fTm(makeTm(aDate)),
@@ -146,7 +147,7 @@ class DateTimeISO8601
 
 /**
 * Retourne la valeur de l'instance au format ISO 8601.
-* @return Une chaîne au format ISO 8601.
+* \return Une chaîne au format ISO 8601.
 */
         string iso8601() const
         {
@@ -177,13 +178,13 @@ class DateTimeISO8601
 
 /**
 * Retourne l'heure locale dans une structure tm.
-* @return Une référence sur une structure tm.
+* \return Une référence sur une structure tm.
 */
         const tm& getTm() const { return fTm; }
 
 /**
 * Retourne le décallage entre l'heure locale et l'UTC.
-* @return Un entier indiquant le nombre de minutes du décallage.
+* \return Un entier indiquant le nombre de minutes du décallage.
 */
         int getOffset() const { return fOffset; }
 

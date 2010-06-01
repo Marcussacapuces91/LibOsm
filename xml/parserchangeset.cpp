@@ -46,7 +46,8 @@ ParserChangeset::ParserChangeset(XML_Parser *const apXML_Parser,
 								 const string& aName,
 								 const vector< pair<string, string> >& aAtts) :
 	Parser(apXML_Parser, apParent),
-	fBase(aBase)
+	fBase(aBase),
+	fChangeset()
 {
 	assert(aName == "changeset");
     for (vector< pair<string, string> >::const_iterator it = aAtts.begin();

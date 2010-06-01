@@ -41,16 +41,34 @@ class Parser
 {
 	private:
 
+/**
+ * Constructeur de copie rendu inaccessible.
+ */
+        Parser(const Parser&);
+
+/**
+ * Operateur d'affectation rendu inaccessible.
+ */
+        Parser& operator=(const Parser&);
+
+
 	protected:
+/// Pointeur sur une instance de parser Expat.
 		XML_Parser *const fpXML_Parser;
+
+/// Pointeur sur l'instance parente ayant créée l'instance courante
+/// ou 0 si on se trouve à la racine de l'arborescence.
 		Parser *const fpParent;
+
+/// Pointeur sur une instance enfant de l'instance courante
+/// ou 0 si elle n'existe pas.
 		Parser* fpEnfant;
 
 /**
  * Constructeur protégé de l'instance virtuelle pure.
- * @param apXML_Parser un pointeur sur une instance de XML_Parser existante ou 0
+ * \param apXML_Parser un pointeur sur une instance de XML_Parser existante ou 0
  *                     pour que ce constructeur instancie lui-même un XML_Parser.
- * @param apParent Un pointeur sur l'instance parente de celle-ci ou 0 s'il
+ * \param apParent Un pointeur sur l'instance parente de celle-ci ou 0 s'il
  *                 s'agit de la racine.
  */
 		Parser(XML_Parser *const apXML_Parser,

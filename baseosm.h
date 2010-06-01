@@ -30,6 +30,126 @@
 #include "osm/way.h"
 #include "osm/member.h"
 
+
+/**
+ * Classe assurant la création des tables (si nécessaire) *avant* la création
+ * des Commandes Préparées.
+ */
+class BaseOsmCreateTables : public BaseSQLite3
+{
+    public:
+        BaseOsmCreateTables(const string& aPath,
+                            const bool aInitSpatialite,
+                            const int aFlags) :
+            BaseSQLite3(aPath, aFlags)
+            {
+    if (aInitSpatialite) execFile("init_spatialite-2.3.sql");
+
+//
+// Table pour stocker les tags (pour tous les éléments).
+//
+    exec("CREATE TABLE IF NOT EXISTS tag (                                   \
+            id INTEGER PRIMARY KEY AUTOINCREMENT,                            \
+            key TEXT,                                                        \
+            value TEXT,                                                      \
+            UNIQUE (key, value))");
+
+//
+// Tables pour gérer les changesets.
+//
+    exec("CREATE TABLE IF NOT EXISTS changeset (                             \
+            id INTEGER PRIMARY KEY,                                          \
+            user TEXT DEFAULT NULL,                                          \
+            uid INTEGER DEFAULT NULL,                                        \
+            created_at TEXT NOT NULL,                                        \
+            closed_at TEXT DEFAULT NULL,                                     \
+            open INTEGER(1) NOT NULL);                                       \
+                                                                             \
+        SELECT AddGeometryColumn('changeset', 'mbr', 4326, 'POLYGON', 2, 1); \
+                                                                             \
+        CREATE TABLE IF NOT EXISTS changeset_tags (                          \
+            id_changeset INTEGER NOT NULL REFERENCES changeset,              \
+            id_tag INTEGER NOT NULL REFERENCES tag,                          \
+            PRIMARY KEY (id_changeset, id_tag))");
+
+//
+// Tables pour gérer les nodes.
+//
+    exec("CREATE TABLE IF NOT EXISTS node (                                  \
+            id INTEGER PRIMARY KEY,                                          \
+            version INTEGER,                                                 \
+            changeset INTEGER REFERENCES changeset,                          \
+            user TEXT NULL,                                                  \
+            uid INTEGER NULL,                                                \
+            visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+            timestamp TEXT NOT NULL);                                        \
+                                                                             \
+        SELECT AddGeometryColumn('node', 'coord', 4326, 'POINT', 2, 1);      \
+                                                                             \
+        CREATE TABLE IF NOT EXISTS node_tags (                               \
+            id_node INTEGER NOT NULL REFERENCES node,                        \
+            id_tag INTEGER NOT NULL REFERENCES tag,                          \
+            PRIMARY KEY (id_node, id_tag))");
+
+
+//		SELECT CreateSpatialIndex('node','coord');
+
+//
+// Tables pour gérer les way.
+//
+    exec("CREATE TABLE IF NOT EXISTS way (                                   \
+            id INTEGER PRIMARY KEY,                                          \
+            version INTEGER,                                                 \
+            changeset INTEGER REFERENCES changeset,                          \
+            user TEXT NULL,                                                  \
+            uid INTEGER NULL,                                                \
+            visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+            timestamp TEXT NOT NULL);                                        \
+                                                                             \
+        CREATE TABLE way_nodes (                                             \
+            id_way INTEGER REFERENCES way,                                   \
+            rang INTEGER(5),                                                 \
+            id_node INTEGER REFERENCES node,                                 \
+            PRIMARY KEY (id_way, rang));                                     \
+                                                                             \
+        CREATE TABLE IF NOT EXISTS way_tags (                                \
+            id_way INTEGER NOT NULL REFERENCES way,                          \
+            id_tag INTEGER NOT NULL REFERENCES tag,                          \
+            PRIMARY KEY (id_way, id_tag))");
+
+//
+// Tables pour gérer les relations.
+//
+    exec("CREATE TABLE IF NOT EXISTS relation (                              \
+            id INTEGER PRIMARY KEY,                                          \
+            version INTEGER,                                                 \
+            changeset INTEGER REFERENCES changeset,                          \
+            user TEXT NULL,                                                  \
+            uid INTEGER NULL,                                                \
+            visible INTEGER(1) DEFAULT 1 NOT NULL,                           \
+            timestamp TEXT NOT NULL);                                        \
+                                                                             \
+        CREATE TABLE IF NOT EXISTS relation_tags (                           \
+            id_relation INTEGER NOT NULL REFERENCES relation,                \
+            id_tag INTEGER NOT NULL REFERENCES tag,                          \
+            PRIMARY KEY (id_relation, id_tag));                              \
+                                                                             \
+        CREATE TABLE IF NOT EXISTS relation_members (                        \
+            id_relation INTEGER NOT NULL REFERENCES relation,                \
+            rang INTEGER(5),                                                 \
+            type INTEGER(1) NOT NULL,                                        \
+            id_member INTEGER NOT NULL,                                      \
+            role TEXT NULL,                                                  \
+            PRIMARY KEY (id_relation, rang, type, id_member))");
+
+    }
+
+    ~BaseOsmCreateTables(void) {};
+
+};
+
+
+
 /**
  * Classe permettant d'instancier une base de données contenant les différents
  * éléments d'OSM.
@@ -37,7 +157,7 @@
  * BaseInterface pour être utilisable par le parseur XML qui va y insérer les
  * éléments.
  */
-class BaseOsm : public BaseSQLite3, public BaseInterface
+class BaseOsm : public BaseOsmCreateTables, public BaseInterface
 {
     private:
 /// Commande précompilée pour lire un enregistrement depuis la table tag.
@@ -89,23 +209,13 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
         unsigned fNbRelations;
 
 /**
- * Crée toutes les tables dans la base courante.
- */
-        void createTables();
-
-/**
- * Crée toutes les statments.
- */
-        void createStatments();
-
-/**
  * Méthode statique qui est appelée régulièrement par le moteur SQLite3 afin
  * d'afficher la progression de l'application.
  * Pour le moment cette méthode est sans action.
  * \param apBaseOsm Un pointeur sur l'instance courante de BaseOsm.
  * \return Une valeur <> 0 provoque l'arrêt du moteur SQLite.
  */
-        static int progress(void *const apBaseOsm);
+//        static int progress(void *const apBaseOsm);
 
 /**
  * Retourne l'identifiant d'une paire Key, Value et crée cette paire si elle
@@ -194,9 +304,11 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
 
 	public:
 /**
- * Constructeur de l'instance.
+ * \brief Constructeur de l'instance.
+ *
  * Initialise une connexion au fichier de la base SQLite3.
  * \param aPath Chemin vers le fichier.
+ * \param aInitSpatialite Booléen indiquant si la base doit être initilisée avec les
  * \param aFlags Options d'ouverture du fichier. Par défaut en lecture/écriture
  *               et création en cas d'absence.
  */
@@ -205,10 +317,9 @@ class BaseOsm : public BaseSQLite3, public BaseInterface
                 const int aFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
 /**
- * Destructeur virtuel de l'instance.
- * Sans action.
+ * Destructeur de l'instance.
  */
-		virtual ~BaseOsm() {}
+		~BaseOsm();
 
 /**
  * Ajoute un Changeset dans la base.

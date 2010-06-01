@@ -123,7 +123,8 @@ class Top
             const unsigned long& aUid = 0) :
             fId(aId),
             fUser(aUser),
-            fUid(aUid)
+            fUid(aUid),
+            fTags()
         {}
 
 	public:

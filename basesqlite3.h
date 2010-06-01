@@ -25,7 +25,7 @@
 #ifndef BASESQLITE3_H
 #define BASESQLITE3_H
 
-#include "libspatialite/sqlite3.h"
+#include "libspatialite/headers/spatialite/sqlite3.h"
 #include <string>
 #include <fstream>
 #include "exception.h"
@@ -43,10 +43,10 @@ class Commande
     private:
 /**
  * Crée un sqlite_stmt à partir d'une requête SQL.
- * @param apSqlite3 Un pointeur vers une connexion SQLite3.
- * @param aSql Une chaîne contenant la requête SQL.
- * @return Un pointeur sur le sqlite3_stmt.
- * @throw Exception en cas d'erreur pendant la création.
+ * \param apSqlite3 Un pointeur vers une connexion SQLite3.
+ * \param aSql Une chaîne contenant la requête SQL.
+ * \return Un pointeur sur le sqlite3_stmt.
+ * \throw Exception en cas d'erreur pendant la création.
  */
         static sqlite3_stmt* preparer(sqlite3 *const apSqlite3,
                                       const string& aSql)
@@ -59,10 +59,17 @@ class Commande
         	return pRes;
         }
 
-    protected:
-// Une chaîne contenant la requête SQL.
-//        string fSql;
+/**
+ * Constructeur de copie rendu inaccessible.
+ */
+        Commande(const Commande&);
 
+/**
+ * Opérateur d'affectation rendu inaccessible.
+ */
+        Commande& operator=(const Commande&);
+
+    protected:
 /// Un pointeur sur la base concernée (nécessaire pour récupérer les messages
 /// d'erreur).
         sqlite3* fpSqlite3;
@@ -73,31 +80,38 @@ class Commande
     public:
 
 /**
- * Constructeur de l'instance par défaut.
+ * \brief Constructeur d'instance.
+ *
+ * Initialise et prépare la commande à partir de la requête SQL présentée.
+ * \param apSqlite3 Un pointeur sur l'instance de base de données.
+ * \param aSql Une chaîne contenant la requête SQL à préparer.
+ * \throw Exception en cas d'erreur pendant la création.
  */
-    Commande() :
-//        fSql(""),
-        fpSqlite3(0),
-        fpSqlite3_stmt(0)
-    {};
+        Commande(sqlite3 *const apSqlite3,
+                 const string aSql) :
+        //        fSql(aSql),
+            fpSqlite3(apSqlite3),
+            fpSqlite3_stmt(preparer(apSqlite3, aSql))
+        {
+        //        assert(fSql.size());
+            assert(fpSqlite3);
+            assert(fpSqlite3_stmt);
+        }
 
 /**
- * Constructeur d'instance.
- * Initialise et prépare la commande à partir de la requête SQL présentée.
- * @param apSqlite3 Un pointeur sur l'instance de base de données.
- * @param aSql Une chaîne contenant la requête SQL à préparer.
- * @throw Exception en cas d'erreur pendant la création.
- */
-    Commande(sqlite3 *const apSqlite3,
-             const string aSql) :
-//        fSql(aSql),
-        fpSqlite3(apSqlite3),
-        fpSqlite3_stmt(preparer(apSqlite3, aSql))
-    {
-//        assert(fSql.size());
-        assert(fpSqlite3);
-        assert(fpSqlite3_stmt);
-    }
+ * \brief Constructeur de copie.
+ *
+ * Assure la construction d'une autre commande à partir de la requête SQL de la première.
+ * \param aCommande Instance à copier.
+ *
+        Commande(const Commande& aCommande) :
+            fpSqlite3(aCommande.fpSqlite3),
+            fpSqlite3_stmt(aCommande.fpSqlite3_stmt ?
+                           Commande::preparer(fpSqlite3,
+                                              sqlite3_sql(aCommande.fpSqlite3_stmt)) :
+                           0)
+        {}
+*/
 
 /**
  * \brief Destructeur de l'instance.
@@ -105,22 +119,29 @@ class Commande
  * Libère toutes les ressources liées à la commande.
  * \throw Exception en cas d'erreur pendant la libération.
  */
-    ~Commande()
-    {
-        if (fpSqlite3_stmt) {
-            assert(fpSqlite3);
-            if (SQLITE_OK != sqlite3_finalize(fpSqlite3_stmt))
-               throw Exception(sqlite3_errmsg(fpSqlite3), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+        ~Commande()
+        {
+// cerr << "~Commande de " << sqlite3_sql(fpSqlite3_stmt) << " (" << fpSqlite3_stmt << ")" << endl;
+            if (fpSqlite3_stmt) {
+                assert(fpSqlite3);
+//                if (SQLITE_OK != sqlite3_finalize(fpSqlite3_stmt))
+// cerr << "\tCode retour finalize : " << sqlite3_finalize(fpSqlite3_stmt) << endl;
+                const int err = sqlite3_finalize(fpSqlite3_stmt);
+// cerr << __PRETTY_FUNCTION__ << err << endl;
+                if (err != SQLITE_OK) {
+                    cerr << sqlite3_errmsg(fpSqlite3) << endl;
+                    throw Exception(sqlite3_errmsg(fpSqlite3), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+                }
+            }
         }
-    }
 
 /**
  * \brief Redéfinit la commande.
  *
  * Libère la commande existante et pré-calcule une nouvelle commande SQL.
- * @param apSqlite3 Un pointeur sur l'instance de base de données.
- * @param aSql Une chaîne contenant la requête SQL à préparer.
- * @throw Exception en cas d'erreur pendant la création.
+ * \param apSqlite3 Un pointeur sur l'instance de base de données.
+ * \param aSql Une chaîne contenant la requête SQL à préparer.
+ * \throw Exception en cas d'erreur pendant la création.
  */
     void setStatment(sqlite3 *const apSqlite3,
                      const string& aSql)
@@ -138,53 +159,83 @@ class Commande
     }
 
 /**
- * Définit l'opérateur * (déréférencement) pour qu'il retourne le sqlite3_stmt
- * sous-jacent.
- * @return Un pointeur sur le sqlite3_stmt.
+ * Définit l'opérateur de cast pour qu'il retourne le sqlite3_stmt*
+ * sous-jacent de l'instance courante.
+ * \note : J'aime beaucoup cette trouvaille. \see http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Other_operators
+ * \return Un pointeur sur le sqlite3_stmt.
  */
-    sqlite3_stmt* operator*() { assert(fpSqlite3_stmt); return fpSqlite3_stmt; }
+//    sqlite3_stmt* operator*() { assert(fpSqlite3_stmt); return fpSqlite3_stmt; }
+    operator sqlite3_stmt*() { assert(fpSqlite3_stmt); return fpSqlite3_stmt; }
 
 };
+
 
 /**
  * Wrapper de la librairie SQLite3.
  */
 class BaseSQLite3
 {
+    private:
+        BaseSQLite3& operator=(const BaseSQLite3&);
+        BaseSQLite3(const BaseSQLite3&);
+
+/**
+ * Méthode statique générant une connexion SQLite3.
+ * \param aNom Une chaîne représentant un nom de fichier (non vide).
+ * \param aFlags Indicateurs du mode d'ouverture de la base.
+ * \return Un pointeur sur une connexion Sqlite3. Cette connexion devra être
+ *         libérée par une commande sqlite3_close.
+ * \throw Exception en cas d'erreur à l'ouverture de la base.
+ */
+        static sqlite3* open(const string& aNom,
+		                     const int aFlags);
+
 	protected:
 /// Handler de la connexion à la base de données.
-		sqlite3* fpSqlite3;
+		sqlite3 *const fpSqlite3;
 
 /**
  * Vérifie que le code erreur transmis est SQLITE_OK. Si la valeur est
  * différente, lève une exception avec le message d'erreur correspondant.
- * @warning dans certains cas (SQLITE_ROW), la méthode appelante doit filtrer
+ * \warning dans certains cas (SQLITE_ROW), la méthode appelante doit filtrer
  *          avant de faire l'appel pour éviter la génération de l'exception.
- * @throw Exception Lorsque le code erreur transmis est différent de SQLITE_OK.
- * @param aError Le code erreur à analyser.
- * @param aFichier Nom du fichier où s'est fait l'appel, par défaut __FILE__.
- * @param aLigne Numéro de la ligne où s'est fait l'appel, par défaut __LINE__.
- * @param aFonction Fonction ou méthode où s'est fait l'appel, par défaut __PRETTY_FUNCTION__.
+ * \throw Exception Lorsque le code erreur transmis est différent de SQLITE_OK.
+ * \param aError Le code erreur à analyser.
+ * \param aFichier Nom du fichier où s'est fait l'appel, par défaut __FILE__.
+ * \param aLigne Numéro de la ligne où s'est fait l'appel, par défaut __LINE__.
+ * \param aFonction Fonction ou méthode où s'est fait l'appel, par défaut __PRETTY_FUNCTION__.
  */
         inline void check(const int aError,
                           const string& aFichier = __FILE__,
                           const unsigned aLigne = __LINE__,
                           const string& aFonction = __PRETTY_FUNCTION__) const
-{
-    assert(fpSqlite3);
-    if (aError == SQLITE_MISUSE)
-        throw Exception("Mauvaise utilisation", aFichier, aLigne, aFonction);
-	if (aError != SQLITE_OK) {
-        const char *const p = sqlite3_errmsg(fpSqlite3);
-        throw Exception((p ? p : "Erreur inconnue"), aFichier, aLigne, aFonction);
-    }
-}
+        {
+            assert(fpSqlite3);
+            if (aError == SQLITE_MISUSE)
+                throw Exception("Mauvaise utilisation", aFichier, aLigne, aFonction);
+            if (aError != SQLITE_OK) {
+                const char *const p = sqlite3_errmsg(fpSqlite3);
+                throw Exception((p ? p : "Erreur inconnue"), aFichier, aLigne, aFonction);
+            }
+        }
 
-  public:
+/**
+ * Construit et retourne une commande préparée.
+ * \param aSql Une chaîne représentant la commande SQL.
+ * \return Une instance de Commande, initialisée avec l'instance de la base et
+ *         la commande SQL.
+ *
+        Commande makeCommande(const string& aSql)
+        {
+            return Commande(this->fpSqlite3, aSql);
+        }
+*/
+
+    public:
 /**
  * Constructeur de classe. Initialise l'accès à la base de données.
- * @param aNom Chemin du fichier contenant la base de données.
- * @param aFlags Indicateurs SQLite précisant le mode d'ouverture du fichier.
+ * \param aNom Chemin du fichier contenant la base de données.
+ * \param aFlags Indicateurs SQLite précisant le mode d'ouverture du fichier.
  *               Par défaut, c'est en SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE.
  */
 		BaseSQLite3(const string& aNom,
@@ -193,17 +244,17 @@ class BaseSQLite3
 /**
  * Destructeur de classe.
  */
-		virtual ~BaseSQLite3();
+		~BaseSQLite3();
 
 /**
  * Exécute une requête SQL sans attendre de résultat.
- * @param aSql Une chaîne contenant la requête SQL.
+ * \param aSql Une chaîne contenant la requête SQL.
  */
 		void exec(const string& aSql);
 
 /**
  * Exécute la/les requête(s) SQL présentent dans le fichier indiqué.
- * @param aPath Le chemin du fichier à exécuter.
+ * \param aPath Le chemin du fichier à exécuter.
  */
 		void execFile(const string& aPath);
 

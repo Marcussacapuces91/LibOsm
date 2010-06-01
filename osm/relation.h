@@ -54,7 +54,7 @@ class Relation : public Element
 /**
  * Constructeur par défaut de l'instance.
  */
-        Relation() {}
+        Relation() : fMembers() {}
 
 /**
  * Permet d'ajouter un Member à la Relation.

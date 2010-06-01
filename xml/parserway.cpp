@@ -25,7 +25,7 @@
 #include <cassert>
 #include <iostream>
 #include <expat.h>
-#include "ParserWay.h"
+#include "parserway.h"
 #include "parsertag.h"
 #include "parsernd.h"
 #include "../osm/way.h"
@@ -36,7 +36,8 @@ ParserWay::ParserWay(XML_Parser *const apXML_Parser,
 					 const string& aName,
 					 const vector< pair<string, string> >& aAtts) :
 	Parser(apXML_Parser, apParent),
-	fBase(aBase)
+	fBase(aBase),
+	fWay()
 {
 	assert(aName == "way");
 	for (vector< pair<string, string> >::const_iterator it = aAtts.begin(); it != aAtts.end(); ++it) {

@@ -31,6 +31,7 @@
 #include "parsernode.h"
 #include "parserway.h"
 #include "parserrelation.h"
+#include <algorithm>
 
 ParserOsmChange::ParserOsmChange(XML_Parser *const apXML_Parser,
                      BaseInterface& aBase,

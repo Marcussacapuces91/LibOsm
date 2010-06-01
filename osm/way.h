@@ -61,7 +61,7 @@ class Way : public Element
 /**
  * Constructeur de l'instance.
  */
-        Way() {}
+        Way() : fNodes() {}
 
 //        void setBound(const Bound& aBound) { fBound = aBound; }
 

@@ -31,7 +31,7 @@ Spatialite::Spatialite(void)
 	spatialite_init(0);
 }
 
-Spatialite::Spatialite* Spatialite::fpSpatialite = 0;
+Spatialite Spatialite::fSpatialite;
 
 string Spatialite::versions(void) const
 {
@@ -41,9 +41,7 @@ string Spatialite::versions(void) const
 //			       "Geos version " + geos_version() + "\n";
 }
 
-Spatialite& Spatialite::makeSpatialite(void)
+Spatialite& Spatialite::returnSpatialite(void)
 {
-	if (fpSpatialite) return *fpSpatialite;
-	fpSpatialite = new Spatialite;
-	return *fpSpatialite;
+	return fSpatialite;
 }

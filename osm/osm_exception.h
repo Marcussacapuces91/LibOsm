@@ -46,7 +46,8 @@ class OsmException : public exception
         inline OsmException(const string& aMessage,
                             const string& aFichier,
                             const unsigned aLine,
-                            const string& aFonction)
+                            const string& aFonction) :
+            fMessage()
         {
             ostringstream oss;
             oss << "Exception OSM : " << aMessage

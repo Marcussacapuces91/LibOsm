@@ -40,7 +40,7 @@ class Spatialite
 {
 	private:
 /// Instance unique de la classe
-		static Spatialite* fpSpatialite;
+		static Spatialite fSpatialite;
 
 	protected:
 /**
@@ -54,7 +54,7 @@ class Spatialite
  * Retourne une référence sur l'unique instance du singleton.
  * @return Une référence sur une instance de Spatialite.
  */
-		static Spatialite& makeSpatialite(void);
+		static Spatialite& returnSpatialite(void);
 
 /**
  * Retourne une chaîne décrivant les versions des bibliothèques utilisées.

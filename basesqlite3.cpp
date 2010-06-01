@@ -28,20 +28,32 @@
 #include "osm/changeset.h"
 
 BaseSQLite3::BaseSQLite3(const string& aNom,
-                         const int aFlags)
+                         const int aFlags) :
+    fpSqlite3(open(aNom, aFlags))
 {
-    {
-    	const int err = sqlite3_open_v2(aNom.c_str(), &fpSqlite3, aFlags, NULL);
-		if (err != SQLITE_OK) throw Exception(sqlite3_errmsg(fpSqlite3),
-                                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
-	}
 	assert(fpSqlite3);
 	check(sqlite3_extended_result_codes(fpSqlite3, 1), __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
 BaseSQLite3::~BaseSQLite3()
 {
-	check(sqlite3_close(fpSqlite3), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+//    cerr << __PRETTY_FUNCTION__ << endl;
+    const int err = sqlite3_close(fpSqlite3);
+    if (err != SQLITE_OK) {
+        cerr << err << endl;
+        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
+}
+
+sqlite3* BaseSQLite3::open(const string& aNom,
+                           const int aFlags)
+{
+    assert(!aNom.empty());
+    sqlite3* pSqlite3 = 0;
+    const int err = sqlite3_open_v2(aNom.c_str(), &pSqlite3, aFlags, NULL);
+    if (err != SQLITE_OK) throw Exception(sqlite3_errmsg(pSqlite3),
+                                  __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    return pSqlite3;
 }
 
 void BaseSQLite3::exec(const string& aSql)

@@ -1,0 +1,6 @@
+obj/
+bin/
+libosm.*
+*.workspace
+*.dll
+gmon.out
