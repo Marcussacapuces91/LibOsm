@@ -37,7 +37,6 @@ BaseSQLite3::BaseSQLite3(const string& aNom,
 
 BaseSQLite3::~BaseSQLite3()
 {
-//    cerr << __PRETTY_FUNCTION__ << endl;
     const int err = sqlite3_close(fpSqlite3);
     if (err != SQLITE_OK) {
         cerr << err << endl;
