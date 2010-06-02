@@ -4,12 +4,22 @@ LibOsm est une librairie C++ permettant de manipuler et de stocker les élément
 
 Elle est maintenue par Marc Sibert et est sous licence LGPL v3.
 
-h3. Dépendances :
+h3. Dépendances
+
+Cette librairie s'appuie elle-même sur d'autres librairies existantes, soit en intégrant le code source (souvent pour des raisons de performance), soit sous la forme de librairies dynamique.
  
-* SQLite3 (Domaine Public) 
-* Spatialite (MPLv1.1)
-* TCLAP pour parser les paramètres de la ligne de commande (Licence MIT)
-* Expat, 
-* Geos, 
-* Proj4 et
-* Iconv pour Windows
+* SQLite3 - source (Domaine Public) 
+* Spatialite - source (triple licence : MPLv1.1, LGPL v2, GPL v2)
+* TCLAP pour parser les paramètres de la ligne de commande - librairie (Licence MIT)
+* Expat - librairie (), 
+* Geos - librairie (), 
+* Proj4 - librairie () et
+* Iconv - librairie () pour Windows seulement.
+
+h3. Règles de codage
+
+* Les fichiers sont développés en C++
+* La compilation du code avec les options suivantes ne devrait pas générer de warning (au-moins hors librairies) :
+** -Wall
+** -W
+** -Weffc++

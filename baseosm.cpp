@@ -64,10 +64,12 @@ BaseOsm::BaseOsm(const string& aPath,
 //	sqlite3_progress_handler(fpSqlite3, 1000, BaseOsm::progress, this);
 }
 
+/*
 BaseOsm::~BaseOsm(void)
 {
-//    cerr << __PRETTY_FUNCTION__ << endl;
+    cerr << __PRETTY_FUNCTION__ << endl;
 }
+*/
 
 /*
 int BaseOsm::progress(void *const apBaseOsm)

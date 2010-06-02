@@ -22,16 +22,16 @@
  * \author Marc Sibert
  */
 
-#include "spatialite.h"
+#include "spatialite.h" // class's header file
 
 #include "libspatialite/headers/spatialite.h"
+
+Spatialite Spatialite::fSpatialite;
 
 Spatialite::Spatialite(void)
 {
 	spatialite_init(0);
 }
-
-Spatialite Spatialite::fSpatialite;
 
 string Spatialite::versions(void) const
 {

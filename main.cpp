@@ -34,7 +34,7 @@
 #include "xml/parserplanet.h"
 #include <tclap/CmdLine.h>
 // #include "tests.h"
-#include "libspatialite/headers/spatialite.h"      // pour être plus explicite
+#include "libspatialite/headers/spatialite.h"
 
 using namespace std;
 using namespace TCLAP;
@@ -80,7 +80,8 @@ peuvent utiliser des licences différentes :\n\
 ";
 
 /**
- * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de copyright.
+ * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de 
+ * copyright.
  */
 class CopyrightVisitor : public Visitor
 {
@@ -97,7 +98,7 @@ class CopyrightVisitor : public Visitor
  */
 int main(int argc, char **argv)
 {
-	try {
+    try {
         CmdLine cmd(DESCRIPTION_COURTE, ' ', VERSION);
 //        SwitchArg tests("t", "test", "Lancement des tests unitaires", cmd, false);
         ValueArg<string> input("i", "input", "Nom du fichier OSM en entrée", false, "", "string", cmd);
@@ -115,45 +116,45 @@ int main(int argc, char **argv)
         const string path = pathBase.getValue();
         const bool init = initSpatialite.getValue();
 
-		BaseOsm base(path, init);
+        BaseOsm base(path, init);
         if (cache.isSet()) base.cacheSize(cache.getValue());
 
         if (verbose.getValue()) cout << "Debut du parsing" << endl;
-		const clock_t debut = clock();
-		base.exec("BEGIN");
+        const clock_t debut = clock();
+        base.exec("BEGIN");
         if (input.isSet()) {
             ifstream f(input.getValue().c_str(), fstream::in | fstream::binary);
-    		ParserPlanet parserPlanet(base, f);
+            ParserPlanet parserPlanet(base, f);
             f.close();
         } else {
-    		ParserPlanet parserPlanet(base, cin);
+            ParserPlanet parserPlanet(base, cin);
         }
-		base.exec("COMMIT");
+        base.exec("COMMIT");
         if (verbose.getValue()) {
-    		const clock_t fin = clock();
+            const clock_t fin = clock();
             cout << endl << "Fin du parsing - Duree : " << (double(fin) - double(debut)) / CLOCKS_PER_SEC << "s" << endl;
-    		cout << "Creation des indexes & analyse" << endl;
+            cout << "Creation des indexes & analyse" << endl;
         }
 
         if (indexes.getValue()) {
             base.createIndexes();
             if (verbose.getValue()) {
-        		const clock_t fin = clock();
+            		const clock_t fin = clock();
                 cout << endl << "Fin de l'analyse - Duree : " << (double(fin) - double(debut)) / CLOCKS_PER_SEC << "s" << endl;
             }
         }
-	} catch (TCLAP::ArgException &e) { // catch any exceptions
-	    cerr << "erreur : " << e.error() << " pour l'argument " << e.argId() << endl;
-		return EXIT_FAILURE;
-	} catch (Exception &e) {
-		cerr << e.what() << endl;
-		return EXIT_FAILURE;
-	} catch (exception &e) {
-		cerr << e.what() << endl;
-		return EXIT_FAILURE;
-	} catch (...) {
-		cerr << "Exception inconnue" << endl;
-		return EXIT_FAILURE;
+    } catch (TCLAP::ArgException &e) { // catch any exceptions
+        cerr << "erreur : " << e.error() << " pour l'argument " << e.argId() << endl;
+        return EXIT_FAILURE;
+    } catch (Exception &e) {
+        cerr << e.what() << endl;
+        return EXIT_FAILURE;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
+        return EXIT_FAILURE;
+    } catch (...) {
+        cerr << "Exception inconnue" << endl;
+        return EXIT_FAILURE;
     }
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
