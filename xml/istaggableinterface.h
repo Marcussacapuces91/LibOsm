@@ -39,11 +39,18 @@ class IsTaggableInterface
   public:
 /**
  * Ajoute un Tag à l'instance.
- * @param aKey Une référence sur la valeur de la clé.
- * @param aValue Une référence sur le contenu du Tag.
+ * \param aKey Une référence sur la valeur de la clé.
+ * \param aValue Une référence sur le contenu du Tag.
  */
     virtual void addTag(const string& aKey,
                         const string& aValue) = 0;
+
+/**
+ * \brief Destructeur virtuel de l'instance.
+ *
+ * Sans action.
+ */
+    virtual ~IsTaggableInterface(void) {}
 };
 
 #endif

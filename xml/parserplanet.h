@@ -35,7 +35,9 @@ class ParserPlanet : public Parser
 {
 	private:
         BaseInterface& fBase;
+
 		istream& fStream;
+
 //		long unsigned fNbChangeset;
 //		long unsigned fNbNode;
 //		long unsigned fNbWay;

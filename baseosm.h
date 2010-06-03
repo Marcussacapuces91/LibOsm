@@ -148,6 +148,13 @@ class BaseOsmCreateTables : public BaseSQLite3
 
         }
 
+/**
+ * \brief Destructeur virtuel de l'instance.
+ *
+ * Sans action.
+ */
+        virtual ~BaseOsmCreateTables(void) {};
+
     private:
         BaseOsmCreateTables(const BaseOsmCreateTables&);
         BaseOsmCreateTables& operator=(const BaseOsmCreateTables&);
@@ -350,6 +357,13 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
 		BaseOsm(const string& aPath,
                 const bool aInitSpatialite = false,
                 const int aFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+/**
+ * \brief Destructeur virtuel de l'instance.
+ *
+ * Sans action.
+ */
+        virtual ~BaseOsm(void) {};
 
 /**
  * Ajoute un Changeset dans la base.

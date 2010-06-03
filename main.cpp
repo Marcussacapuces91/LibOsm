@@ -80,7 +80,7 @@ peuvent utiliser des licences différentes :\n\
 ";
 
 /**
- * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de 
+ * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de
  * copyright.
  */
 class CopyrightVisitor : public Visitor

@@ -162,7 +162,8 @@ class Commande
 /**
  * Définit l'opérateur de cast pour qu'il retourne le sqlite3_stmt*
  * sous-jacent de l'instance courante.
- * \note : J'aime beaucoup cette trouvaille. \see http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Other_operators
+ * \note : J'aime beaucoup cette trouvaille
+ * \see http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Other_operators
  * \return Un pointeur sur le sqlite3_stmt.
  */
 //    sqlite3_stmt* operator*() { assert(fpSqlite3_stmt); return fpSqlite3_stmt; }
@@ -245,7 +246,7 @@ class BaseSQLite3
 /**
  * Destructeur de classe.
  */
-		~BaseSQLite3();
+		virtual ~BaseSQLite3(void);
 
 /**
  * Exécute une requête SQL sans attendre de résultat.

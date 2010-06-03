@@ -52,11 +52,12 @@ class Point
 
 	public:
 /**
- * Constructeur de l'instance.
+ * \brief Constructeur de l'instance.
+ *
  * Assure aussi la fonction de constructeur par défaut avec des coordonnées
  * nulles.
- * @param aLatitude Latitude en degrés.
- * @param aLongitude Longitude en degrés.
+ * \param aLatitude Latitude en degrés.
+ * \param aLongitude Longitude en degrés.
  */
 		Point(const double& aLatitude = 0,
               const double& aLongitude = 0) :
@@ -66,7 +67,7 @@ class Point
 
 /**
  * Constructeur de copie.
- * @param aPoint Point servant à initialiser l'instance courante.
+ * \param aPoint Point servant à initialiser l'instance courante.
  */
         Point(const Point& aPoint) :
             fLatitude(aPoint.fLatitude),
@@ -74,23 +75,33 @@ class Point
         {}
 
 /**
+ * \brief Destructeur virtuel de l'instance.
+ *
+ * Sans action.
+ */
+        virtual ~Point(void) {}
+
+/**
  * Opérateur d'affection.
- * @param aPoint Point à affecter à l'instance courante.
- * @return Une référence sur l'instance courante après affectation.
+ * \param aPoint Point à affecter à l'instance courante.
+ * \return Une référence sur l'instance courante après affectation.
  */
         Point& operator=(const Point& aPoint);
 
 /**
- * Retourne la distance entre l'instance courante et le Point indiqué.
- * @param aPoint Point avec lequel se fait la mesure de distance.
- * @return La distance en mètres.
+ * \brief Retourne la distance entre l'instance courante et le Point indiqué.
+ *
+ * Cette fonction assure un calcul de distance à la surface d'une sphère
+ * représentant la Terre. \see Point::RAYON_TERRE.
+ * \param aPoint Point avec lequel se fait la mesure de distance.
+ * \return La distance en mètres.
  */
         double distance(const Point& aPoint) const;
 
 /**
  * Indique sur l'instance et le point indiqué sont superposés ou même identiques.
- * @param aPoint Instance qui sert de comparaison.
- * @return true si les 2 instances sont superposées ou identiques, ou false sinon.
+ * \param aPoint Instance qui sert de comparaison.
+ * \return true si les 2 instances sont superposées ou identiques, ou false sinon.
  */
         bool operator==(const Point& aPoint);
 
@@ -98,51 +109,71 @@ class Point
  * Retourne la latitude en degrés.
  * \return La valeur de la latitude.
  */
-        const double& latitude() const { return fLatitude; }
+        const double& latitude() const
+        { return fLatitude; }
 
 /**
  * Affecte la latitude et retourne une référence.
  * \param aLatitude laitude exprimée en degrés.
  * \return La valeur de la latitude.
  */
-        const double& latitude(const double& aLatitude) { return fLatitude = aLatitude; }
+        const double& latitude(const double& aLatitude)
+        { return fLatitude = aLatitude; }
 
 /**
  * Retourne la longitude en degrés.
- * @return La valeur de la longitude.
+ * \return La valeur de la longitude.
  */
-        const double& longitude() const { return fLongitude; }
-        const double& longitude(const double& aLongitude) { return fLongitude = aLongitude; }
+        const double& longitude() const
+        { return fLongitude; }
 
 /**
- * Retourne un Point correspondant à l'instance déplacée suivant la distance et
- * la direction indiquées.
- * @param aDistance Distance du déplacement en mètres.
- * @param aBearing Direction du déplacement en degrés.
- * @return Un nouveau point.
+ * Affecte et retourne la longitude.
+ @ \param aLongitude La valeur de la longitude exprimée en degrés décimaux.
+ * \return La valeur de la longitude exprimée en degrés décimaux.
+ */
+        const double& longitude(const double& aLongitude)
+        { return fLongitude = aLongitude; }
+
+/**
+ * \brief Retourne un Point correspondant à l'instance déplacée suivant la
+ *        distance et la direction indiquées.
+ *
+ * Cette fonction assure un calcul de distance à la surface d'une sphère
+ * représentant la Terre. \see Point::RAYON_TERRE.
+ * \param aDistance Distance du déplacement en mètres.
+ * \param aBearing Direction du déplacement en degrés.
+ * \return Un nouveau point.
  */
         Point decaller(const double& aDistance,
                        const float& aBearing) const;
 
 /**
- * Retourne le bearing depuis l'instance vers le Point indiqué.
- * @param aPoint Point vers lequel le bearing est calculé.
- * @return La valeur du bearing en degrés.
+ * \brief Retourne le bearing depuis l'instance vers le Point indiqué.
+ *
+ * Il s'agit de l'angle avec la direction du Nord géographique.
+ * \param aPoint Point vers lequel le bearing est calculé.
+ * \return La valeur du bearing en degrés décimaux.
  */
         float bearing(const Point& aPoint) const;
 
 };
 
 /**
- * Opérateur d'injection d'une description d'un Point dans un flux de sortie.
- * @param aStream Le flux de sortie dans lequel est injecté la description.
- * @param aPoint Le Point dont la description sera injectée.
- * @return Le flux de sortie après injection.
+ * \brief Opérateur d'injection d'une description d'un Point dans un flux de
+ *        sortie.
+ *
+ * Cette méthode génère les coordonnées du Point courant sous la forme d'une
+ * paire de coordonnées polaires en degrés décimaux, préfixés par l'identifiant
+ * de la coordonnée, sur le modèle suivant :
+ * \code lat: +/-dd.ddddd, lon: +/-dd.dddd
+ * \param aStream Le flux de sortie dans lequel est injecté la description.
+ * \param aPoint Le Point dont la description sera injectée.
+ * \return Le flux de sortie après injection.
  */
 inline ostream& operator<<(ostream& aStream, const Point& aPoint)
 {
     return aStream << "lat: " << setprecision(10) << aPoint.latitude() << ", lon: " << aPoint.longitude();
 }
-
 
 #endif // POINT_H

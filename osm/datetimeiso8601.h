@@ -89,6 +89,8 @@ class DateTimeISO8601
                     throw OsmException("Separateur de l'offset incorrect (" + aDate + ")",
                                        __FILE__, __LINE__, __PRETTY_FUNCTION__);
             }
+// Juste pour éviter le warning "control reaches end of non-void function"
+            return 0;
         }
 
     public:

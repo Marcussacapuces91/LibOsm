@@ -40,27 +40,33 @@ class Relation;
 class BaseInterface
 {
   public:
+
+/**
+ * Destructeur virtuel de l'instance.
+ */
+    virtual ~BaseInterface(void) {}
+
 /**
  * Ajouter un Changeset dans la base.
- * @param aChangeset Une référence sur une instance de Changeset à inserer.
+ * \param aChangeset Une référence sur une instance de Changeset à inserer.
  */
     virtual void add(const Changeset& aChangeset) = 0;
 
 /**
  * Ajouter un Node dans la base.
- * @param aNode Une référence sur une instance de Node à inserer.
+ * \param aNode Une référence sur une instance de Node à inserer.
  */
     virtual void add(const Node& aNode) = 0;
 
 /**
  * Ajouter un Way dans la base.
- * @param aWay Une référence sur une instance de Way à inserer.
+ * \param aWay Une référence sur une instance de Way à inserer.
  */
     virtual void add(const Way& aWay) = 0;
 
 /**
  * Ajouter une Relation dans la base.
- * @param aRelation Une référence sur une instance de Relation à inserer.
+ * \param aRelation Une référence sur une instance de Relation à inserer.
  */
     virtual void add(const Relation& aRelation) = 0;
 
