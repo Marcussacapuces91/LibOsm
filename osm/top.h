@@ -27,7 +27,8 @@
  *
  * Cette arborescence correspond aux object métier de OSM tels que l'on peut les
  * appréhender au travers des différents flux XML fournis par les applications,
- * en particulier celle qui utilisent les différentes variation de .osm (http://wiki.openstreetmap.org/wiki/.osm) :
+ * en particulier celle qui utilisent les différentes variation de .osm
+ * (http://wiki.openstreetmap.org/wiki/.osm) :
  * - les flux XML retournés par l'API v0.6 (http://wiki.openstreetmap.org/wiki/API_v0.6) ;
  * - ceux retournés par la version étendues XAPI (http://wiki.openstreetmap.org/wiki/Xapi) ;
  * - les fichiers planet (http://wiki.openstreetmap.org/wiki/Planet) et les
@@ -36,10 +37,11 @@
  * L'arborescence ressence deux classes abstraites qui permettent de regrouper
  * certaines fonctionnalités communes aux classes héritées.
  * On trouvera donc :
- * - \ref Top : la classe ancètre ultime qui assurent les champs communs (comme l'id,
- *         le nom d'utilisateur, son identifiant) et l'aptitude à gérer les Tags.
- * - \ref Element : cette classe permet fédérer les éléments géométriques (Node, Way
- *             et Relation).
+ * - \ref Top : la classe ancètre ultime qui assurent les champs communs (comme
+ *        l'id, le nom d'utilisateur, son identifiant) et l'aptitude à gérer les
+ *        Tags.
+ * - \ref Element : cette classe permet fédérer les éléments géométriques (Node,
+                    Way et Relation).
  *
  * La classe Node hérite aussi d'une autre classe. Cette classe Point permet
  * quelques opérations sur les coordonnées angulaires comme des comparaisons

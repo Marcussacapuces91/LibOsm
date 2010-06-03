@@ -4,3 +4,4 @@ libosm.*
 *.workspace
 *.dll
 gmon.out
+*.exe
