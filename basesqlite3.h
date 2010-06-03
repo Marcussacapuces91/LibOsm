@@ -61,22 +61,16 @@ class Commande
         }
 
 /**
- * Constructeur de copie rendu inaccessible.
- */
-        Commande(const Commande&);
-
-/**
  * Opérateur d'affectation rendu inaccessible.
  */
         Commande& operator=(const Commande&);
 
-    protected:
 /// Un pointeur sur la base concernée (nécessaire pour récupérer les messages
 /// d'erreur).
-        sqlite3* fpSqlite3;
+        sqlite3 *const fpSqlite3;
 
 /// Un pointeur sur une commande.
-        sqlite3_stmt* fpSqlite3_stmt;
+        sqlite3_stmt *const fpSqlite3_stmt;
 
     public:
 
@@ -94,7 +88,6 @@ class Commande
             fpSqlite3(apSqlite3),
             fpSqlite3_stmt(preparer(apSqlite3, aSql))
         {
-        //        assert(fSql.size());
             assert(fpSqlite3);
             assert(fpSqlite3_stmt);
         }
@@ -102,48 +95,46 @@ class Commande
 /**
  * \brief Constructeur de copie.
  *
- * Assure la construction d'une autre commande à partir de la requête SQL de la première.
+ * Assure la construction d'une nouvelle Commande à partir de la requête SQL de
+ * la première, ou crée une nouvelle Commande vide.
  * \param aCommande Instance à copier.
- *
+ */
         Commande(const Commande& aCommande) :
             fpSqlite3(aCommande.fpSqlite3),
             fpSqlite3_stmt(aCommande.fpSqlite3_stmt ?
-                           Commande::preparer(fpSqlite3,
-                                              sqlite3_sql(aCommande.fpSqlite3_stmt)) :
+                           preparer(fpSqlite3,
+                                    sqlite3_sql(aCommande.fpSqlite3_stmt)) :
                            0)
-        {}
-*/
+        {
+            assert(fpSqlite3);
+            assert(fpSqlite3_stmt);
+        }
 
 /**
  * \brief Destructeur de l'instance.
  *
  * Libère toutes les ressources liées à la commande.
- * \throw Exception en cas d'erreur pendant la libération.
  */
-        ~Commande()
+        ~Commande(void)
         {
 // cerr << "~Commande de " << sqlite3_sql(fpSqlite3_stmt) << " (" << fpSqlite3_stmt << ")" << endl;
-            if (fpSqlite3_stmt) {
-                assert(fpSqlite3);
-//                if (SQLITE_OK != sqlite3_finalize(fpSqlite3_stmt))
-// cerr << "\tCode retour finalize : " << sqlite3_finalize(fpSqlite3_stmt) << endl;
-                const int err = sqlite3_finalize(fpSqlite3_stmt);
-// cerr << __PRETTY_FUNCTION__ << err << endl;
-                if (err != SQLITE_OK) {
-                    cerr << sqlite3_errmsg(fpSqlite3) << endl;
-                    throw Exception(sqlite3_errmsg(fpSqlite3), __FILE__, __LINE__, __PRETTY_FUNCTION__);
-                }
+            assert(fpSqlite3);
+            assert(fpSqlite3_stmt);
+            if (sqlite3_finalize(fpSqlite3_stmt) != SQLITE_OK) {
+/// \see http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.3
+                cerr << sqlite3_errmsg(fpSqlite3) << " a " << __FILE__ << ":";
+                cerr << __LINE__ << " dans " << __PRETTY_FUNCTION__ << endl;
             }
         }
 
-/**
+/*
  * \brief Redéfinit la commande.
  *
  * Libère la commande existante et pré-calcule une nouvelle commande SQL.
  * \param apSqlite3 Un pointeur sur l'instance de base de données.
  * \param aSql Une chaîne contenant la requête SQL à préparer.
  * \throw Exception en cas d'erreur pendant la création.
- */
+ *
     void setStatment(sqlite3 *const apSqlite3,
                      const string& aSql)
     {
@@ -158,6 +149,7 @@ class Commande
 //        fSql = aSql;
         fpSqlite3_stmt = preparer(apSqlite3, aSql);
     }
+*/
 
 /**
  * Définit l'opérateur de cast pour qu'il retourne le sqlite3_stmt*
@@ -205,7 +197,8 @@ class BaseSQLite3
  * \param aError Le code erreur à analyser.
  * \param aFichier Nom du fichier où s'est fait l'appel, par défaut __FILE__.
  * \param aLigne Numéro de la ligne où s'est fait l'appel, par défaut __LINE__.
- * \param aFonction Fonction ou méthode où s'est fait l'appel, par défaut __PRETTY_FUNCTION__.
+ * \param aFonction Fonction ou méthode où s'est fait l'appel, par défaut
+ *                  __PRETTY_FUNCTION__.
  */
         inline void check(const int aError,
                           const string& aFichier = __FILE__,
@@ -213,15 +206,20 @@ class BaseSQLite3
                           const string& aFonction = __PRETTY_FUNCTION__) const
         {
             assert(fpSqlite3);
-            if (aError == SQLITE_MISUSE)
-                throw Exception("Mauvaise utilisation", aFichier, aLigne, aFonction);
-            if (aError != SQLITE_OK) {
-                const char *const p = sqlite3_errmsg(fpSqlite3);
-                throw Exception((p ? p : "Erreur inconnue"), aFichier, aLigne, aFonction);
+            switch (aError) {
+                case SQLITE_MISUSE :
+                    throw Exception("Mauvaise utilisation",
+                                    aFichier, aLigne, aFonction);
+                case SQLITE_OK :
+                    break;
+                default :
+                    const char *const p = sqlite3_errmsg(fpSqlite3);
+                    throw Exception((p ? p : "Erreur inconnue"),
+                                    aFichier, aLigne, aFonction);
             }
         }
 
-/**
+/*
  * Construit et retourne une commande préparée.
  * \param aSql Une chaîne représentant la commande SQL.
  * \return Une instance de Commande, initialisée avec l'instance de la base et
@@ -235,7 +233,9 @@ class BaseSQLite3
 
     public:
 /**
- * Constructeur de classe. Initialise l'accès à la base de données.
+ * \brief Constructeur de classe.
+ *
+ * Initialise l'accès à la base de données.
  * \param aNom Chemin du fichier contenant la base de données.
  * \param aFlags Indicateurs SQLite précisant le mode d'ouverture du fichier.
  *               Par défaut, c'est en SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE.
@@ -260,7 +260,10 @@ class BaseSQLite3
  */
 		void execFile(const string& aPath);
 
-        static int cbkReturnUnsigned(void* apResult, int aNbCols, char** apValues, char** apNames)
+        static int cbkReturnUnsigned(void* apResult,
+                                     int aNbCols,
+                                     char** apValues,
+                                     char** apNames)
         {
             assert(apResult);
             assert(apValues);
@@ -276,7 +279,9 @@ class BaseSQLite3
 		unsigned cacheSize() const
 		{
             unsigned result = 0;
-            check(sqlite3_exec(fpSqlite3, "PRAGMA cache_size", BaseSQLite3::cbkReturnUnsigned, &result, 0), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            check(sqlite3_exec(fpSqlite3, "PRAGMA cache_size",
+                               BaseSQLite3::cbkReturnUnsigned, &result, 0),
+                  __FILE__, __LINE__, __PRETTY_FUNCTION__);
             return result;
         }
 

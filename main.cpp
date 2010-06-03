@@ -33,7 +33,6 @@
 #include "baseosm.h"
 #include "xml/parserplanet.h"
 #include <tclap/CmdLine.h>
-// #include "tests.h"
 #include "libspatialite/headers/spatialite.h"
 
 using namespace std;
@@ -45,12 +44,13 @@ Parseur de fichiers OSM (planet, OsmChange)\
 \n\
 osm2sqlite Copyright (C) 2010 par Marc Sibert\
 \n\
-This program comes with ABSOLUTELY NO WARRANTY; for details type option '--copyright'. \
-This is free software, and you are welcome to redistribute it \
+This program comes with ABSOLUTELY NO WARRANTY; for details type option \
+'--copyright'. This is free software, and you are welcome to redistribute it \
 under certain conditions; type option '--copyright' for details.";
 
 static const string COPYRIGHT = "\
-Parser de fichiers OSM (planet, OsmChange), les données lues sont insérées dans une base Sqlite/Spatialite\n\
+Parseur de fichiers OSM (planet, OsmChange), les données lues sont insérées \
+dans une base Sqlite/Spatialite\n\
 \n\
 Copyright (C) 2010 par Marc Sibert\n\
 \n\
@@ -71,13 +71,15 @@ Attention ce programme fait appel ou inclue les librairies suivantes qui \n\
 peuvent utiliser des licences différentes :\n\
 \n\
   - eXpat sous licence \"MIT/X Consortium license\"\n\
-  - TCLAP sous licence \"MIT License\" <http://opensource.org/licenses/mit-license.php>\n\
+  - TCLAP sous licence \"MIT License\" \
+<http://opensource.org/licenses/mit-license.php>\n\
   - SQLite3 versé au domaine public <http://www.sqlite.org/copyright.html> \n\
-  - Spatialite sous licence MPL v1.1 <http://www.mozilla.org/MPL/MPL-1.1.html>\n\
-  - IConv sous licence GNU Lesser General Public Licence (LGPL) <http://www.gnu.org/copyleft/lesser.html>\n\
+  - Spatialite sous licence MPL v1.1 \
+<http://www.mozilla.org/MPL/MPL-1.1.html>\n\
+  - IConv sous licence GNU Lesser General Public Licence (LGPL) \
+<http://www.gnu.org/copyleft/lesser.html>\n\
   - GEOS sous licence GNU Lesser General Public Licence (LGPL)\n\
-  - Proj4 sous licence \"MIT license\"\
-";
+  - Proj4 sous licence \"MIT license\"";
 
 /**
  * Classe hérité de TCLAP::Visitor pour assurer l'affichage du message de

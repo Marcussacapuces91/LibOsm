@@ -32,32 +32,39 @@ BaseSQLite3::BaseSQLite3(const string& aNom,
     fpSqlite3(open(aNom, aFlags))
 {
 	assert(fpSqlite3);
-	check(sqlite3_extended_result_codes(fpSqlite3, 1), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+	check(sqlite3_extended_result_codes(fpSqlite3, 1),
+          __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
-BaseSQLite3::~BaseSQLite3()
+BaseSQLite3::~BaseSQLite3(void)
 {
-    const int err = sqlite3_close(fpSqlite3);
-    if (err != SQLITE_OK) {
-        cerr << err << endl;
-        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    cout << sqlite3_total_changes(fpSqlite3) << " modifications " << endl;
+/// \todo C'est quoi ce merdier ? On ne libère pas la ressource SQLite3 ?
+/*
+    if (sqlite3_close(fpSqlite3) != SQLITE_OK) {
+/// \see http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.3
+        cerr << sqlite3_errmsg(fpSqlite3) << " a " << __FILE__ << ":";
+        cerr << __LINE__ << " dans " << __PRETTY_FUNCTION__ << endl;
     }
+*/
 }
 
 sqlite3* BaseSQLite3::open(const string& aNom,
                            const int aFlags)
 {
-    assert(!aNom.empty());
+    if (aNom.empty()) throw Exception("Nom du de la base vide !",
+                                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
     sqlite3* pSqlite3 = 0;
     const int err = sqlite3_open_v2(aNom.c_str(), &pSqlite3, aFlags, NULL);
     if (err != SQLITE_OK) throw Exception(sqlite3_errmsg(pSqlite3),
-                                  __FILE__, __LINE__, __PRETTY_FUNCTION__);
+                                          __FILE__, __LINE__, __PRETTY_FUNCTION__);
     return pSqlite3;
 }
 
 void BaseSQLite3::exec(const string& aSql)
 {
-    assert(aSql.size());
+    if (aSql.empty()) throw Exception("Requete SQL vide !",
+                                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
 	const int err = sqlite3_exec(fpSqlite3, aSql.c_str(), 0, 0, 0);
     if (err != SQLITE_OK)
 		throw Exception(string(sqlite3_errmsg(fpSqlite3)) + " dans la requête " + aSql,
