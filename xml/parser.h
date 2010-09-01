@@ -22,6 +22,7 @@
  * \author Marc Sibert
  */
 
+
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -37,6 +38,9 @@
 
 using namespace std;
 
+/**
+ * Classe abstraite ancètre des différents parseurs.
+ */
 class Parser
 {
 	private:
@@ -74,20 +78,57 @@ class Parser
 		Parser(XML_Parser *const apXML_Parser,
 		       Parser *const apParent = 0);
 
+/**
+ * \brief Méthode virtuelle pure appelée lors du début d'un élément XML,
+ * un sous-élément de l'élément géré par cette classe.
+ * Cette méthode doit être implémenté afin d'assurer l'appel des autres classes
+ * parserXXX suivant l'élément XML détecté. Cette arborescence est liée à la
+ * structure XML des fichiers a analyser.
+ * \param aName Le nom de l'élément XML.
+ * \param aAtts La liste des attributs liés à cet élément.
+ */
 		virtual void startElement(const string& aName,
 		                          const vector< pair<string,string> >& aAtts) = 0;
 
+/**
+ * \brief Méthode virtuelle pure appelée lors de la détection de la fin de
+ * l'élément XML courant.
+ * L'implémentation de cette méthode doit s'assurer que le libellé de cet
+ * élément XML est  cohérant avec le libellé attentu.
+ * Une vérification avec un assert() doit être prévue.
+ */
         virtual void endElement(const string& aName) = 0;
 
 	public:
 
+/**
+ * \brief Méthode classe appelée par le parseur XML (eXpat).
+ * Cette méthode appelle startElement pour l'instance parserXXX courante.
+ * \param userData Un pointeur sur l'instance parserXXX courante.
+ * \param name Un pointeur sur le nom de l'élément XML.
+ * \param atts Un tableau de paires clé / valeur représentant chaque attribut.
+ * \pre userData != 0.
+ * \pre name != 0.
+ */
 		static void startElementHandler(void *userData,
 										const XML_Char *name,
 				                        const XML_Char **atts);
 
+/**
+ * \brief Méthode classe appelée par le parseur XML (eXpat).
+ * Cette méthode appelle endElement pour l'instance parserXXX suivante.
+ * \param userData Un pointeur sur l'instance parserXXX précédente (?).
+ * \param name Un pointeur sur le nom du sous-élément XML.
+ * \pre userData != 0.
+ * \pre name != 0.
+ */
         static void endElementHandler(void *userData,
                                       const XML_Char *name);
 
+/**
+ * \brief Destructeur virtuel de l'instance.
+ * Cette méthode rétablit l'instance père de la classe parserXXX courante.
+ */
         virtual ~Parser();
 };
 

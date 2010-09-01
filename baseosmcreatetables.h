@@ -111,7 +111,7 @@ class BaseOsmCreateTables : public BaseSQLite3
                     visible INTEGER(1) DEFAULT 1 NOT NULL,                     \
                     timestamp TEXT NOT NULL);                                  \
                                                                                \
-                CREATE TABLE way_nodes (                                       \
+                CREATE TABLE IF NOT EXISTS way_nodes (                         \
                     id_way INTEGER REFERENCES way,                             \
                     rang INTEGER(5),                                           \
                     id_node INTEGER REFERENCES node,                           \

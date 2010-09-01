@@ -36,14 +36,15 @@ class ParserBounds : public Parser
 {
 	protected:
 		virtual void startElement(const string& aName,
-															const vector< pair<string, string> >& aAtts);
-    virtual void endElement(const string& aName);
+                                  const vector< pair<string, string> >&);
+
+        virtual void endElement(const string& aName);
 
 	public:
 		ParserBounds(XML_Parser *const apXML_Parser,
-	           	   Parser *const aParent,
-						 	   const string& aName,
-						 	   const vector< pair<string, string> >& aAtts);
+                     Parser& aParent,
+					 const string& aName,
+					 const vector< pair<string, string> >&);
 
 		virtual ~ParserBounds() {};
 };

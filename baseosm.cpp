@@ -31,6 +31,7 @@
 #include "osm/way.h"
 #include "osm/relation.h"
 #include <cstdlib>
+#include "basesqlite3.h"
 
 
 using namespace std;
@@ -61,6 +62,7 @@ BaseOsm::BaseOsm(const string& aPath,
 	exec("PRAGMA synchronous = OFF");
 	exec("PRAGMA journal_mode = OFF");
 	exec("PRAGMA temp_store =  MEMORY");
+	exec("PRAGMA locking_mode = EXCLUSIVE");
 
 //	sqlite3_progress_handler(fpSqlite3, 1000, BaseOsm::progress, this);
 }
@@ -156,33 +158,63 @@ unsigned long BaseOsm::getIdTag(const string& aKey, const string& aValue)
 {
 //    assert(!aKey.empty());
 //    assert(!aValue.empty());
-    check(sqlite3_bind_text(fSelectTag, 1, aKey.c_str(), aKey.size(), SQLITE_STATIC),
-          __FILE__, __LINE__, __PRETTY_FUNCTION__);
-    check(sqlite3_bind_text(fSelectTag, 2, aValue.c_str(), aValue.size(), SQLITE_STATIC),
-          __FILE__, __LINE__, __PRETTY_FUNCTION__);
-    unsigned long idTag = 0;
+// cerr << aKey << "=" << aValue << "(" << fSelectTag << ")" << endl;
+    if (aKey.empty()) {
+        check(sqlite3_bind_null(fSelectTag, 1),
+              __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    } else {
+        check(sqlite3_bind_text(fSelectTag, 1, aKey.c_str(), aKey.size(), SQLITE_STATIC),
+              __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
+    if (aValue.empty()) {
+        check(sqlite3_bind_null(fSelectTag, 2),
+              __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    } else {
+        check(sqlite3_bind_text(fSelectTag, 2, aValue.c_str(), aValue.size(), SQLITE_STATIC),
+              __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
     const int err = sqlite3_step(fSelectTag);
     switch (err) {
-        case SQLITE_ROW :   // Connu
-            idTag = sqlite3_column_int64(fSelectTag, 0);
+        case SQLITE_ROW : {     // Connu
+            const unsigned long idTag = sqlite3_column_int64(fSelectTag, 0);
+            check(sqlite3_reset(fSelectTag),
+                  __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            return idTag;
             break;
+        }
         case SQLITE_DONE : {    // Inconnu
-            check(sqlite3_bind_text(fInsertTag, 1, aKey.c_str(), aKey.size(), SQLITE_STATIC),
+            check(sqlite3_reset(fSelectTag),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
-            check(sqlite3_bind_text(fInsertTag, 2, aValue.c_str(), aValue.size(), SQLITE_STATIC),
-                  __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            if (aKey.empty()) {
+                check(sqlite3_bind_null(fInsertTag, 1),
+                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            } else {
+                check(sqlite3_bind_text(fInsertTag, 1, aKey.c_str(), aKey.size(), SQLITE_STATIC),
+                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
+            if (aValue.empty()) {
+                check(sqlite3_bind_null(fInsertTag, 2),
+                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            } else {
+                check(sqlite3_bind_text(fInsertTag, 2, aValue.c_str(), aValue.size(), SQLITE_STATIC),
+                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
             const int err = sqlite3_step(fInsertTag);
-            if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-            idTag = sqlite3_last_insert_rowid(fpSqlite3);
+            if (err != SQLITE_DONE) {
+                sqlite3_reset(fInsertTag);
+                check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
+            const unsigned long idTag = sqlite3_last_insert_rowid(fpSqlite3);
             check(sqlite3_reset(fInsertTag),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            return idTag;
             break;
         }
         default :
+            sqlite3_reset(fSelectTag);
             check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            assert(0);  // arrivée ici impossible !?
     }
-    check(sqlite3_reset(fSelectTag), __FILE__, __LINE__, __PRETTY_FUNCTION__);
-    return idTag;
 }
 
 void BaseOsm::insertChangeset(const Changeset& aChangeset)
@@ -252,8 +284,8 @@ void BaseOsm::insertNode(const Node& aNode)
 
     const int err = sqlite3_step(fInsertNode);
     if (err != SQLITE_DONE) {
-       cerr << err << " " << sqlite3_errmsg(fpSqlite3) << endl;
-       check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+        sqlite3_reset(fInsertNode);
+        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     }
     check(sqlite3_reset(fInsertNode), __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
@@ -269,7 +301,10 @@ void BaseOsm::insertNodeTags(const Top& aTop,
                                      getIdTag(it->first, it->second)),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
             const int err = sqlite3_step(fInsertNodeTags);
-            if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            if (err != SQLITE_DONE) {
+                sqlite3_reset(fInsertNodeTags);
+                check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
             check(sqlite3_reset(fInsertNodeTags),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
         }
@@ -279,7 +314,7 @@ void BaseOsm::insertNodeTags(const Top& aTop,
 void BaseOsm::add(const Node& aNode)
 {
     insertNode(aNode);
-    insertNodeTags(aNode, aNode.tags());
+    insertNodeTags(aNode);
     ++fNbNodes;
 }
 
@@ -287,7 +322,10 @@ void BaseOsm::insertWay(const Way& aWay)
 {
     bindElement(fInsertWay, aWay);
     const int err = sqlite3_step(fInsertWay);
-    if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    if (err != SQLITE_DONE) {
+        sqlite3_reset(fInsertWay);
+        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
     check(sqlite3_reset(fInsertWay), __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
@@ -302,7 +340,10 @@ void BaseOsm::insertWayTags(const Top& aTop,
                                      getIdTag(it->first, it->second)),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
             const int err = sqlite3_step(fInsertWayTags);
-            if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            if (err != SQLITE_DONE) {
+                sqlite3_reset(fInsertWayTags);
+                check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
             check(sqlite3_reset(fInsertWayTags),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
         }
@@ -322,7 +363,10 @@ void BaseOsm::insertWayNodes(const Top& aTop,
             check(sqlite3_bind_int(fInsertWayNodes, 3, ++rang),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
             const int err = sqlite3_step(fInsertWayNodes);
-            if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            if (err != SQLITE_DONE) {
+                sqlite3_reset(fInsertWayNodes);
+                check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
             check(sqlite3_reset(fInsertWayNodes),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
         }
@@ -332,8 +376,8 @@ void BaseOsm::insertWayNodes(const Top& aTop,
 void BaseOsm::add(const Way& aWay)
 {
     insertWay(aWay);
-    insertWayTags(aWay, aWay.tags());
-    insertWayNodes(aWay, aWay.nodes());
+    insertWayTags(aWay);
+    insertWayNodes(aWay);
     ++fNbWays;
 }
 
@@ -341,7 +385,10 @@ void BaseOsm::insertRelation(const Relation& aRelation)
 {
     bindElement(fInsertRelation, aRelation);
     const int err = sqlite3_step(fInsertRelation);
-    if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    if (err != SQLITE_DONE) {
+        sqlite3_reset(fInsertRelation);
+        check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
     check(sqlite3_reset(fInsertRelation),
           __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
@@ -357,7 +404,10 @@ void BaseOsm::insertRelationTags(const Top& aTop,
                                      getIdTag(it->first, it->second)),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
             const int err = sqlite3_step(fInsertRelationTags);
-            if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            if (err != SQLITE_DONE) {
+                sqlite3_reset(fInsertRelationTags);
+                check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            }
             check(sqlite3_reset(fInsertRelationTags),
                   __FILE__, __LINE__, __PRETTY_FUNCTION__);
         }
@@ -397,7 +447,128 @@ void BaseOsm::insertRelationMembers(const Top& aTop,
 void BaseOsm::add(const Relation& aRelation)
 {
     insertRelation(aRelation);
-    insertRelationTags(aRelation, aRelation.tags());
-    insertRelationMembers(aRelation, aRelation.getMembers());
+    insertRelationTags(aRelation);
+    insertRelationMembers(aRelation);
     ++fNbRelations;
+}
+
+void BaseOsm::modify(const Node& aNode)
+{
+    static Commande n(fpSqlite3,
+                      "UPDATE node SET version=?2,changeset=?3,uid=?4,visible=?5,timestamp=?6,coord=?7 WHERE id=?1");
+    bindElement(n, aNode);
+    unsigned char *pBlob = 0;
+    int blobSize = 0;
+ // X == longitude, Y == latitude
+    gaiaMakePoint(aNode.longitude(), aNode.latitude(), 4326, &pBlob, &blobSize);
+    assert(pBlob);
+    assert(blobSize);
+    check(sqlite3_bind_blob(n, 7, pBlob, blobSize, free),
+          __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    sqlite3_step(n);
+    sqlite3_reset(n);
+
+    static Commande nt(fpSqlite3, "DELETE FROM node_tags WHERE id_node=?");
+    sqlite3_bind_int64(nt, 1, aNode.id());
+    sqlite3_step(nt);
+    sqlite3_reset(nt);
+    insertNodeTags(aNode);
+//    cerr << aNode;
+}
+
+void BaseOsm::modify(const Way& aWay)
+{
+    static Commande w(fpSqlite3,
+                      "UPDATE way SET version=?2,changeset=?3,uid=?4,visible=?5,timestamp=?6 WHERE id=?1");
+    bindElement(w, aWay);
+    sqlite3_step(w);
+    sqlite3_reset(w);
+
+    static Commande wt(fpSqlite3, "DELETE FROM way_tags WHERE id_way=?");
+    sqlite3_bind_int64(wt, 1, aWay.id());
+    sqlite3_step(wt);
+    sqlite3_reset(wt);
+    insertWayTags(aWay);
+
+    static Commande wn(fpSqlite3, "DELETE FROM way_nodes WHERE id_way=?");
+    sqlite3_bind_int64(wn, 1, aWay.id());
+    sqlite3_step(wn);
+    sqlite3_reset(wn);
+    insertWayNodes(aWay, aWay.nodes());
+}
+
+void BaseOsm::modify(const Relation& aRelation)
+{
+    static Commande r(fpSqlite3,
+                      "UPDATE relation SET version=?2,changeset=?3,uid=?4,visible=?5,timestamp=?6 WHERE id=?1");
+    bindElement(r, aRelation);
+    sqlite3_step(r);
+    sqlite3_reset(r);
+
+    static Commande rt(fpSqlite3, "DELETE FROM relation_tags WHERE id_relation=?");
+    sqlite3_bind_int64(rt, 1, aRelation.id());
+    sqlite3_step(rt);
+    sqlite3_reset(rt);
+    insertRelationTags(aRelation);
+
+    static Commande rm(fpSqlite3, "DELETE FROM relation_members WHERE id_relation=?");
+    sqlite3_bind_int64(rm, 1, aRelation.id());
+    sqlite3_step(rm);
+    sqlite3_reset(rm);
+    insertRelationMembers(aRelation, aRelation.getMembers());
+}
+
+void BaseOsm::suppress(const Node& aNode)
+{
+    static Commande nt(fpSqlite3, "DELETE FROM node_tags WHERE id_node=?");
+    sqlite3_bind_int64(nt, 1, aNode.id());
+    sqlite3_step(nt);
+    sqlite3_reset(nt);
+
+    static Commande n(fpSqlite3, "DELETE FROM node WHERE id=? LIMIT 1");
+    sqlite3_bind_int64(n, 1, aNode.id());
+    sqlite3_step(n);
+    sqlite3_reset(n);
+
+    --fNbNodes;
+}
+
+void BaseOsm::suppress(const Way& aWay)
+{
+    static Commande wt(fpSqlite3, "DELETE FROM way_tags WHERE id_way=?");
+    sqlite3_bind_int64(wt, 1, aWay.id());
+    sqlite3_step(wt);
+    sqlite3_reset(wt);
+
+    static Commande wn(fpSqlite3, "DELETE FROM way_nodes WHERE id_way=?");
+    sqlite3_bind_int64(wn, 1, aWay.id());
+    sqlite3_step(wn);
+    sqlite3_reset(wn);
+
+    static Commande w(fpSqlite3, "DELETE FROM way WHERE id=? LIMIT 1");
+    sqlite3_bind_int64(w, 1, aWay.id());
+    sqlite3_step(w);
+    sqlite3_reset(w);
+
+    --fNbWays;
+}
+
+void BaseOsm::suppress(const Relation& aRelation)
+{
+    static Commande rm(fpSqlite3, "DELETE FROM relation_members WHERE id_relation=?");
+    sqlite3_bind_int64(rm, 1, aRelation.id());
+    sqlite3_step(rm);
+    sqlite3_reset(rm);
+
+    static Commande rt(fpSqlite3, "DELETE FROM relation_tags WHERE id_relation=?");
+    sqlite3_bind_int64(rt, 1, aRelation.id());
+    sqlite3_step(rt);
+    sqlite3_reset(rt);
+
+    static Commande r(fpSqlite3, "DELETE FROM relation WHERE id=? LIMIT 1");
+    sqlite3_bind_int64(r, 1, aRelation.id());
+    sqlite3_step(r);
+    sqlite3_reset(r);
+
+    --fNbRelations;
 }

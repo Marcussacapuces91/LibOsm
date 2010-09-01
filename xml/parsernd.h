@@ -40,7 +40,7 @@ class ParserNd : public Parser
 
 	public:
 		ParserNd(XML_Parser *const apXML_Parser,
-		         Parser *const apParent,
+		         Parser& aParent,
 				 const string& aName,
 				 const vector< pair<string, string> >& aAtts);
 

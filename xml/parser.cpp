@@ -53,6 +53,7 @@ void Parser::startElementHandler(void *userData,
 {
 	Parser *const p = static_cast<Parser*>(userData);
 	assert(p);
+	assert(name);
 	vector< pair<string,string> > attributs;
 	while (*atts) {
 		const string k = *(atts++);
@@ -68,6 +69,7 @@ void Parser::endElementHandler(void *userData,
 {
 	Parser *const p = static_cast<Parser*>(userData);
 	assert(p);
+	assert(name);
 	p->endElement(name);
 	delete p;
 }

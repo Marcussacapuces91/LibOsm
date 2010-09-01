@@ -97,7 +97,7 @@ class Top
 {
     public:
 /// Définition du type de la liste de Tags.
-/// @see fTags
+/// \see fTags
         typedef map<string, string> ListeTags;
 
     protected:
@@ -113,7 +113,14 @@ class Top
 /// Liste des Tags affectés à cet Element.
         ListeTags fTags;
 
-
+/**
+ * \brief Méthode de classe.
+ * Elle échape les caractères des chaînes de texte pouvant interférer avec le
+ * flux XML ('"', '&', 0x27, '<' et '>').
+ * \param aXml Une référence sur une chaîne de caractères.
+ * \return Une nouvelle chaîne de caractères avec des séquences d'échapement à
+ *         la place des caractères interdits.
+ */
         static string xmlEntities(const string& aXml);
 
 /**
@@ -162,26 +169,34 @@ class Top
 
 /**
  * Retourne La liste des Tags.
- * @return Une référence sur la liste des Tags.
+ * \return Une référence sur la liste des Tags.
  */
     	const ListeTags& tags() const { return fTags; }
 
 /**
  * Retourne l'Id de l'Element.
- * @return Un entier non-signé, nul si l'Element n'est pas référencé dans la
- * base OSM.
+ * \return Un entier non-signé, nul si l'Element n'est pas référencé dans la
+ *         base OSM.
  */
 	   const unsigned long& id() const { return fId; }
 
+/**
+ * Retourne le nom de l'auteur de l'Element.
+ * \return Une chaîne de caractères représentant le nom de l'auteur de l'Element.
+ */
 	   const string& user() const { return fUser; }
 
+/**
+ * Retourne l'identifiant l'auteur de l'Element.
+ * \return Un entier non-signé représentant l'auteur de l'Element.
+ */
 	   const unsigned long& uid() const { return fUid; }
 
 /**
  * Injecte une description de l'Element au format XML de l'API Osm dans un flux
  * de sortie.
- * @param aStream Un flux de sortie.
- * @return Le flux de sortie après injection de la description de l'Element.
+ * \param aStream Un flux de sortie.
+ * \return Le flux de sortie après injection de la description de l'Element.
  */
 	   virtual ostream& afficher(ostream& aStream) const;
 

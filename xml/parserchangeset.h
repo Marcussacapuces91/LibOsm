@@ -46,26 +46,26 @@ using namespace std;
 class ParserChangeset : public Parser, public IsTaggableInterface
 {
   private:
-    BaseInterface& fBase;
+//    BaseInterface& fBase;
     Changeset fChangeset;
 
 	protected:
 		virtual void startElement(const string& aName,
-															const vector< pair<string, string> >& aAtts);
+                                  const vector< pair<string, string> >& aAtts);
 
-    virtual void endElement(const string& aName);
+        virtual void endElement(const string& aName);
 
 	public:
 		ParserChangeset(XML_Parser *const apXML_Parser,
-                    BaseInterface& aBase,
-				            Parser *const apParent,
-									  const string& aName,
-									  const vector< pair<string, string> >& aAtts);
+//                        BaseInterface& aBase,
+			            Parser& aParent,
+						const string& aName,
+						const vector< pair<string, string> >& aAtts);
 
 		virtual ~ParserChangeset() {};
 
-    virtual void addTag(const string& aKey,
-                        const string& aValue);
+        virtual void addTag(const string& aKey,
+                            const string& aValue);
 };
 
 #endif

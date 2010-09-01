@@ -47,10 +47,6 @@ using namespace std;
 class ParserMember : public Parser
 {
 	private:
-/// Référence sur une base de données acceptant les insertions des différents
-/// Elements.
-        BaseInterface& fBase;
-
 /// La Member renseigné par le parser.
 		Member fMember;
 
@@ -82,8 +78,7 @@ class ParserMember : public Parser
  * @pre aName est à "relation".
  */
 		ParserMember(XML_Parser *const apXML_Parser,
-                     BaseInterface& aBase,
-                     Parser *const apParent,
+                     Parser& aParent,
 		             const string& aName,
 				     const vector< pair<string, string> >& aAtts);
 

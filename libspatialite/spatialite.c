@@ -229,7 +229,7 @@ int sqlite3_libversion_number(void);
 ** SQLite can be compiled with or without mutexes.  When
 ** the [SQLITE_THREADSAFE] C preprocessor macro 1 or 2, mutexes
 ** are enabled and SQLite is threadsafe.  When the
-** [SQLITE_THREADSAFE] macro is 0, 
+** [SQLITE_THREADSAFE] macro is 0,
 ** the mutexes are omitted.  Without the mutexes, it is not safe
 ** to use SQLite concurrently from more than one thread.
 **
@@ -593,7 +593,7 @@ struct sqlite3_file {
 ** This object defines the methods used to perform various operations
 ** against the open file represented by the [sqlite3_file] object.
 **
-** If the xOpen method sets the sqlite3_file.pMethods element 
+** If the xOpen method sets the sqlite3_file.pMethods element
 ** to a non-NULL pointer, then the sqlite3_io_methods.xClose method
 ** may be invoked even if the xOpen reported that it failed.  The
 ** only way to prevent a call to xClose following a failed xOpen
@@ -763,14 +763,14 @@ typedef struct sqlite3_mutex sqlite3_mutex;
 ** the [sqlite3_file] can safely store a pointer to the
 ** filename if it needs to remember the filename for some reason.
 ** If the zFilename parameter is xOpen is a NULL pointer then xOpen
-** must invent its own temporary name for the file.  Whenever the 
+** must invent its own temporary name for the file.  Whenever the
 ** xFilename parameter is NULL it will also be the case that the
 ** flags parameter will include [SQLITE_OPEN_DELETEONCLOSE].
 **
 ** The flags argument to xOpen() includes all bits set in
 ** the flags argument to [sqlite3_open_v2()].  Or if [sqlite3_open()]
 ** or [sqlite3_open16()] is used, then flags includes at least
-** [SQLITE_OPEN_READWRITE] | [SQLITE_OPEN_CREATE]. 
+** [SQLITE_OPEN_READWRITE] | [SQLITE_OPEN_CREATE].
 ** If xOpen() opens a file read-only then it sets *pOutFlags to
 ** include [SQLITE_OPEN_READONLY].  Other bits in *pOutFlags may be set.
 **
@@ -810,10 +810,10 @@ typedef struct sqlite3_mutex sqlite3_mutex;
 ** The [SQLITE_OPEN_EXCLUSIVE] flag is always used in conjunction
 ** with the [SQLITE_OPEN_CREATE] flag, which are both directly
 ** analogous to the O_EXCL and O_CREAT flags of the POSIX open()
-** API.  The SQLITE_OPEN_EXCLUSIVE flag, when paired with the 
+** API.  The SQLITE_OPEN_EXCLUSIVE flag, when paired with the
 ** SQLITE_OPEN_CREATE, is used to indicate that file should always
 ** be created, and that it is an error if it already exists.
-** It is <i>not</i> used to indicate the file should be opened 
+** It is <i>not</i> used to indicate the file should be opened
 ** for exclusive access.
 **
 ** At least szOsFile bytes of memory are allocated by SQLite
@@ -1007,7 +1007,7 @@ SQLITE_EXPERIMENTAL int sqlite3_config(int, ...);
 ** [database connection] (specified in the first argument).  The
 ** sqlite3_db_config() interface can only be used immediately after
 ** the database connection is created using [sqlite3_open()],
-** [sqlite3_open16()], or [sqlite3_open_v2()].  
+** [sqlite3_open16()], or [sqlite3_open_v2()].
 **
 ** The second argument to sqlite3_db_config(D,V,...)  is the
 ** configuration verb - an integer code that indicates what
@@ -1132,9 +1132,9 @@ struct sqlite3_mem_methods {
 ** tracks memory usage, for example.</dd>
 **
 ** <dt>SQLITE_CONFIG_MEMSTATUS</dt>
-** <dd>This option takes single argument of type int, interpreted as a 
-** boolean, which enables or disables the collection of memory allocation 
-** statistics. When disabled, the following SQLite interfaces become 
+** <dd>This option takes single argument of type int, interpreted as a
+** boolean, which enables or disables the collection of memory allocation
+** statistics. When disabled, the following SQLite interfaces become
 ** non-operational:
 **   <ul>
 **   <li> [sqlite3_memory_used()]
@@ -1164,7 +1164,7 @@ struct sqlite3_mem_methods {
 **
 ** <dt>SQLITE_CONFIG_PAGECACHE</dt>
 ** <dd>This option specifies a static memory buffer that SQLite can use for
-** the database page cache with the default page cache implemenation.  
+** the database page cache with the default page cache implemenation.
 ** This configuration should not be used if an application-define page
 ** cache implementation is loaded using the SQLITE_CONFIG_PCACHE option.
 ** There are three arguments to this option: A pointer to 8-byte aligned
@@ -1179,7 +1179,7 @@ struct sqlite3_mem_methods {
 ** memory needs for the first N pages that it adds to cache.  If additional
 ** page cache memory is needed beyond what is provided by this option, then
 ** SQLite goes to [sqlite3_malloc()] for the additional storage space.
-** The implementation might use one or more of the N buffers to hold 
+** The implementation might use one or more of the N buffers to hold
 ** memory accounting information. The pointer in the first argument must
 ** be aligned to an 8-byte boundary or subsequent behavior of SQLite
 ** will be undefined.</dd>
@@ -1244,7 +1244,7 @@ struct sqlite3_mem_methods {
 #define SQLITE_CONFIG_MEMSTATUS     9  /* boolean */
 #define SQLITE_CONFIG_MUTEX        10  /* sqlite3_mutex_methods* */
 #define SQLITE_CONFIG_GETMUTEX     11  /* sqlite3_mutex_methods* */
-/* previously SQLITE_CONFIG_CHUNKALLOC 12 which is now unused. */ 
+/* previously SQLITE_CONFIG_CHUNKALLOC 12 which is now unused. */
 #define SQLITE_CONFIG_LOOKASIDE    13  /* int int */
 #define SQLITE_CONFIG_PCACHE       14  /* sqlite3_pcache_methods* */
 #define SQLITE_CONFIG_GETPCACHE    15  /* sqlite3_pcache_methods* */
@@ -1265,7 +1265,7 @@ struct sqlite3_mem_methods {
 **
 ** <dl>
 ** <dt>SQLITE_DBCONFIG_LOOKASIDE</dt>
-** <dd>This option takes three additional arguments that determine the 
+** <dd>This option takes three additional arguments that determine the
 ** [lookaside memory allocator] configuration for the [database connection].
 ** The first argument (the third parameter to [sqlite3_db_config()] is a
 ** pointer to an 8-byte aligned memory buffer to use for lookaside memory.
@@ -1358,7 +1358,7 @@ sqlite3_int64 sqlite3_last_insert_rowid(sqlite3*);
 ** mechanisms do not count as direct row changes.
 **
 ** A "trigger context" is a scope of execution that begins and
-** ends with the script of a [CREATE TRIGGER | trigger]. 
+** ends with the script of a [CREATE TRIGGER | trigger].
 ** Most SQL statements are
 ** evaluated outside of any trigger.  This is the "top level"
 ** trigger context.  If a trigger fires from the top level, a
@@ -1398,12 +1398,12 @@ int sqlite3_changes(sqlite3*);
 **
 ** This function returns the number of row changes caused by [INSERT],
 ** [UPDATE] or [DELETE] statements since the [database connection] was opened.
-** The count includes all changes from all 
+** The count includes all changes from all
 ** [CREATE TRIGGER | trigger] contexts.  However,
 ** the count does not include changes used to implement [REPLACE] constraints,
 ** do rollbacks or ABORT processing, or [DROP TABLE] processing.  The
 ** count does not include rows of views that fire an [INSTEAD OF trigger],
-** though if the INSTEAD OF trigger makes changes of its own, those changes 
+** though if the INSTEAD OF trigger makes changes of its own, those changes
 ** are counted.
 ** The changes are counted as soon as the statement that makes them is
 ** completed (when the statement handle is passed to [sqlite3_reset()] or
@@ -1446,7 +1446,7 @@ int sqlite3_total_changes(sqlite3*);
 **
 ** The sqlite3_interrupt(D) call is in effect until all currently running
 ** SQL statements on [database connection] D complete.  Any new SQL statements
-** that are started after the sqlite3_interrupt() call and before the 
+** that are started after the sqlite3_interrupt() call and before the
 ** running statements reaches zero are interrupted as if they had been
 ** running prior to the sqlite3_interrupt() call.  New SQL statements
 ** that are started after the running statement count reaches zero are
@@ -1484,7 +1484,7 @@ void sqlite3_interrupt(sqlite3*);
 ** These routines do not parse the SQL statements thus
 ** will not detect syntactically incorrect SQL.
 **
-** If SQLite has not been initialized using [sqlite3_initialize()] prior 
+** If SQLite has not been initialized using [sqlite3_initialize()] prior
 ** to invoking sqlite3_complete16() then sqlite3_initialize() is invoked
 ** automatically by sqlite3_complete16().  If that initialization fails,
 ** then the return value from sqlite3_complete16() will be non-zero
@@ -1561,7 +1561,7 @@ int sqlite3_complete16(const void *sql);
 ** The busy callback should not take any actions which modify the
 ** database connection that invoked the busy handler.  Any such actions
 ** result in undefined behavior.
-** 
+**
 ** Requirements:
 ** [H12311] [H12312] [H12314] [H12316] [H12318]
 **
@@ -1917,7 +1917,7 @@ void sqlite3_randomness(int N, void *P);
 ** requested is ok.  When the callback returns [SQLITE_DENY], the
 ** [sqlite3_prepare_v2()] or equivalent call that triggered the
 ** authorizer will fail with an error message explaining that
-** access is denied. 
+** access is denied.
 **
 ** The first parameter to the authorizer callback is a copy of the third
 ** parameter to the sqlite3_set_authorizer() interface. The second parameter
@@ -1964,7 +1964,7 @@ void sqlite3_randomness(int N, void *P);
 ** database connections for the meaning of "modify" in this paragraph.
 **
 ** When [sqlite3_prepare_v2()] is used to prepare a statement, the
-** statement might be reprepared during [sqlite3_step()] due to a 
+** statement might be reprepared during [sqlite3_step()] due to a
 ** schema change.  Hence, the application should ensure that the
 ** correct authorizer callback remains in place during the [sqlite3_step()].
 **
@@ -2130,7 +2130,7 @@ void sqlite3_progress_handler(sqlite3*, int, int(*)(void*), void*);
 ** The sqlite3_open_v2() interface works like sqlite3_open()
 ** except that it accepts two additional parameters for additional control
 ** over the new database connection.  The flags parameter can take one of
-** the following three values, optionally combined with the 
+** the following three values, optionally combined with the
 ** [SQLITE_OPEN_NOMUTEX] or [SQLITE_OPEN_FULLMUTEX] flags:
 **
 ** <dl>
@@ -2211,7 +2211,7 @@ int sqlite3_open_v2(
 ** associated with a [database connection]. If a prior API call failed
 ** but the most recent API call succeeded, the return value from
 ** sqlite3_errcode() is undefined.  The sqlite3_extended_errcode()
-** interface is the same except that it always returns the 
+** interface is the same except that it always returns the
 ** [extended result code] even when extended result codes are
 ** disabled.
 **
@@ -2281,9 +2281,9 @@ typedef struct sqlite3_stmt sqlite3_stmt;
 ** new limit for that construct.  The function returns the old limit.
 **
 ** If the new limit is a negative number, the limit is unchanged.
-** For the limit category of SQLITE_LIMIT_XYZ there is a 
+** For the limit category of SQLITE_LIMIT_XYZ there is a
 ** [limits | hard upper bound]
-** set by a compile-time C preprocessor macro named 
+** set by a compile-time C preprocessor macro named
 ** [limits | SQLITE_MAX_XYZ].
 ** (The "_LIMIT_" in the name is changed to "_MAX_".)
 ** Attempts to increase a limit above its hard upper bound are
@@ -2502,7 +2502,7 @@ const char *sqlite3_sql(sqlite3_stmt *pStmt);
 ** sqlite3_value object but no mutex is held for an unprotected
 ** sqlite3_value object.  If SQLite is compiled to be single-threaded
 ** (with [SQLITE_THREADSAFE=0] and with [sqlite3_threadsafe()] returning 0)
-** or if SQLite is run in one of reduced mutex modes 
+** or if SQLite is run in one of reduced mutex modes
 ** [SQLITE_CONFIG_SINGLETHREAD] or [SQLITE_CONFIG_MULTITHREAD]
 ** then there is no distinction between protected and unprotected
 ** sqlite3_value objects and they can be used interchangeably.  However,
@@ -3231,7 +3231,7 @@ int sqlite3_reset(sqlite3_stmt *pStmt);
 ** nArg parameter is a better match than a function implementation with
 ** a negative nArg.  A function where the preferred text encoding
 ** matches the database encoding is a better
-** match than a function where the encoding is different.  
+** match than a function where the encoding is different.
 ** A function where the encoding difference is between UTF16le and UTF16be
 ** is a closer match than a function where the encoding difference is
 ** between UTF8 and UTF16.
@@ -3239,7 +3239,7 @@ int sqlite3_reset(sqlite3_stmt *pStmt);
 ** Built-in functions may be overloaded by new application-defined functions.
 ** The first application-defined function with a given name overrides all
 ** built-in functions in the same [database connection] with the same name.
-** Subsequent application-defined functions of the same name only override 
+** Subsequent application-defined functions of the same name only override
 ** prior application-defined functions that are an exact match for the
 ** number of parameters and preferred encoding.
 **
@@ -3291,7 +3291,7 @@ int sqlite3_create_function16(
 ** DEPRECATED
 **
 ** These functions are [deprecated].  In order to maintain
-** backwards compatibility with older code, these functions continue 
+** backwards compatibility with older code, these functions continue
 ** to be supported.  However, new applications should avoid
 ** the use of these functions.  To help encourage people to avoid
 ** using these functions, we are not going to tell you what they do.
@@ -3670,24 +3670,24 @@ void sqlite3_result_zeroblob(sqlite3_context*, int n);
 ** [H16624] [H16627] [H16630]
 */
 int sqlite3_create_collation(
-  sqlite3*, 
-  const char *zName, 
-  int eTextRep, 
+  sqlite3*,
+  const char *zName,
+  int eTextRep,
   void*,
   int(*xCompare)(void*,int,const void*,int,const void*)
 );
 int sqlite3_create_collation_v2(
-  sqlite3*, 
-  const char *zName, 
-  int eTextRep, 
+  sqlite3*,
+  const char *zName,
+  int eTextRep,
   void*,
   int(*xCompare)(void*,int,const void*,int,const void*),
   void(*xDestroy)(void*)
 );
 int sqlite3_create_collation16(
-  sqlite3*, 
+  sqlite3*,
   const void *zName,
-  int eTextRep, 
+  int eTextRep,
   void*,
   int(*xCompare)(void*,int,const void*,int,const void*)
 );
@@ -3722,12 +3722,12 @@ int sqlite3_create_collation16(
 ** [H16702] [H16704] [H16706]
 */
 int sqlite3_collation_needed(
-  sqlite3*, 
-  void*, 
+  sqlite3*,
+  void*,
   void(*)(void*,sqlite3*,int eTextRep,const char*)
 );
 int sqlite3_collation_needed16(
-  sqlite3*, 
+  sqlite3*,
   void*,
   void(*)(void*,sqlite3*,int eTextRep,const void*)
 );
@@ -3796,7 +3796,7 @@ int sqlite3_sleep(int);
 ** The [temp_store_directory pragma] may modify this variable and cause
 ** it to point to memory obtained from [sqlite3_malloc].  Furthermore,
 ** the [temp_store_directory pragma] always assumes that any string
-** that this variable points to is held in memory obtained from 
+** that this variable points to is held in memory obtained from
 ** [sqlite3_malloc] and the pragma may attempt to free that memory
 ** using [sqlite3_free].
 ** Hence, if this variable is modified directly, either it should be
@@ -3960,7 +3960,7 @@ void *sqlite3_rollback_hook(sqlite3*, void(*)(void *), void*);
 ** [H12971] [H12973] [H12975] [H12977] [H12979] [H12981] [H12983] [H12986]
 */
 void *sqlite3_update_hook(
-  sqlite3*, 
+  sqlite3*,
   void(*)(void *,int ,char const *,char const *,sqlite3_int64),
   void*
 );
@@ -4239,8 +4239,8 @@ typedef struct sqlite3_module sqlite3_module;
 ** KEYWORDS: sqlite3_module {virtual table module}
 ** EXPERIMENTAL
 **
-** This structure, sometimes called a a "virtual table module", 
-** defines the implementation of a [virtual tables].  
+** This structure, sometimes called a a "virtual table module",
+** defines the implementation of a [virtual tables].
 ** This structure consists mostly of methods for the module.
 **
 ** A virtual table module is created by filling in a persistent
@@ -4374,7 +4374,7 @@ struct sqlite3_index_info {
 ** preexisting [virtual table] for the module.
 **
 ** The module name is registered on the [database connection] specified
-** by the first parameter.  The name of the module is given by the 
+** by the first parameter.  The name of the module is given by the
 ** second parameter.  The third parameter is a pointer to
 ** the implementation of the [virtual table module].   The fourth
 ** parameter is an arbitrary client data pointer that is passed through
@@ -4396,10 +4396,10 @@ SQLITE_EXPERIMENTAL int sqlite3_create_module(
 ** EXPERIMENTAL
 **
 ** This routine is identical to the [sqlite3_create_module()] method,
-** except that it has an extra parameter to specify 
+** except that it has an extra parameter to specify
 ** a destructor function for the client data pointer.  SQLite will
 ** invoke the destructor function (if it is not NULL) when SQLite
-** no longer needs the pClientData pointer.  
+** no longer needs the pClientData pointer.
 */
 SQLITE_EXPERIMENTAL int sqlite3_create_module_v2(
   sqlite3 *db,               /* SQLite connection to register module with */
@@ -4474,7 +4474,7 @@ SQLITE_EXPERIMENTAL int sqlite3_declare_vtab(sqlite3*, const char *zSQL);
 ** EXPERIMENTAL
 **
 ** Virtual tables can provide alternative implementations of functions
-** using the [xFindFunction] method of the [virtual table module].  
+** using the [xFindFunction] method of the [virtual table module].
 ** But global versions of those functions
 ** must exist in order to be overloaded.
 **
@@ -4610,7 +4610,7 @@ int sqlite3_blob_close(sqlite3_blob *);
 /*
 ** CAPI3REF: Return The Size Of An Open BLOB {H17840} <S30230>
 **
-** Returns the size in bytes of the BLOB accessible via the 
+** Returns the size in bytes of the BLOB accessible via the
 ** successfully opened [BLOB handle] in its only argument.  The
 ** incremental blob I/O routines can only read or overwriting existing
 ** blob content; they cannot change the size of a blob.
@@ -4971,7 +4971,7 @@ int sqlite3_mutex_notheld(sqlite3_mutex*);
 /*
 ** CAPI3REF: Retrieve the mutex for a database connection {H17002} <H17000>
 **
-** This interface returns a pointer the [sqlite3_mutex] object that 
+** This interface returns a pointer the [sqlite3_mutex] object that
 ** serializes access to the [database connection] given in the argument
 ** when the [threading mode] is Serialized.
 ** If the [threading mode] is Single-thread or Multi-thread then this
@@ -5100,12 +5100,12 @@ SQLITE_EXPERIMENTAL int sqlite3_status(int op, int *pCurrent, int *pHighwater, i
 ** <dd>This parameter records the largest memory allocation request
 ** handed to [sqlite3_malloc()] or [sqlite3_realloc()] (or their
 ** internal equivalents).  Only the value returned in the
-** *pHighwater parameter to [sqlite3_status()] is of interest.  
+** *pHighwater parameter to [sqlite3_status()] is of interest.
 ** The value written into the *pCurrent parameter is undefined.</dd>
 **
 ** <dt>SQLITE_STATUS_PAGECACHE_USED</dt>
 ** <dd>This parameter returns the number of pages used out of the
-** [pagecache memory allocator] that was configured using 
+** [pagecache memory allocator] that was configured using
 ** [SQLITE_CONFIG_PAGECACHE].  The
 ** value returned is in pages, not in bytes.</dd>
 **
@@ -5121,7 +5121,7 @@ SQLITE_EXPERIMENTAL int sqlite3_status(int op, int *pCurrent, int *pHighwater, i
 ** <dt>SQLITE_STATUS_PAGECACHE_SIZE</dt>
 ** <dd>This parameter records the largest memory allocation request
 ** handed to [pagecache memory allocator].  Only the value returned in the
-** *pHighwater parameter to [sqlite3_status()] is of interest.  
+** *pHighwater parameter to [sqlite3_status()] is of interest.
 ** The value written into the *pCurrent parameter is undefined.</dd>
 **
 ** <dt>SQLITE_STATUS_SCRATCH_USED</dt>
@@ -5145,7 +5145,7 @@ SQLITE_EXPERIMENTAL int sqlite3_status(int op, int *pCurrent, int *pHighwater, i
 ** <dt>SQLITE_STATUS_SCRATCH_SIZE</dt>
 ** <dd>This parameter records the largest memory allocation request
 ** handed to [scratch memory allocator].  Only the value returned in the
-** *pHighwater parameter to [sqlite3_status()] is of interest.  
+** *pHighwater parameter to [sqlite3_status()] is of interest.
 ** The value written into the *pCurrent parameter is undefined.</dd>
 **
 ** <dt>SQLITE_STATUS_PARSER_STACK</dt>
@@ -5169,7 +5169,7 @@ SQLITE_EXPERIMENTAL int sqlite3_status(int op, int *pCurrent, int *pHighwater, i
 ** CAPI3REF: Database Connection Status {H17500} <S60200>
 ** EXPERIMENTAL
 **
-** This interface is used to retrieve runtime status information 
+** This interface is used to retrieve runtime status information
 ** about a single [database connection].  The first argument is the
 ** database connection object to be interrogated.  The second argument
 ** is the parameter to interrogate.  Currently, the only allowed value
@@ -5211,13 +5211,13 @@ SQLITE_EXPERIMENTAL int sqlite3_db_status(sqlite3*, int op, int *pCur, int *pHiw
 ** statements.  For example, if the number of table steps greatly exceeds
 ** the number of table searches or result rows, that would tend to indicate
 ** that the prepared statement is using a full table scan rather than
-** an index.  
+** an index.
 **
 ** This interface is used to retrieve and reset counter values from
 ** a [prepared statement].  The first argument is the prepared statement
 ** object to be interrogated.  The second argument
 ** is an integer code for a specific [SQLITE_STMTSTATUS_SORT | counter]
-** to be interrogated. 
+** to be interrogated.
 ** The current value of the requested counter is returned.
 ** If the resetFlg is true, then the counter is reset to zero after this
 ** interface call returns.
@@ -5238,7 +5238,7 @@ SQLITE_EXPERIMENTAL int sqlite3_stmt_status(sqlite3_stmt*, int op,int resetFlg);
 ** <dt>SQLITE_STMTSTATUS_FULLSCAN_STEP</dt>
 ** <dd>This is the number of times that SQLite has stepped forward in
 ** a table as part of a full table scan.  Large numbers for this counter
-** may indicate opportunities for performance improvement through 
+** may indicate opportunities for performance improvement through
 ** careful use of indices.</dd>
 **
 ** <dt>SQLITE_STMTSTATUS_SORT</dt>
@@ -5270,14 +5270,14 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 ** EXPERIMENTAL
 **
 ** The [sqlite3_config]([SQLITE_CONFIG_PCACHE], ...) interface can
-** register an alternative page cache implementation by passing in an 
-** instance of the sqlite3_pcache_methods structure. The majority of the 
-** heap memory used by sqlite is used by the page cache to cache data read 
-** from, or ready to be written to, the database file. By implementing a 
-** custom page cache using this API, an application can control more 
-** precisely the amount of memory consumed by sqlite, the way in which 
-** said memory is allocated and released, and the policies used to 
-** determine exactly which parts of a database file are cached and for 
+** register an alternative page cache implementation by passing in an
+** instance of the sqlite3_pcache_methods structure. The majority of the
+** heap memory used by sqlite is used by the page cache to cache data read
+** from, or ready to be written to, the database file. By implementing a
+** custom page cache using this API, an application can control more
+** precisely the amount of memory consumed by sqlite, the way in which
+** said memory is allocated and released, and the policies used to
+** determine exactly which parts of a database file are cached and for
 ** how long.
 **
 ** The contents of the structure are copied to an internal buffer by sqlite
@@ -5286,8 +5286,8 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 ** The xInit() method is called once for each call to [sqlite3_initialize()]
 ** (usually only once during the lifetime of the process). It is passed
 ** a copy of the sqlite3_pcache_methods.pArg value. It can be used to set
-** up global structures and mutexes required by the custom page cache 
-** implementation. The xShutdown() method is called from within 
+** up global structures and mutexes required by the custom page cache
+** implementation. The xShutdown() method is called from within
 ** [sqlite3_shutdown()], if the application invokes this API. It can be used
 ** to clean up any outstanding resources before process shutdown, if required.
 **
@@ -5298,7 +5298,7 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 ** be used to cache database pages read from a file stored on disk, or
 ** false if it is used for an in-memory database. The cache implementation
 ** does not have to do anything special based on the value of bPurgeable,
-** it is purely advisory. 
+** it is purely advisory.
 **
 ** The xCachesize() method may be called at any time by SQLite to set the
 ** suggested maximum cache-size (number of pages stored by) the cache
@@ -5309,11 +5309,11 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 **
 ** The xPagecount() method should return the number of pages currently
 ** stored in the cache supplied as an argument.
-** 
-** The xFetch() method is used to fetch a page and return a pointer to it. 
+**
+** The xFetch() method is used to fetch a page and return a pointer to it.
 ** A 'page', in this context, is a buffer of szPage bytes aligned at an
 ** 8-byte boundary. The page to be fetched is determined by the key. The
-** mimimum key value is 1. After it has been retrieved using xFetch, the page 
+** mimimum key value is 1. After it has been retrieved using xFetch, the page
 ** is considered to be pinned.
 **
 ** If the requested page is already in the page cache, then a pointer to
@@ -5325,12 +5325,12 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 ** <table border=1 width=85% align=center>
 **   <tr><th>createFlag<th>Expected Behaviour
 **   <tr><td>0<td>NULL should be returned. No new cache entry is created.
-**   <tr><td>1<td>If createFlag is set to 1, this indicates that 
+**   <tr><td>1<td>If createFlag is set to 1, this indicates that
 **                SQLite is holding pinned pages that can be unpinned
 **                by writing their contents to the database file (a
 **                relatively expensive operation). In this situation the
 **                cache implementation has two choices: it can return NULL,
-**                in which case SQLite will attempt to unpin one or more 
+**                in which case SQLite will attempt to unpin one or more
 **                pages before re-requesting the same page, or it can
 **                allocate a new page and return a pointer to it. If a new
 **                page is allocated, then the first sizeof(void*) bytes of
@@ -5340,15 +5340,15 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 **                as the first argument to xFetch() that can be unpinned. The
 **                cache implementation should attempt to allocate a new
 **                cache entry and return a pointer to it. Again, the first
-**                sizeof(void*) bytes of the page should be zeroed before 
-**                it is returned. If the xFetch() method returns NULL when 
-**                createFlag==2, SQLite assumes that a memory allocation 
+**                sizeof(void*) bytes of the page should be zeroed before
+**                it is returned. If the xFetch() method returns NULL when
+**                createFlag==2, SQLite assumes that a memory allocation
 **                failed and returns SQLITE_NOMEM to the user.
 ** </table>
 **
 ** xUnpin() is called by SQLite with a pointer to a currently pinned page
 ** as its second argument. If the third parameter, discard, is non-zero,
-** then the page should be evicted from the cache. In this case SQLite 
+** then the page should be evicted from the cache. In this case SQLite
 ** assumes that the next time the page is retrieved from the cache using
 ** the xFetch() method, it will be zeroed. If the discard parameter is
 ** zero, then the page is considered to be unpinned. The cache implementation
@@ -5357,8 +5357,8 @@ typedef struct sqlite3_pcache sqlite3_pcache;
 ** it will either be zeroed, or contain the same data that it did when it
 ** was unpinned.
 **
-** The cache is not required to perform any reference counting. A single 
-** call to xUnpin() unpins the page regardless of the number of prior calls 
+** The cache is not required to perform any reference counting. A single
+** call to xUnpin() unpins the page regardless of the number of prior calls
 ** to xFetch().
 **
 ** The xRekey() method is used to change the key value associated with the
@@ -5413,25 +5413,25 @@ typedef struct sqlite3_backup sqlite3_backup;
 **
 ** This API is used to overwrite the contents of one database with that
 ** of another. It is useful either for creating backups of databases or
-** for copying in-memory databases to or from persistent files. 
+** for copying in-memory databases to or from persistent files.
 **
 ** See Also: [Using the SQLite Online Backup API]
 **
-** Exclusive access is required to the destination database for the 
+** Exclusive access is required to the destination database for the
 ** duration of the operation. However the source database is only
 ** read-locked while it is actually being read, it is not locked
 ** continuously for the entire operation. Thus, the backup may be
 ** performed on a live database without preventing other users from
 ** writing to the database for an extended period of time.
-** 
-** To perform a backup operation: 
+**
+** To perform a backup operation:
 **   <ol>
 **     <li><b>sqlite3_backup_init()</b> is called once to initialize the
-**         backup, 
-**     <li><b>sqlite3_backup_step()</b> is called one or more times to transfer 
+**         backup,
+**     <li><b>sqlite3_backup_step()</b> is called one or more times to transfer
 **         the data between the two databases, and finally
-**     <li><b>sqlite3_backup_finish()</b> is called to release all resources 
-**         associated with the backup operation. 
+**     <li><b>sqlite3_backup_finish()</b> is called to release all resources
+**         associated with the backup operation.
 **   </ol>
 ** There should be exactly one call to sqlite3_backup_finish() for each
 ** successful call to sqlite3_backup_init().
@@ -5439,34 +5439,34 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** <b>sqlite3_backup_init()</b>
 **
 ** The first two arguments passed to [sqlite3_backup_init()] are the database
-** handle associated with the destination database and the database name 
+** handle associated with the destination database and the database name
 ** used to attach the destination database to the handle. The database name
 ** is "main" for the main database, "temp" for the temporary database, or
 ** the name specified as part of the [ATTACH] statement if the destination is
-** an attached database. The third and fourth arguments passed to 
+** an attached database. The third and fourth arguments passed to
 ** sqlite3_backup_init() identify the [database connection]
 ** and database name used
-** to access the source database. The values passed for the source and 
+** to access the source database. The values passed for the source and
 ** destination [database connection] parameters must not be the same.
 **
 ** If an error occurs within sqlite3_backup_init(), then NULL is returned
-** and an error code and error message written into the [database connection] 
+** and an error code and error message written into the [database connection]
 ** passed as the first argument. They may be retrieved using the
 ** [sqlite3_errcode()], [sqlite3_errmsg()], and [sqlite3_errmsg16()] functions.
 ** Otherwise, if successful, a pointer to an [sqlite3_backup] object is
 ** returned. This pointer may be used with the sqlite3_backup_step() and
-** sqlite3_backup_finish() functions to perform the specified backup 
+** sqlite3_backup_finish() functions to perform the specified backup
 ** operation.
 **
 ** <b>sqlite3_backup_step()</b>
 **
-** Function [sqlite3_backup_step()] is used to copy up to nPage pages between 
-** the source and destination databases, where nPage is the value of the 
+** Function [sqlite3_backup_step()] is used to copy up to nPage pages between
+** the source and destination databases, where nPage is the value of the
 ** second parameter passed to sqlite3_backup_step(). If nPage is a negative
-** value, all remaining source pages are copied. If the required pages are 
-** succesfully copied, but there are still more pages to copy before the 
-** backup is complete, it returns [SQLITE_OK]. If no error occured and there 
-** are no more pages to copy, then [SQLITE_DONE] is returned. If an error 
+** value, all remaining source pages are copied. If the required pages are
+** succesfully copied, but there are still more pages to copy before the
+** backup is complete, it returns [SQLITE_OK]. If no error occured and there
+** are no more pages to copy, then [SQLITE_DONE] is returned. If an error
 ** occurs, then an SQLite error code is returned. As well as [SQLITE_OK] and
 ** [SQLITE_DONE], a call to sqlite3_backup_step() may return [SQLITE_READONLY],
 ** [SQLITE_NOMEM], [SQLITE_BUSY], [SQLITE_LOCKED], or an
@@ -5479,8 +5479,8 @@ typedef struct sqlite3_backup sqlite3_backup;
 **
 ** If sqlite3_backup_step() cannot obtain a required file-system lock, then
 ** the [sqlite3_busy_handler | busy-handler function]
-** is invoked (if one is specified). If the 
-** busy-handler returns non-zero before the lock is available, then 
+** is invoked (if one is specified). If the
+** busy-handler returns non-zero before the lock is available, then
 ** [SQLITE_BUSY] is returned to the caller. In this case the call to
 ** sqlite3_backup_step() can be retried later. If the source
 ** [database connection]
@@ -5488,16 +5488,16 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** is called, then [SQLITE_LOCKED] is returned immediately. Again, in this
 ** case the call to sqlite3_backup_step() can be retried later on. If
 ** [SQLITE_IOERR_ACCESS | SQLITE_IOERR_XXX], [SQLITE_NOMEM], or
-** [SQLITE_READONLY] is returned, then 
-** there is no point in retrying the call to sqlite3_backup_step(). These 
-** errors are considered fatal. At this point the application must accept 
-** that the backup operation has failed and pass the backup operation handle 
+** [SQLITE_READONLY] is returned, then
+** there is no point in retrying the call to sqlite3_backup_step(). These
+** errors are considered fatal. At this point the application must accept
+** that the backup operation has failed and pass the backup operation handle
 ** to the sqlite3_backup_finish() to release associated resources.
 **
 ** Following the first call to sqlite3_backup_step(), an exclusive lock is
-** obtained on the destination file. It is not released until either 
-** sqlite3_backup_finish() is called or the backup operation is complete 
-** and sqlite3_backup_step() returns [SQLITE_DONE]. Additionally, each time 
+** obtained on the destination file. It is not released until either
+** sqlite3_backup_finish() is called or the backup operation is complete
+** and sqlite3_backup_step() returns [SQLITE_DONE]. Additionally, each time
 ** a call to sqlite3_backup_step() is made a [shared lock] is obtained on
 ** the source database file. This lock is released before the
 ** sqlite3_backup_step() call returns. Because the source database is not
@@ -5505,14 +5505,14 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** through the backup procedure. If the source database is modified by an
 ** external process or via a database connection other than the one being
 ** used by the backup operation, then the backup will be transparently
-** restarted by the next call to sqlite3_backup_step(). If the source 
+** restarted by the next call to sqlite3_backup_step(). If the source
 ** database is modified by the using the same database connection as is used
-** by the backup operation, then the backup database is transparently 
+** by the backup operation, then the backup database is transparently
 ** updated at the same time.
 **
 ** <b>sqlite3_backup_finish()</b>
 **
-** Once sqlite3_backup_step() has returned [SQLITE_DONE], or when the 
+** Once sqlite3_backup_step() has returned [SQLITE_DONE], or when the
 ** application wishes to abandon the backup operation, the [sqlite3_backup]
 ** object should be passed to sqlite3_backup_finish(). This releases all
 ** resources associated with the backup operation. If sqlite3_backup_step()
@@ -5556,7 +5556,7 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** from within other threads.
 **
 ** However, the application must guarantee that the destination database
-** connection handle is not passed to any other API (by any thread) after 
+** connection handle is not passed to any other API (by any thread) after
 ** sqlite3_backup_init() is called and before the corresponding call to
 ** sqlite3_backup_finish(). Unfortunately SQLite does not currently check
 ** for this, if the application does use the destination [database connection]
@@ -5568,11 +5568,11 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** Furthermore, if running in [shared cache mode], the application must
 ** guarantee that the shared cache used by the destination database
 ** is not accessed while the backup is running. In practice this means
-** that the application must guarantee that the file-system file being 
+** that the application must guarantee that the file-system file being
 ** backed up to is not accessed by any connection within the process,
 ** not just the specific connection that was passed to sqlite3_backup_init().
 **
-** The [sqlite3_backup] object itself is partially threadsafe. Multiple 
+** The [sqlite3_backup] object itself is partially threadsafe. Multiple
 ** threads may safely make multiple concurrent calls to sqlite3_backup_step().
 ** However, the sqlite3_backup_remaining() and sqlite3_backup_pagecount()
 ** APIs are not strictly speaking threadsafe. If they are invoked at the
@@ -5597,8 +5597,8 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 ** When running in shared-cache mode, a database operation may fail with
 ** an [SQLITE_LOCKED] error if the required locks on the shared-cache or
 ** individual tables within the shared-cache cannot be obtained. See
-** [SQLite Shared-Cache Mode] for a description of shared-cache locking. 
-** This API may be used to register a callback that SQLite will invoke 
+** [SQLite Shared-Cache Mode] for a description of shared-cache locking.
+** This API may be used to register a callback that SQLite will invoke
 ** when the connection currently holding the required lock relinquishes it.
 ** This API is only available if the library was compiled with the
 ** [SQLITE_ENABLE_UNLOCK_NOTIFY] C-preprocessor symbol defined.
@@ -5606,14 +5606,14 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 ** See Also: [Using the SQLite Unlock Notification Feature].
 **
 ** Shared-cache locks are released when a database connection concludes
-** its current transaction, either by committing it or rolling it back. 
+** its current transaction, either by committing it or rolling it back.
 **
 ** When a connection (known as the blocked connection) fails to obtain a
 ** shared-cache lock and SQLITE_LOCKED is returned to the caller, the
 ** identity of the database connection (the blocking connection) that
-** has locked the required resource is stored internally. After an 
+** has locked the required resource is stored internally. After an
 ** application receives an SQLITE_LOCKED error, it may call the
-** sqlite3_unlock_notify() method with the blocked connection handle as 
+** sqlite3_unlock_notify() method with the blocked connection handle as
 ** the first argument to register for a callback that will be invoked
 ** when the blocking connections current transaction is concluded. The
 ** callback is invoked from within the [sqlite3_step] or [sqlite3_close]
@@ -5627,15 +5627,15 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 **
 ** If the blocked connection is attempting to obtain a write-lock on a
 ** shared-cache table, and more than one other connection currently holds
-** a read-lock on the same table, then SQLite arbitrarily selects one of 
+** a read-lock on the same table, then SQLite arbitrarily selects one of
 ** the other connections to use as the blocking connection.
 **
-** There may be at most one unlock-notify callback registered by a 
+** There may be at most one unlock-notify callback registered by a
 ** blocked connection. If sqlite3_unlock_notify() is called when the
 ** blocked connection already has a registered unlock-notify callback,
 ** then the new callback replaces the old. If sqlite3_unlock_notify() is
 ** called with a NULL pointer as its second argument, then any existing
-** unlock-notify callback is cancelled. The blocked connections 
+** unlock-notify callback is cancelled. The blocked connections
 ** unlock-notify callback may also be canceled by closing the blocked
 ** connection using [sqlite3_close()].
 **
@@ -5648,7 +5648,7 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 **
 ** <b>Callback Invocation Details</b>
 **
-** When an unlock-notify callback is registered, the application provides a 
+** When an unlock-notify callback is registered, the application provides a
 ** single void* pointer that is passed to the callback when it is invoked.
 ** However, the signature of the callback function allows SQLite to pass
 ** it an array of void* context pointers. The first argument passed to
@@ -5661,12 +5661,12 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 ** same callback function, then instead of invoking the callback function
 ** multiple times, it is invoked once with the set of void* context pointers
 ** specified by the blocked connections bundled together into an array.
-** This gives the application an opportunity to prioritize any actions 
+** This gives the application an opportunity to prioritize any actions
 ** related to the set of unblocked database connections.
 **
 ** <b>Deadlock Detection</b>
 **
-** Assuming that after registering for an unlock-notify callback a 
+** Assuming that after registering for an unlock-notify callback a
 ** database waits for the callback to be issued before taking any further
 ** action (a reasonable assumption), then using this API may cause the
 ** application to deadlock. For example, if connection X is waiting for
@@ -5689,7 +5689,7 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 **
 ** <b>The "DROP TABLE" Exception</b>
 **
-** When a call to [sqlite3_step()] returns SQLITE_LOCKED, it is almost 
+** When a call to [sqlite3_step()] returns SQLITE_LOCKED, it is almost
 ** always appropriate to call sqlite3_unlock_notify(). There is however,
 ** one exception. When executing a "DROP TABLE" or "DROP INDEX" statement,
 ** SQLite checks if there are any currently executing SELECT statements
@@ -5702,7 +5702,7 @@ int sqlite3_backup_pagecount(sqlite3_backup *p);
 ** One way around this problem is to check the extended error code returned
 ** by an sqlite3_step() call. If there is a blocking connection, then the
 ** extended error code is set to SQLITE_LOCKED_SHAREDCACHE. Otherwise, in
-** the special "DROP TABLE/INDEX" case, the extended error code is just 
+** the special "DROP TABLE/INDEX" case, the extended error code is just
 ** SQLITE_LOCKED.
 */
 int sqlite3_unlock_notify(
@@ -10484,7 +10484,7 @@ gaiaIsPointOnRingSurface (gaiaRingPtr ring, double pt_x, double pt_y)
       {
 /* The definitive reference is "Point in Polyon Strategies" by
 /  Eric Haines [Gems IV]  pp. 24-46.
-/  The code in the Sedgewick book Algorithms (2nd Edition, p.354) is 
+/  The code in the Sedgewick book Algorithms (2nd Edition, p.354) is
 /  incorrect.
 */
 	  if ((((vert_y[i] <= pt_y) && (pt_y < vert_y[j]))
@@ -10576,7 +10576,7 @@ gaiaIntersect (double *x0, double *y0, double x1, double y1, double x2,
 	       double y2, double x3, double y3, double x4, double y4)
 {
 /* computes intersection [if any] between two line segments
-/  the intersection POINT has coordinates (x0, y0) 
+/  the intersection POINT has coordinates (x0, y0)
 /  first line is identified by(x1, y1)  and (x2, y2)
 /  second line is identified by (x3, y3) and (x4, y4)
 */
@@ -12414,7 +12414,7 @@ gaiaIsClosed (gaiaLinestringPtr line)
 GAIAGEO_DECLARE int
 gaiaMbrsEqual (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if two MBRs are identicals
 /
 / returns 1 if TRUE
@@ -12434,7 +12434,7 @@ gaiaMbrsEqual (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsDisjoint (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if two MBRs are disjoined
 /
 / returns 1 if TRUE
@@ -12462,7 +12462,7 @@ gaiaMbrsDisjoint (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsTouches (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if two MBRs touches
 /
 / returns 1 if TRUE
@@ -12482,7 +12482,7 @@ gaiaMbrsTouches (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsIntersects (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if two MBRs intersects
 /
 / returns 1 if TRUE
@@ -12496,7 +12496,7 @@ gaiaMbrsIntersects (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsOverlaps (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if two MBRs overlaps
 /
 / returns 1 if TRUE
@@ -12518,7 +12518,7 @@ gaiaMbrsOverlaps (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsContains (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if MBR-1 completely contains MBR-2
 /
 / returns 1 if TRUE
@@ -12544,7 +12544,7 @@ gaiaMbrsContains (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 GAIAGEO_DECLARE int
 gaiaMbrsWithin (gaiaGeomCollPtr mbr1, gaiaGeomCollPtr mbr2)
 {
-/* 
+/*
 / checks if MBR-2 completely contains MBR-1
 /
 / returns 1 if TRUE
@@ -15626,8 +15626,8 @@ gaiaFlushShpHeaders (gaiaShapefilePtr shp)
 GAIAGEO_DECLARE void
 gaiaShpAnalyze (gaiaShapefilePtr shp)
 {
-/* analyzing the SHP content, in order to detect if there are LINESTRINGS or MULTILINESTRINGS 
-/ the same check is needed in order to detect if there are POLYGONS or MULTIPOLYGONS 
+/* analyzing the SHP content, in order to detect if there are LINESTRINGS or MULTILINESTRINGS
+/ the same check is needed in order to detect if there are POLYGONS or MULTIPOLYGONS
  */
     unsigned char buf[512];
     int rd;
@@ -18080,8 +18080,8 @@ typedef gaiaToken *gaiaTokenPtr;
 
 typedef struct gaiaListTokenStruct
 {
-/* 
- / a block of consecutive WKT tokens that identify a LINESTRING or RING, 
+/*
+ / a block of consecutive WKT tokens that identify a LINESTRING or RING,
  / in the form: (1 2, 3 4, 5 6, 7 8)
  */
     gaiaTokenPtr first;		/* reference to first element in linked list - has always to be a '(' */
@@ -18107,7 +18107,7 @@ typedef gaiaMultiListToken *gaiaMultiListTokenPtr;
 typedef struct gaiaMultiMultiListTokenStruct
 {
 /*
- / a group of the above token multi-lists, that identify a MULTIPOLYGON 
+ / a group of the above token multi-lists, that identify a MULTIPOLYGON
  / in the form: (((...),(...),(...)),((...),(...)),((...)))
  */
     gaiaMultiListTokenPtr first;	/* reference to first element in linked list - has always to be a '(' */
@@ -18117,14 +18117,14 @@ typedef gaiaMultiMultiListToken *gaiaMultiMultiListTokenPtr;
 
 typedef struct gaiaVarListTokenStruct
 {
-/* 
+/*
  / a multitype variable reference that may be associated to:
  / - a POINT element
  / - a LINESTRING element
  / - a POLYGON element
 */
     int type;			/* may be GAIA_POINT, GAIA_LINESTRING or GAIA_POLYGON */
-    void *pointer;		/* 
+    void *pointer;		/*
 				   / to be casted as *sple_multi_list_token_ptr* if type is GAIA_LINESTRING/ or as *gaiaMultiMultiListTokenPtr* if type is GAIA_POLYGON
 				 */
     double x;			/* X,Y are valids only if type is GAIA_POINT */
@@ -18136,7 +18136,7 @@ typedef gaiaVarListToken *gaiaVarListTokenPtr;
 typedef struct gaiaGeomCollListTokenStruct
 {
 /*
-/ a group of lists and multi-lists that identifies a GEOMETRYCOLLECTION 
+/ a group of lists and multi-lists that identifies a GEOMETRYCOLLECTION
 / in the form: (ELEM(...),ELEM(...),ELEM(....))
 */
     gaiaVarListTokenPtr first;	/* reference to first element in linked list - has always to be a '(' */
@@ -19154,7 +19154,7 @@ gaiaGeometryFromGeomColl (gaiaGeomCollListTokenPtr geocoll)
     return geom;
 }
 
-static
+static int
 checkValidity (gaiaGeomCollPtr geom)
 {
 /* checks if this one is a degenerated geometry */
@@ -19557,7 +19557,7 @@ gaiaOutPolygon (gaiaPolygonPtr polyg, char **buffer, int *size)
 GAIAGEO_DECLARE void
 gaiaOutWkt (gaiaGeomCollPtr geom, char **result)
 {
-/* 
+/*
 / prints the WKT representation of current geometry
 / *result* returns the decoded WKT or NULL if any error is encountered
 */
@@ -20465,7 +20465,7 @@ fnct_AutoFDOStart (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /
 / for FDO-OGR interoperability:
 / tests the SpatialMetadata type, then automatically
-/ creating a VirtualFDO table for each FDO-OGR main table 
+/ creating a VirtualFDO table for each FDO-OGR main table
 / declared within FDO-styled SpatialMetadata
 /
 */
@@ -20541,7 +20541,7 @@ fnct_AutoFDOStop (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /
 / for FDO-OGR interoperability:
 / tests the SpatialMetadata type, then automatically
-/ removes any VirtualFDO table 
+/ removes any VirtualFDO table
 /
 */
     int ret;
@@ -22036,7 +22036,7 @@ fnct_RecoverFDOGeometryColumn (sqlite3_context * context, int argc,
 / RecoverFDOGeometryColumn(table, column, srid, geometry_type , dimension, geometry_format )
 /
 / checks if an existing TABLE.COLUMN satisfies the required geometric features
-/ if yes adds it to FDO-styled SpatialMetaData 
+/ if yes adds it to FDO-styled SpatialMetaData
 / returns 1 on success
 / 0 on failure
 */
@@ -22819,7 +22819,7 @@ fnct_MakePoint1 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MakePoint(double X, double Y)
 /
-/ builds a POINT 
+/ builds a POINT
 / or NULL if any error is encountered
 */
     int len;
@@ -22865,7 +22865,7 @@ fnct_MakePoint2 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MakePoint(double X, double Y, int SRID)
 /
-/ builds a POINT 
+/ builds a POINT
 / or NULL if any error is encountered
 */
     int len;
@@ -22920,7 +22920,7 @@ geom_from_text1 (sqlite3_context * context, int argc, sqlite3_value ** argv,
 /* SQL function:
 / GeomFromText(WKT encoded geometry)
 /
-/ returns the current geometry by parsing WKT encoded string 
+/ returns the current geometry by parsing WKT encoded string
 / or NULL if any error is encountered
 /
 / if *type* is a negative value can accept any GEOMETRY CLASS
@@ -22955,7 +22955,7 @@ geom_from_text2 (sqlite3_context * context, int argc, sqlite3_value ** argv,
 /* SQL function:
 / GeomFromText(WKT encoded geometry, SRID)
 /
-/ returns the current geometry by parsing WKT encoded string 
+/ returns the current geometry by parsing WKT encoded string
 / or NULL if any error is encountered
 /
 / if *type* is a negative value can accept any GEOMETRY CLASS
@@ -23040,7 +23040,7 @@ geom_from_wkb1 (sqlite3_context * context, int argc, sqlite3_value ** argv,
 /* SQL function:
 / GeomFromWKB(WKB encoded geometry)
 /
-/ returns the current geometry by parsing a WKB encoded blob 
+/ returns the current geometry by parsing a WKB encoded blob
 / or NULL if any error is encountered
 /
 / if *type* is a negative value can accept any GEOMETRY CLASS
@@ -23124,7 +23124,7 @@ fnct_GeometryFromFGF1 (sqlite3_context * context, int argc,
 /* SQL function:
 / GeomFromFGF(FGF encoded geometry)
 /
-/ returns the current geometry by parsing an FGF encoded blob 
+/ returns the current geometry by parsing an FGF encoded blob
 / or NULL if any error is encountered
 /
 / if *type* is a negative value can accept any GEOMETRY CLASS
@@ -23161,7 +23161,7 @@ fnct_GeometryFromFGF2 (sqlite3_context * context, int argc,
 /* SQL function:
 / GeomFromFGF(FGF encoded geometry, SRID)
 /
-/ returns the current geometry by parsing an FGF encoded string 
+/ returns the current geometry by parsing an FGF encoded string
 / or NULL if any error is encountered
 /
 / if *type* is a negative value can accept any GEOMETRY CLASS
@@ -23451,7 +23451,7 @@ fnct_GeometryType (sqlite3_context * context, int argc, sqlite3_value ** argv)
 / 'POINT' or 'MULTIPOINT'
 / 'LINESTRING' or 'MULTILINESTRING'
 / 'POLYGON' or 'MULTIPOLYGON'
-/ 'GEOMETRYCOLLECTION' 
+/ 'GEOMETRYCOLLECTION'
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -23527,7 +23527,7 @@ fnct_GeometryAliasType (sqlite3_context * context, int argc,
 / 'MULTIPOINT'
 / 'MULTILINESTRING'
 / 'MULTIPOLYGON'
-/ 'GEOMETRYCOLLECTION' 
+/ 'GEOMETRYCOLLECTION'
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -23697,7 +23697,7 @@ fnct_Envelope (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Envelope(BLOB encoded geometry)
 /
-/ returns the MBR for current geometry 
+/ returns the MBR for current geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -23752,7 +23752,7 @@ build_filter_mbr (sqlite3_context * context, int argc, sqlite3_value ** argv,
 / FilterMBRContain(double X1, double Y1, double X2, double Y2)
 / FilterMBRIntersects(double X1, double Y1, double X2, double Y2)
 /
-/ builds a generic filter for MBR from two points (identifying a rectangle's diagonal) 
+/ builds a generic filter for MBR from two points (identifying a rectangle's diagonal)
 / or NULL if any error is encountered
 */
     int len;
@@ -23856,7 +23856,7 @@ fnct_BuildMbr1 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / BuildMBR(double X1, double Y1, double X2, double Y2)
 /
-/ builds an MBR from two points (identifying a rectangle's diagonal) 
+/ builds an MBR from two points (identifying a rectangle's diagonal)
 / or NULL if any error is encountered
 */
     int len;
@@ -23928,7 +23928,7 @@ fnct_BuildMbr2 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / BuildMBR(double X1, double Y1, double X2, double Y2, int SRID)
 /
-/ builds an MBR from two points (identifying a rectangle's diagonal) 
+/ builds an MBR from two points (identifying a rectangle's diagonal)
 / or NULL if any error is encountered
 */
     int len;
@@ -24009,7 +24009,7 @@ fnct_BuildCircleMbr1 (sqlite3_context * context, int argc,
 /* SQL function:
 / BuildCircleMBR(double X, double Y, double radius)
 /
-/ builds an MBR from two points (identifying a rectangle's diagonal) 
+/ builds an MBR from two points (identifying a rectangle's diagonal)
 / or NULL if any error is encountered
 */
     int len;
@@ -24069,7 +24069,7 @@ fnct_BuildCircleMbr2 (sqlite3_context * context, int argc,
 /* SQL function:
 / BuildCircleMBR(double X, double Y, double radius, int SRID)
 /
-/ builds an MBR from two points (identifying a rectangle's diagonal) 
+/ builds an MBR from two points (identifying a rectangle's diagonal)
 / or NULL if any error is encountered
 */
     int len;
@@ -24136,7 +24136,7 @@ fnct_MbrMinX (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MbrMinX(BLOB encoded GEMETRY)
 /
-/ returns the MinX coordinate for current geometry's MBR 
+/ returns the MinX coordinate for current geometry's MBR
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24162,7 +24162,7 @@ fnct_MbrMaxX (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MbrMaxX(BLOB encoded GEMETRY)
 /
-/ returns the MaxX coordinate for current geometry's MBR 
+/ returns the MaxX coordinate for current geometry's MBR
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24188,7 +24188,7 @@ fnct_MbrMinY (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MbrMinY(BLOB encoded GEMETRY)
 /
-/ returns the MinY coordinate for current geometry's MBR 
+/ returns the MinY coordinate for current geometry's MBR
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24214,7 +24214,7 @@ fnct_MbrMaxY (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / MbrMaxY(BLOB encoded GEMETRY)
 /
-/ returns the MaxY coordinate for current geometry's MBR 
+/ returns the MaxY coordinate for current geometry's MBR
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24240,7 +24240,7 @@ fnct_BuildRings (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / BuildRings(BLOBencoded geometry)
 /
-/ returns a new geometry [set of closed RINGs] obtained by 
+/ returns a new geometry [set of closed RINGs] obtained by
 / reassembling a set of  LINESTRINGs
 / or NULL if any error is encountered
 */
@@ -24288,7 +24288,7 @@ fnct_X (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / X(BLOB encoded POINT)
 /
-/ returns the X coordinate for current POINT geometry 
+/ returns the X coordinate for current POINT geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24323,7 +24323,7 @@ fnct_Y (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Y(BLOB encoded POINT)
 /
-/ returns the Y coordinate for current POINT geometry 
+/ returns the Y coordinate for current POINT geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24358,7 +24358,7 @@ fnct_NumPoints (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / NumPoints(BLOB encoded LINESTRING)
 /
-/ returns the numer of vertices for current LINESTRING geometry 
+/ returns the numer of vertices for current LINESTRING geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24396,7 +24396,7 @@ point_n (sqlite3_context * context, int argc, sqlite3_value ** argv,
 / EndPoint(BLOB encoded LINESTRING geometry)
 / PointN(BLOB encoded LINESTRING geometry, integer point_no)
 /
-/ returns the Nth POINT for current LINESTRING geometry 
+/ returns the Nth POINT for current LINESTRING geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24496,7 +24496,7 @@ fnct_ExteriorRing (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL functions:
 / ExteriorRing(BLOB encoded POLYGON geometry)
 /
-/ returns the EXTERIOR RING for current POLYGON geometry 
+/ returns the EXTERIOR RING for current POLYGON geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24553,7 +24553,7 @@ fnct_NumInteriorRings (sqlite3_context * context, int argc,
 /* SQL function:
 / NumInteriorRings(BLOB encoded POLYGON)
 /
-/ returns the number of INTERIOR RINGS for current POLYGON geometry 
+/ returns the number of INTERIOR RINGS for current POLYGON geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24588,7 +24588,7 @@ fnct_InteriorRingN (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL functions:
 / InteriorRingN(BLOB encoded POLYGON geometry)
 /
-/ returns the Nth INTERIOR RING for current POLYGON geometry 
+/ returns the Nth INTERIOR RING for current POLYGON geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24656,7 +24656,7 @@ fnct_NumGeometries (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / NumGeometries(BLOB encoded GEOMETRYCOLLECTION)
 /
-/ returns the number of elementary geometries for current geometry 
+/ returns the number of elementary geometries for current geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -24711,7 +24711,7 @@ fnct_GeometryN (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / GeometryN(BLOB encoded GEOMETRYCOLLECTION geometry)
 /
-/ returns the Nth geometry for current GEOMETRYCOLLECTION or MULTIxxxx geometry 
+/ returns the Nth geometry for current GEOMETRYCOLLECTION or MULTIxxxx geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -25335,7 +25335,7 @@ fnct_Boundary (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Boundary(BLOB encoded geometry)
 /
-/ returns the combinatioral boundary for current geometry 
+/ returns the combinatioral boundary for current geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -25382,7 +25382,7 @@ fnct_IsClosed (sqlite3_context * context, int argc, sqlite3_value ** argv)
 / IsClosed(BLOB encoded LINESTRING or MULTILINESTRING geometry)
 /
 / returns:
-/ 1 if this LINESTRING is closed [or if this is a MULTILINESTRING and every LINESTRINGs are closed] 
+/ 1 if this LINESTRING is closed [or if this is a MULTILINESTRING and every LINESTRINGs are closed]
 / 0 otherwise
 / or -1 if any error is encountered
 */
@@ -25533,7 +25533,7 @@ fnct_Length (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Length(BLOB encoded GEOMETRYCOLLECTION)
 /
-/ returns  the total length for current geometry 
+/ returns  the total length for current geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -25568,7 +25568,7 @@ fnct_Area (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Area(BLOB encoded GEOMETRYCOLLECTION)
 /
-/ returns the total area for current geometry 
+/ returns the total area for current geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -25603,7 +25603,7 @@ fnct_Centroid (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Centroid(BLOBencoded POLYGON or MULTIPOLYGON geometry)
 /
-/ returns a POINT representing the centroid for current POLYGON / MULTIPOLYGON geometry 
+/ returns a POINT representing the centroid for current POLYGON / MULTIPOLYGON geometry
 / or NULL if any error is encountered
 */
     unsigned char *p_blob;
@@ -26568,7 +26568,7 @@ fnct_Relate (sqlite3_context * context, int argc, sqlite3_value ** argv)
 / Relate(BLOBencoded geom1, BLOBencoded geom2, string pattern)
 /
 / returns:
-/ 1 if GEOM-1 and GEOM-2 have a spatial relationship as specified by the patternMatrix 
+/ 1 if GEOM-1 and GEOM-2 have a spatial relationship as specified by the patternMatrix
 / 0 otherwise
 / or -1 if any error is encountered
 */
@@ -26693,7 +26693,7 @@ fnct_polygonize (sqlite3_context * context, gaiaGeomCollPtr geom_org,
 }
 
 /*
-/ the following functions performs initial argument checking, 
+/ the following functions performs initial argument checking,
 / and then readdressing the request to fnct_polygonize()
 / for actual processing
 */
@@ -26705,7 +26705,7 @@ fnct_BdPolyFromText1 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdPolyFromText(WKT encoded  LINESTRING)
 /
-/ returns the current geometry [POLYGON] by parsing a WKT encoded LINESTRING 
+/ returns the current geometry [POLYGON] by parsing a WKT encoded LINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -26758,7 +26758,7 @@ fnct_BdPolyFromText2 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdPolyFromText(WKT encoded LINESTRING, SRID)
 /
-/ returns the current geometry [POLYGON] by parsing a WKT encoded LINESTRING 
+/ returns the current geometry [POLYGON] by parsing a WKT encoded LINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -26816,7 +26816,7 @@ fnct_BdMPolyFromText1 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdMPolyFromText(WKT encoded  MULTILINESTRING)
 /
-/ returns the current geometry [MULTIPOLYGON] by parsing a WKT encoded MULTILINESTRING 
+/ returns the current geometry [MULTIPOLYGON] by parsing a WKT encoded MULTILINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -26869,7 +26869,7 @@ fnct_BdMPolyFromText2 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdMPolyFromText(WKT encoded MULTILINESTRING, SRID)
 /
-/ returns the current geometry [MULTIPOLYGON] by parsing a WKT encoded MULTILINESTRING 
+/ returns the current geometry [MULTIPOLYGON] by parsing a WKT encoded MULTILINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -26926,7 +26926,7 @@ fnct_BdPolyFromWKB1 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / BdPolyFromWKB(WKB encoded  LINESTRING)
 /
-/ returns the current geometry [POLYGON] by parsing a WKB encoded LINESTRING 
+/ returns the current geometry [POLYGON] by parsing a WKB encoded LINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -26982,7 +26982,7 @@ fnct_BdPolyFromWKB2 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / BdPolyFromWKB(WKB encoded  LINESTRING)
 /
-/ returns the current geometry [POLYGON] by parsing a WKB encoded LINESTRING 
+/ returns the current geometry [POLYGON] by parsing a WKB encoded LINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -27044,7 +27044,7 @@ fnct_BdMPolyFromWKB1 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdMPolyFromWKB(WKB encoded  MULTILINESTRING)
 /
-/ returns the current geometry [MULTIPOLYGON] by parsing a WKB encoded MULTILINESTRING 
+/ returns the current geometry [MULTIPOLYGON] by parsing a WKB encoded MULTILINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -27101,7 +27101,7 @@ fnct_BdMPolyFromWKB2 (sqlite3_context * context, int argc,
 /* SQL function:
 / BdMPolyFromWKB(WKB encoded  MULTILINESTRING)
 /
-/ returns the current geometry [MULTIPOLYGON] by parsing a WKB encoded MULTILINESTRING 
+/ returns the current geometry [MULTIPOLYGON] by parsing a WKB encoded MULTILINESTRING
 / or NULL if any error is encountered
 /
 */
@@ -27162,7 +27162,7 @@ fnct_Polygonize1 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Polygonize(BLOBencoded geometry)
 /
-/ returns a new geometry [POLYGON or MULTIPOLYGON] representing 
+/ returns a new geometry [POLYGON or MULTIPOLYGON] representing
 / the polygonization for current LINESTRING or MULTILINESTRING geometry
 / or NULL if any error is encountered
 */
@@ -27201,7 +27201,7 @@ fnct_Polygonize2 (sqlite3_context * context, int argc, sqlite3_value ** argv)
 /* SQL function:
 / Polygonize(BLOBencoded geometry, BOOL force_multipolygon)
 /
-/ returns a new geometry [POLYGON or MULTIPOLYGON] representing 
+/ returns a new geometry [POLYGON or MULTIPOLYGON] representing
 / the polygonization for current LINESTRING or MULTILINESTRING geometry
 / or NULL if any error is encountered
 */
@@ -29302,8 +29302,8 @@ so a single cache page con store up to 1024 cache cells
 
 struct mbr_cache_cell
 {
-/* 
-a  cached entity 
+/*
+a  cached entity
 */
 
 /* the entity's ROWID */
@@ -29321,14 +29321,14 @@ struct mbr_cache_block
 a block of 32 cached entities
 */
 
-/* 
+/*
 allocation bitmap: the meaning of each bit is:
 1 - corresponding cache cell is in use
 0 - corresponding cache cell is unused
 */
     unsigned int bitmap;
-/* 
-the MBR corresponding to this cache block 
+/*
+the MBR corresponding to this cache block
 i.e. the combined MBR for any contained cell
 */
     double minx;
@@ -29345,13 +29345,13 @@ struct mbr_cache_page
 a page containing 32 cached blocks
 */
 
-/* 
+/*
 allocation bitmap: the meaning of each bit is:
 1 - corresponding cache block is in full
 0 - corresponding cache block is not full
 */
     unsigned int bitmap;
-/* 
+/*
 the MBR corresponding to this cache page
 i.e. the combined MBR for any contained block
 */
@@ -29403,14 +29403,14 @@ typedef struct MbrCacheCursortStruct
 /* extends the sqlite3_vtab_cursor struct */
     MbrCachePtr pVtab;		/* Virtual table of this cursor */
     int eof;			/* the EOF marker */
-/* 
-positioning parameters while performing a cache search 
+/*
+positioning parameters while performing a cache search
 */
     struct mbr_cache_page *current_page;
     int current_block_index;
     int current_cell_index;
     struct mbr_cache_cell *current_cell;
-/* 
+/*
 the stategy to use:
     0 = sequential scan
     1 = find rowid
@@ -29688,9 +29688,9 @@ cache_insert_cell (struct mbr_cache *p, sqlite3_int64 rowid, double minx,
 static struct mbr_cache *
 cache_load (sqlite3 * handle, const char *table, const char *column)
 {
-/* 
+/*
 initial loading the MBR cache
-retrieving any existing entity from the main table 
+retrieving any existing entity from the main table
 */
     sqlite3_stmt *stmt;
     int ret;

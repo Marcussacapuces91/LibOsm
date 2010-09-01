@@ -1,7 +1,10 @@
 obj/
 bin/
+doc/
 libosm.*
 *.workspace
 *.dll
 gmon.out
 *.exe
+*.osc
+*.gitignore

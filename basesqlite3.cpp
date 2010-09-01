@@ -40,13 +40,13 @@ BaseSQLite3::~BaseSQLite3(void)
 {
     cout << sqlite3_total_changes(fpSqlite3) << " modifications " << endl;
 /// \todo C'est quoi ce merdier ? On ne libère pas la ressource SQLite3 ?
-/*
+#if 0
     if (sqlite3_close(fpSqlite3) != SQLITE_OK) {
 /// \see http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.3
         cerr << sqlite3_errmsg(fpSqlite3) << " a " << __FILE__ << ":";
         cerr << __LINE__ << " dans " << __PRETTY_FUNCTION__ << endl;
     }
-*/
+#endif
 }
 
 sqlite3* BaseSQLite3::open(const string& aNom,

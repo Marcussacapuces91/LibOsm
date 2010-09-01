@@ -37,24 +37,40 @@ using namespace std;
 
 // class ParserPlanet;
 
+/**
+ * Classe implémentant un parseur pour un flux OsmChange,
+ * \see http://wiki.openstreetmap.org/wiki/OsmChange.
+ * Ce flux peut contenir des éléments XML 'modify', 'create' et/ou 'delete'.
+ */
 class ParserOsmChange : public Parser
 {
     private:
+/// Une référence sur la base de données.
         BaseInterface& fBase;
 
 	protected:
+ /**
+  */
         virtual void startElement(const string& aName,
                                   const vector< pair<string, string> >& aAtts);
 
+/**
+ */
         virtual void endElement(const string& aName);
 
 	public:
+/**
+ * \brief Constructeur de l'instance.
+ */
 		ParserOsmChange(XML_Parser *const apXML_Parser,
                         BaseInterface& aBase,
                         Parser *const apParent,
                         const string& aName,
                         const vector< pair<string, string> >& aAtts);
 
+/**
+ * \brief Destructeur virtuel de l'instance.
+ */
 		virtual ~ParserOsmChange() {}
 
 };

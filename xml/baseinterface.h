@@ -70,6 +70,42 @@ class BaseInterface
  */
     virtual void add(const Relation& aRelation) = 0;
 
+/**
+ * Supprimer un Node dans la base.
+ * \param aNode Une référence sur une instance de Node à supprimer.
+ */
+    virtual void suppress(const Node& aNode) = 0;
+
+/**
+ * Supprimer un Way dans la base.
+ * \param aWay Une référence sur une instance de Way à supprimer.
+ */
+    virtual void suppress(const Way& aWay) = 0;
+
+/**
+ * Supprimer une Relation dans la base.
+ * \param aRelation Une référence sur une instance de Relation à supprimer.
+ */
+    virtual void suppress(const Relation& aRelation) = 0;
+
+/**
+ * Modifier un Node dans la base.
+ * \param aNode Une référence sur une instance de Node à modifier.
+ */
+    virtual void modify(const Node& aNode) = 0;
+
+/**
+ * Modifier un Way dans la base.
+ * \param aWay Une référence sur une instance de Way à modifier.
+ */
+    virtual void modify(const Way& aWay) = 0;
+
+/**
+ * Modifier une Relation dans la base.
+ * \param aRelation Une référence sur une instance de Relation à modifier.
+ */
+    virtual void modify(const Relation& aRelation) = 0;
+
     virtual unsigned nbChangesets() const  = 0;
 
 /**

@@ -37,75 +37,83 @@
 #include "istaggableinterface.h"
 #include "../osm/relation.h"
 #include "baseinterface.h"
+#include "parserconteneurelement.h"
 
 using namespace std;
 
+/**
+ * Déclaration simple.
+ */
+class ParserTag;
 
 /**
- * Classe implémentant un parser XML pour les Relations.
+ * Classe permettant de parser un fluw XML contenant la description d'une
+ * Relation, de ses Tags et de ses membres.
+ * Cette classe est instancié par une structure XML de niveau supérieure pendant
+ * sa propre analyse.
  */
 class ParserRelation : public Parser, public IsTaggableInterface
 {
 	private:
-/// Référence sur une base de données acceptant les insertions des différents
-/// Elements.
-        BaseInterface& fBase;
-
-/// La Relation renseignée par le parser.
+/// Instance de la Relation dont les attributs seront définis pendant l'analyse.
 		Relation fRelation;
 
 	protected:
 /**
- * Méthode virtuelle appelée en début d'élément XML inclus dans une Relation.
- * @param aName Le nom de l'élément XML.
- * @param aAtts Un tableau d'attributs XML liés à cet élément.
+ * Appelée par le parseur XML, pour chaque sous-élément XML de Relation,
+ * cette méthode lance l'appel au parser correspondant.
+ * \param aName Une référence sur le libellé du tag XML.
+ * \param aAtts Liste d'attributs de l'élément.
  */
 		virtual void startElement(const string& aName,
 				                  const vector< pair<string, string> >& aAtts);
 
 /**
- * Méthode virtuelle appelée en fin d'élément XML Relation.
- * @param aName Le nom de l'élément XML Relation.
- * @pre Le nom transmis doit être "relation".
+ * Appelée lors de la cloture de l'élément XML courant (relation), cette méthode
+ * transmet fRelation au parser de niveau supérieur.
+ * \param aName Une référence sur le libellé de l'élément XML courant.
+ * \pre aName == 'relation'.
  */
         virtual void endElement(const string& aName);
 
 	public:
 /**
  * Constructeur de l'instance.
- * @param apXML_Parser Un pointeur sur un parseur XML Expat.
- * @param aBase Une référence sur une base de données recevant les données parsées.
- * @param apParent Pointeur sur l'instance ayant appelé ce constructeur.
- * @param aName Nom de l'élément XML ayant déclenché l'appel de ce constructeur.
- * @param aAtts Tableau d'attributs XML liés à l'élément aName.
- * @pre apXML_Parser est non-nul.
- * @pre aName est à "relation".
+ * \param apXML_Parser Un pointeur sur le parseur XML.
+ * \param aParent Une référence sur l'instance de niveau supérieure.
+ * \param aName Une référence sur le libellé de l'élément XML courant.
+ * \param aAtts Liste des attributs de l'élément courant.
+ * \pre aName == 'relation'.
  */
 		ParserRelation(XML_Parser *const apXML_Parser,
-                       BaseInterface& aBase,
-                       Parser *const apParent,
+                       ParserConteneurElement& aParent,
 		               const string& aName,
 				       const vector< pair<string, string> >& aAtts);
 
 /**
- * Destructeur virtuel de l'instance.
- * Sans action.
+ * Destructeur virtuel de l'instance, sans action.
  */
 		virtual ~ParserRelation() {};
 
 /**
- * Ajoute un Tag à la Relation.
- * @param aKey Nom du Tag.
- * @param aValue Valeur du Tag.
+ * \brief Ajoute un Tag à l'instance de Relation (fRelation).
+ *
+ * Méthode héritée de l'interface IsTaggableInterface.
+ * \param aKey Une référence sur la clé de l'attribut.
+ * \param aValue Une référence sur la valeur de l'attribut.
  */
 		virtual void addTag(const string& aKey,
-		                    const string& aValue) { fRelation.setTag(aKey, aValue); }
+		                    const string& aValue) {
+            fRelation.setTag(aKey, aValue);
+        }
 
 /**
- * Ajoute un Member à la relation.
- * @param aMember Une référence sur un Member.
+ * Ajoute un Member à l'instance de Relation (fRelation).
+ * \param aMember Une référence sur un Member.
  */
-        void addMember(const Member& aMember) { fRelation.addMember(aMember); }
+        void addMember(const Member& aMember) {
+            fRelation.addMember(aMember);
+        }
 
 };
 

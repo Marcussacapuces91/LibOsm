@@ -137,6 +137,18 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
  */
         void insertUser(const Top& aTop);
 
+/**
+ * Assure la définition des 6 premiers champs d'une Commande pré-compilée à
+ * partir des champs d'un Element :
+ * - id,
+ * - version,
+ * - changeset,
+ * - uid,
+ * - visible,
+ * - timestamp.
+ * \param aCommande Une référence sur une Commande pré-compilée.
+ * \param aElement Une référence sur l'Element dont les attributs seront liés
+ */
         void bindElement(Commande& aCommande,
                          const Element& aElement);
 
@@ -164,6 +176,14 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
 /**
  * Ajoute les enregistrements nécessaires dans la table NodeTags.
  * \param aTop Une référence sur un Node.
+ */
+        void insertNodeTags(const Top& aTop) {
+            insertNodeTags(aTop, aTop.tags());
+        }
+
+/**
+ * Ajoute les enregistrements nécessaires dans la table NodeTags.
+ * \param aTop Une référence sur un Node.
  * \param aTags Une référence sur une liste de Tag associés.
  */
         void insertNodeTags(const Top& aTop,
@@ -178,10 +198,26 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
 /**
  * Ajoute les enregistrements nécessaires dans la table WayTags.
  * \param aTop Une référence sur un Way.
+ */
+        void insertWayTags(const Top& aTop) {
+            insertWayTags(aTop, aTop.tags());
+        }
+
+/**
+ * Ajoute les enregistrements nécessaires dans la table WayTags.
+ * \param aTop Une référence sur un Way.
  * \param aTags Une référence sur une liste de Tag associés.
  */
         void insertWayTags(const Top& aTop,
                            const Top::ListeTags& aTags);
+
+/**
+ * Ajoute les enregistrements nécessaires dans la table WayNodes.
+ * \param aTop Une référence sur un Way.
+ */
+        void insertWayNodes(const Way& aWay) {
+            insertWayNodes(aWay, aWay.nodes());
+        }
 
 /**
  * Ajoute les enregistrements nécessaires dans la table WayNodes.
@@ -200,10 +236,26 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
 /**
  * Ajoute les enregistrements nécessaires dans la table RelationTags.
  * \param aTop Une référence sur une Relation.
+ */
+        void insertRelationTags(const Top& aTop) {
+            insertRelationTags(aTop, aTop.tags());
+        };
+
+/**
+ * Ajoute les enregistrements nécessaires dans la table RelationTags.
+ * \param aTop Une référence sur une Relation.
  * \param aTags Une référence sur une liste de Tag associés.
  */
         void insertRelationTags(const Top& aTop,
                                 const Top::ListeTags& aTags);
+
+/**
+ * Ajoute les enregistrements nécessaires dans la table RelationMembers.
+ * \param aTop Une référence sur une Relation.
+ */
+        void insertRelationMembers(const Relation& aRelation) {
+            insertRelationMembers(aRelation, aRelation.getMembers());
+        }
 
 /**
  * Ajoute les enregistrements nécessaires dans la table RelationMembers.
@@ -264,6 +316,14 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
  * Créé les indexes généralement nécessaires.
  */
         void createIndexes();
+
+        void modify(const Node& aNode);
+        void modify(const Way& aWay);
+        void modify(const Relation& aRelation);
+
+        void suppress(const Node& aNode);
+        void suppress(const Way& aWay);
+        void suppress(const Relation& aRelation);
 
 /**
  * Retourne le nombre de Changeset dans la base (estimation).

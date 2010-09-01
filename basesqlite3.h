@@ -54,7 +54,8 @@ class Commande
         {
         	sqlite3_stmt* pRes = 0;
         	if (SQLITE_OK != sqlite3_prepare_v2(apSqlite3, aSql.c_str(), aSql.size(), &pRes, 0))
-                throw Exception(sqlite3_errmsg(apSqlite3), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+                throw Exception(sqlite3_errmsg(apSqlite3) + (" dans '" + aSql + "'"),
+                                __FILE__, __LINE__, __PRETTY_FUNCTION__);
         	if (!pRes) throw Exception(string("Prepared statment NULL pour la requete ") + aSql,
                                        __FILE__, __LINE__, __PRETTY_FUNCTION__);
         	return pRes;
@@ -121,9 +122,10 @@ class Commande
             assert(fpSqlite3);
             assert(fpSqlite3_stmt);
             if (sqlite3_finalize(fpSqlite3_stmt) != SQLITE_OK) {
+// C'est le résultat d'une erreur précédente.
 /// \see http://www.parashift.com/c++-faq-lite/exceptions.html#faq-17.3
-                cerr << sqlite3_errmsg(fpSqlite3) << " a " << __FILE__ << ":";
-                cerr << __LINE__ << " dans " << __PRETTY_FUNCTION__ << endl;
+//                cerr << sqlite3_errmsg(fpSqlite3) << " a " << __FILE__ << ":";
+//                cerr << __LINE__ << " dans " << __PRETTY_FUNCTION__ << endl;
             }
         }
 
@@ -211,6 +213,8 @@ class BaseSQLite3
                     throw Exception("Mauvaise utilisation",
                                     aFichier, aLigne, aFonction);
                 case SQLITE_OK :
+                case SQLITE_ROW :
+                case SQLITE_DONE :
                     break;
                 default :
                     const char *const p = sqlite3_errmsg(fpSqlite3);
