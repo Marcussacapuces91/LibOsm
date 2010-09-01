@@ -6,5 +6,4 @@ libosm.*
 *.dll
 gmon.out
 *.exe
-*.osc
 *.gitignore
