@@ -43,7 +43,7 @@ BaseOsm::BaseOsm(const string& aPath,
     fInsertUser(this->fpSqlite3, "INSERT OR IGNORE INTO user (id, name) VALUES (?,?)"),
 	fSelectTag(this->fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)"),
     fInsertTag(this->fpSqlite3, "INSERT INTO tag (key, value) VALUES (?,?)"),
-    fInsertChangeset(this->fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)"),
+    fInsertChangeset(this->fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, num_changes, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?,?)"),
     fInsertChangesetTags(this->fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?)"),
     fInsertNode(this->fpSqlite3, "INSERT INTO node (id,version,changeset,uid,visible,timestamp,coord) VALUES (?,?,?,?,?,?,?)"),
 	fInsertNodeTags(this->fpSqlite3, "INSERT INTO node_tags (id_node, id_tag) VALUES (?,?)"),
@@ -227,16 +227,18 @@ void BaseOsm::insertChangeset(const Changeset& aChangeset)
     const string createdAt = aChangeset.createdAt().iso8601();
     check(sqlite3_bind_text(fInsertChangeset, 4, createdAt.c_str(), createdAt.size(), SQLITE_STATIC),
           __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    check(sqlite3_bind_int(fInsertChangeset, 5, aChangeset.numChanges()),
+          __FILE__, __LINE__, __PRETTY_FUNCTION__);
     if (aChangeset.open()) {
-        check(sqlite3_bind_null(fInsertChangeset, 5),
+        check(sqlite3_bind_null(fInsertChangeset, 6),
               __FILE__, __LINE__, __PRETTY_FUNCTION__);
-        check(sqlite3_bind_int(fInsertChangeset, 6, 1),
+        check(sqlite3_bind_int(fInsertChangeset, 7, 1),
               __FILE__, __LINE__, __PRETTY_FUNCTION__);
     } else {
         const string closedAt = aChangeset.closedAt().iso8601();
-        check(sqlite3_bind_text(fInsertChangeset, 5, closedAt.c_str(), closedAt.size(), SQLITE_STATIC),
+        check(sqlite3_bind_text(fInsertChangeset, 6, closedAt.c_str(), closedAt.size(), SQLITE_STATIC),
               __FILE__, __LINE__, __PRETTY_FUNCTION__);
-        check(sqlite3_bind_int(fInsertChangeset, 6, 0),
+        check(sqlite3_bind_int(fInsertChangeset, 7, 0),
               __FILE__, __LINE__, __PRETTY_FUNCTION__);
     }
 
@@ -245,7 +247,7 @@ void BaseOsm::insertChangeset(const Changeset& aChangeset)
     gaiaBuildMbr(aChangeset.minLat(), aChangeset.minLon(), aChangeset.maxLat(), aChangeset.maxLon(), 4326, &pBlob, &blobSize);
     assert(pBlob);
     assert(blobSize);
-    check(sqlite3_bind_blob(fInsertChangeset, 7, pBlob, blobSize, free), __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    check(sqlite3_bind_blob(fInsertChangeset, 8, pBlob, blobSize, free), __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
     const int err = sqlite3_step(fInsertChangeset);
     if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);

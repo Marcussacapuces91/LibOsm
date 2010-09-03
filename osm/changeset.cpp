@@ -35,6 +35,7 @@ void Changeset::setAttribut(const string& aKey, const string& aValue)
 {
     istringstream iss(aValue);
     if (aKey == "created_at") iss >> fCreatedAt;
+    else if (aKey == "num_changes") iss >> fNumChanges;
     else if (aKey == "closed_at") iss >> fClosedAt;
     else if (aKey == "open") {
         string s;
@@ -57,6 +58,7 @@ ostream& Changeset::afficher(ostream& aStream) const
 {
     aStream << Top::afficher(aStream);
     aStream << "created_at=\"" << fCreatedAt.iso8601() << "\" ";
+    aStream << "num_changes=\"" << fNumChanges << "\" ";
     aStream << "closed_at=\"" << fClosedAt.iso8601() << "\" ";
     aStream << "open=\"" << (fOpen ? "true" : "false") << "\" ";
     aStream << "min_lon=\"" << fMinLon << "\" ";

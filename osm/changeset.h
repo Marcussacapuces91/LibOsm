@@ -43,6 +43,8 @@ class Changeset : public Top
     protected:
         DateTimeISO8601 fCreatedAt;
 
+        unsigned fNumChanges;
+
         DateTimeISO8601 fClosedAt;
 
         bool fOpen;
@@ -62,6 +64,7 @@ class Changeset : public Top
         Changeset() :
             Top(0, "", 0),
             fCreatedAt(),
+            fNumChanges(0),
             fClosedAt(),
             fOpen(false),
             fMinLon(0),
@@ -103,6 +106,8 @@ class Changeset : public Top
         bool operator==(const Changeset& aChangeset) const;
 
         const DateTimeISO8601& createdAt() const { return fCreatedAt; }
+
+        const unsigned& numChanges() const { return fNumChanges; }
 
         const DateTimeISO8601& closedAt() const { return fClosedAt; }
 

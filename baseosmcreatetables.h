@@ -69,6 +69,7 @@ class BaseOsmCreateTables : public BaseSQLite3
                     user TEXT DEFAULT NULL,                                    \
                     uid INTEGER REFERENCES user,                               \
                     created_at TEXT NOT NULL,                                  \
+                    num_changes INTEGER NOT NULL,                              \
                     closed_at TEXT DEFAULT NULL,                               \
                     open INTEGER(1) NOT NULL);                                 \
                                                                                \
