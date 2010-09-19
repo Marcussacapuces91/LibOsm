@@ -22,8 +22,8 @@
  * \author Marc Sibert
  */
 
-#ifndef SPATIALITE_H
-#define SPATIALITE_H
+#ifndef WRAPPER_SPATIALITE_H
+#define WRAPPER_SPATIALITE_H
 
 #include <spatialite/sqlite3.h>
 #include <spatialite/gaiageo.h>
@@ -36,25 +36,25 @@ using namespace std;
  * Classe wrapper de la bibliothèque Spatialite sous la forme d'un Singleton.
  *  Pour obtenir une instance, appeler la méthode makeSpatialite().
  */
-class Spatialite
+class WrapperSpatialite
 {
 	private:
 /// Instance unique de la classe
-		static Spatialite fSpatialite;
+		static WrapperSpatialite fWrapperSpatialite;
 
 	protected:
 /**
  * Constructeur de l'instance. Il est protégé pour s'assurer du respect du
  * singleton.
  */
-		Spatialite(void);
+		WrapperSpatialite(void);
 
 	public:
 /**
  * Retourne une référence sur l'unique instance du singleton.
  * @return Une référence sur une instance de Spatialite.
  */
-		static Spatialite& returnSpatialite(void);
+		static WrapperSpatialite& returnSpatialite(void);
 
 /**
  * Retourne une chaîne décrivant les versions des bibliothèques utilisées.

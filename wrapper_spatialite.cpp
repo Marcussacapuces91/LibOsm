@@ -22,18 +22,18 @@
  * \author Marc Sibert
  */
 
-#include "spatialite.h" // class's header file
+#include "wrapper_spatialite.h" // class's header file
 
 #include "libspatialite/headers/spatialite.h"
 
-Spatialite Spatialite::fSpatialite;
+WrapperSpatialite WrapperSpatialite::fWrapperSpatialite;
 
-Spatialite::Spatialite(void)
+WrapperSpatialite::WrapperSpatialite(void)
 {
 	spatialite_init(0);
 }
 
-string Spatialite::versions(void) const
+string WrapperSpatialite::versions(void) const
 {
 	return string("SQLite3 version ") + sqlite3_libversion() + "\n" +
 	       "Spatialite version " + spatialite_version() + "\n";
@@ -41,7 +41,7 @@ string Spatialite::versions(void) const
 //			       "Geos version " + geos_version() + "\n";
 }
 
-Spatialite& Spatialite::returnSpatialite(void)
+WrapperSpatialite& WrapperSpatialite::returnSpatialite(void)
 {
-	return fSpatialite;
+	return fWrapperSpatialite;
 }

@@ -28,7 +28,7 @@
 #include <fstream>
 #include <sstream>
 #include <ctime>
-#include "spatialite.h"
+#include "wrapper_spatialite.h"
 #include "exception.h"
 #include "baseosm.h"
 #include "xml/parserplanet.h"
