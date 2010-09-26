@@ -48,67 +48,72 @@ using namespace std;
  */
 class ParserOsm : public ParserConteneurElement
 {
-    private:
+private:
 /// Une référence sur la base de données où sont stockés les différents éléments.
-        BaseInterface& fBase;
+    BaseInterface& fBase;
 
-	protected:
-/**
- * Méthode appelée par le parseur à chauque détection d'un sous-élément de 'osm'.
- * \param aName Nom de l'élément détecté.
- * \param aAtts Liste des attributs liés à l'élément détecté.
- */
-        virtual void startElement(const string& aName,
-                                  const vector< pair<string, string> >& aAtts);
+protected:
+    /**
+     * Méthode appelée par le parseur à chauque détection d'un sous-élément de 'osm'.
+     * \param aName Nom de l'élément détecté.
+     * \param aAtts Liste des attributs liés à l'élément détecté.
+     */
+    virtual void startElement(const string& aName,
+                              const vector< pair<string, string> >& aAtts);
 
-/**
- * Méthode appelée par le parseur à la fermeture de l'élément 'osm'.
- * \param aName Nom de l'élément.
- * \pre aName == 'osm'.
- */
-        virtual void endElement(const string& aName);
+    /**
+     * Méthode appelée par le parseur à la fermeture de l'élément 'osm'.
+     * \param aName Nom de l'élément.
+     * \pre aName == 'osm'.
+     */
+    virtual void endElement(const string& aName);
 
-	public:
-/**
- * \brief Constructeur de l'instance qui lance l'analyse du flux.
- * \param apXML_Parser Un pointeur sur le parseur XML (eXpat).
- * \param aBase Une référence sur la base de données où se feront les insertions.
- * \param apParent Un pointeur sur la classe similaire qui est à l'origine de
- *                 cette instance.
- * \param aName Nom de l'élément ayant déclenché l'appel pour vérification.
- * \param aAtts Liste des attributs liés à l'élément 'osm'.
- * \pre aName == 'osm'.
- * \pre aAtts(version = 0.6).
- */
-		ParserOsm(XML_Parser *const apXML_Parser,
-                  BaseInterface& aBase,
-                  Parser *const apParent,
-                  const string& aName,
-                  const vector< pair<string, string> >& aAtts);
+public:
+    /**
+     * \brief Constructeur de l'instance qui lance l'analyse du flux.
+     * \param apXML_Parser Un pointeur sur le parseur XML (eXpat).
+     * \param aBase Une référence sur la base de données où se feront les insertions.
+     * \param apParent Un pointeur sur la classe similaire qui est à l'origine de
+     *                 cette instance.
+     * \param aName Nom de l'élément ayant déclenché l'appel pour vérification.
+     * \param aAtts Liste des attributs liés à l'élément 'osm'.
+     * \pre aName == 'osm'.
+     * \pre aAtts(version = 0.6).
+     */
+    ParserOsm(XML_Parser *const apXML_Parser,
+              BaseInterface& aBase,
+              Parser *const apParent,
+              const string& aName,
+              const vector< pair<string, string> >& aAtts);
 
-/**
- * Destructeur virtuel de l'instance sans action.
- */
-		virtual ~ParserOsm() {}
+    /**
+     * Destructeur virtuel de l'instance sans action.
+     */
+    virtual ~ParserOsm() {}
 
-/**
- * Méthode callback assurant l'insertion d'un Node dans la base de données.
- * \param aNode Une référence sur le Node à insérer dans la base.
- */
-		void traiter(const Node& aNode);
+    /**
+     * Méthode callback assurant l'insertion d'un Node dans la base de données.
+     * \param aNode Une référence sur le Node à insérer dans la base.
+     */
+    void traiter(const Node& aNode);
 
-/**
- * Méthode callback assurant l'insertion d'un Way dans la base de données.
- * \param aWay Une référence sur le Way à insérer dans la base.
- */
-		void traiter(const Way& aWay);
-/**
- * Méthode callback assurant l'insertion d'une Relation dans la base de données.
- * \param aRelation Une référence sur le Relation à insérer dans la base.
- */
-		void traiter(const Relation& aRelation);
+    /**
+     * Méthode callback assurant l'insertion d'un Way dans la base de données.
+     * \param aWay Une référence sur le Way à insérer dans la base.
+     */
+    void traiter(const Way& aWay);
 
-		void traiter(const Changeset& aChangeset);
+    /**
+     * Méthode callback assurant l'insertion d'une Relation dans la base de données.
+     * \param aRelation Une référence sur la Relation à insérer dans la base.
+     */
+    void traiter(const Relation& aRelation);
+
+    /**
+     * Méthode callback assurant l'insertion d'un Changeset dans la base de données.
+     * \param aChangeset Une référence sur le Changeset à insérer dans la base.
+     */
+    void traiter(const Changeset& aChangeset);
 
 };
 

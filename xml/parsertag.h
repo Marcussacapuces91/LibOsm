@@ -33,19 +33,44 @@ using namespace std;
 
 class ParserTag : public Parser
 {
-	protected:
-		virtual void startElement(const string& aName,
-								  const vector< pair<string, string> >& aAtts);
+protected:
+    /**
+     * Appelée par le parseur XML, pour chaque sous-élément XML de Tag,
+     * cette méthode ne devrait jamais être appelée et lance systématiquement une exception.
+     * \param aName Une référence sur le libellé du tag XML.
+     * \param aAtts Liste d'attributs de l'élément.
+     */
+    virtual void startElement(const string& aName,
+                              const vector< pair<string, string> >& aAtts);
 
-        virtual void endElement(const string& aName);
+    /**
+     * Appelée lors de la cloture de l'élément XML courant (tag), cette méthode
+     * est sans action.
+     * \param aName Une référence sur le libellé de l'élément XML courant.
+     * \pre aName == 'tag'.
+     */
+    virtual void endElement(const string& aName);
 
-	public:
-		ParserTag(XML_Parser *const apXML_Parser,
-		          Parser& aParent,
-                  const string& aName,
-				  const vector< pair<string, string> >& aAtts);
+public:
+    /**
+     * \brief Constructeur de l'instance.
+     *
+     * Lance l'analyse d'un Tag et transmet le Tag au parser de niveau supérieur.
+     * \param apXML_Parser Un pointeur sur le parseur XML.
+     * \param aParent Une référence sur l'instance de niveau supérieure.
+     * \param aName Une référence sur le libellé de l'élément XML courant.
+     * \param aAtts Liste des attributs de l'élément courant.
+     * \pre aName == 'tag'.
+     */
+    ParserTag(XML_Parser *const apXML_Parser,
+              Parser& aParent,
+              const string& aName,
+              const vector< pair<string, string> >& aAtts);
 
-		virtual ~ParserTag() {};
+    /**
+     * Destructeur virtuel de l'instance sans action.
+     */
+    virtual ~ParserTag() {};
 
 };
 

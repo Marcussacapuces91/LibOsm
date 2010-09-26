@@ -46,47 +46,46 @@ using namespace std;
  */
 class ParserMember : public Parser
 {
-	private:
+private:
 /// La Member renseigné par le parser.
-		Member fMember;
+    Member fMember;
 
-	protected:
-/**
- * Méthode virtuelle appelée en début d'élément XML inclus dans une Relation.
- * @param aName Le nom de l'élément XML.
- * @param aAtts Un tableau d'attributs XML liés à cet élément.
- */
-		virtual void startElement(const string& aName,
-				                  const vector< pair<string, string> >& aAtts);
+protected:
+    /**
+     * Méthode virtuelle appelée en début d'élément XML inclus dans une Relation.
+     * \param aName Le nom de l'élément XML.
+     * \param aAtts Un tableau d'attributs XML liés à cet élément.
+     */
+    virtual void startElement(const string& aName,
+                              const vector< pair<string, string> >& aAtts);
 
-/**
- * Méthode virtuelle appelée en fin d'élément XML Relation.
- * @param aName Le nom de l'élément XML Relation.
- * @pre Le nom transmis doit être "relation".
- */
-        virtual void endElement(const string& aName);
+    /**
+     * Méthode virtuelle appelée en fin d'élément XML Relation.
+     * \param aName Le nom de l'élément XML Relation.
+     * \pre aName == 'relation'.
+     */
+    virtual void endElement(const string& aName);
 
-	public:
-/**
- * Constructeur de l'instance.
- * @param apXML_Parser Un pointeur sur un parseur XML Expat.
- * @param aBase Une référence sur une base de données recevant les données parsées.
- * @param apParent Pointeur sur l'instance ayant appelé ce constructeur.
- * @param aName Nom de l'élément XML ayant déclenché l'appel de ce constructeur.
- * @param aAtts Tableau d'attributs XML liés à l'élément aName.
- * @pre apXML_Parser est non-nul.
- * @pre aName est à "relation".
- */
-		ParserMember(XML_Parser *const apXML_Parser,
-                     Parser& aParent,
-		             const string& aName,
-				     const vector< pair<string, string> >& aAtts);
+public:
+    /**
+     * Constructeur de l'instance.
+     * \param apXML_Parser Un pointeur sur un parseur XML Expat.
+     * \param aParent Référence sur l'instance ayant appelé ce constructeur.
+     * \param aName Nom de l'élément XML ayant déclenché l'appel de ce constructeur.
+     * \param aAtts Tableau d'attributs XML liés à l'élément aName.
+     * \pre apXML_Parser est non-nul.
+     * \pre aName == 'relation'.
+     */
+    ParserMember(XML_Parser *const apXML_Parser,
+                 Parser& aParent,
+                 const string& aName,
+                 const vector< pair<string, string> >& aAtts);
 
-/**
- * Destructeur virtuel de l'instance.
- * Sans action.
- */
-		virtual ~ParserMember() {}
+    /**
+     * Destructeur virtuel de l'instance.
+     * Sans action.
+     */
+    virtual ~ParserMember() {}
 
 };
 

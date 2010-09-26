@@ -31,26 +31,27 @@
 #include "parsertag.h"
 
 ParserMember::ParserMember(XML_Parser *const apXML_Parser,
-            			   Parser& aParent,
-            			   const string& aName,
-            			   const vector< pair<string, string> >& aAtts) :
-	Parser(apXML_Parser, &aParent),
-	fMember()
+                           Parser& aParent,
+                           const string& aName,
+                           const vector< pair<string, string> >& aAtts) :
+    Parser(apXML_Parser, &aParent),
+    fMember()
 {
-	assert(aName == "member");
-	for (vector< pair<string, string> >::const_iterator it = aAtts.begin(); it != aAtts.end(); ++it) {
-		fMember.setAttribut(it->first, it->second);
-	}
+    assert(aName == "member");
+    for (vector< pair<string, string> >::const_iterator it = aAtts.begin(); it != aAtts.end(); ++it)
+    {
+        fMember.setAttribut(it->first, it->second);
+    }
 }
 
 void ParserMember::startElement(const string& aName,
                                 const vector< pair<string, string> >& /* aAtts */)
 {
-	throw Exception("Element inattendu (" + aName + ")", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    throw Exception("Element inattendu (" + aName + ")", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
 void ParserMember::endElement(const string& aName)
 {
-	assert(aName == "member");
+    assert(aName == "member");
     dynamic_cast<ParserRelation *const>(fpParent)->addMember(fMember);
 }

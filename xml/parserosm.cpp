@@ -55,24 +55,28 @@ void ParserOsm::startElement(const string& aName,
                              const vector< pair<string, string> >& aAtts)
 {
 // Dans l'ordre de probabilité d'apparition.
-    if (aName == "node") {
-//        fpEnfant = new ParserNode(fpXML_Parser, fBase, this, aName, aAtts);
+    if (aName == "node")
+    {
         fpEnfant = new ParserNode(fpXML_Parser, *this, aName, aAtts);
     }
-    else if (aName == "way") {
+    else if (aName == "way")
+    {
         fpEnfant = new ParserWay(fpXML_Parser, *this, aName, aAtts);
     }
-    else if (aName == "changeset") {
+    else if (aName == "changeset")
+    {
         fpEnfant = new ParserChangeset(fpXML_Parser, *this, aName, aAtts);
     }
-    else if (aName == "relation") {
+    else if (aName == "relation")
+    {
         fpEnfant = new ParserRelation(fpXML_Parser, *this, aName, aAtts);
     }
-    else if (aName == "bound" || aName == "bounds") {
+    else if (aName == "bound" || aName == "bounds")
+    {
         fpEnfant = new ParserBounds(fpXML_Parser, *this, aName, aAtts);
     }
     else throw Exception("Element inattendu (" + aName + ")",
-                         __FILE__, __LINE__, __PRETTY_FUNCTION__);
+                             __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
 void ParserOsm::endElement(const string& aName)
@@ -82,14 +86,22 @@ void ParserOsm::endElement(const string& aName)
 
 
 void ParserOsm::traiter(const Node& aNode)
-{ fBase.add(aNode); }
+{
+    fBase.add(aNode);
+}
 
 void ParserOsm::traiter(const Way& aWay)
-{ fBase.add(aWay); }
+{
+    fBase.add(aWay);
+}
 
 void ParserOsm::traiter(const Relation& aRelation)
-{ fBase.add(aRelation); }
+{
+    fBase.add(aRelation);
+}
 
 void ParserOsm::traiter(const Changeset& aChangeset)
-{ fBase.add(aChangeset); }
+{
+    fBase.add(aChangeset);
+}
 

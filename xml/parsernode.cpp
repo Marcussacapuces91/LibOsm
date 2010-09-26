@@ -41,7 +41,7 @@ ParserNode::ParserNode(XML_Parser *const apXML_Parser,
 //	fParent(*apParent)  // et si apParent == 0 ??
 {
 //    assert(apParent);
-	assert(aName == "node");
+	assert(aName == Node::NOM);
 	for (vector< pair<string, string> >::const_iterator it = aAtts.begin(); it != aAtts.end(); ++it) {
 		fNode.setAttribut(it->first, it->second);
 	}

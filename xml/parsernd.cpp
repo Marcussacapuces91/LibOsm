@@ -31,31 +31,31 @@
 #include "parserway.h"
 
 ParserNd::ParserNd(XML_Parser *const apXML_Parser,
-				   Parser& aParent,
-				   const string& /* aName */,
-				   const vector< pair<string, string> >& aAtts) :
-	Parser(apXML_Parser, &aParent)
+                   Parser& aParent,
+                   const string& /* aName */,
+                   const vector< pair<string, string> >& aAtts) :
+    Parser(apXML_Parser, &aParent)
 {
-	if (aAtts.size() != 1)
+    if (aAtts.size() != 1)
         throw Exception("Nombre d'attributs incorrect",
                         __FILE__, __LINE__, __PRETTY_FUNCTION__);
-	if (aAtts[0].first != "ref")
+    if (aAtts[0].first != "ref")
         throw Exception("Nom de l'attribut incorrect",
                         __FILE__, __LINE__, __PRETTY_FUNCTION__);
     istringstream iss(aAtts[0].second);
     unsigned long val;
     iss >> val;
-	dynamic_cast<ParserWay *const>(fpParent)->addNode(val);
+    dynamic_cast<ParserWay *const>(fpParent)->addNode(val);
 }
 
 void ParserNd::startElement(const string& aName,
                             const vector< pair<string, string> >& /* aAtts */)
 {
-	throw Exception("Pas de sous-element attendu (" + aName + ")",
+    throw Exception("Pas de sous-element attendu (" + aName + ")",
                     __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }
 
 void ParserNd::endElement(const string& aName)
 {
-	assert(aName == "nd");
+    assert(aName == "nd");
 }

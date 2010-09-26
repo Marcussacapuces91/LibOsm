@@ -38,32 +38,25 @@ ParserModify::ParserModify(XML_Parser *const apXML_Parser,
                            const string& aName,
                            const vector< pair<string, string> >& /* aAtts */) :
     ParserConteneurElement(apXML_Parser, *apParent),
-	fBase(aBase),
-	fpElement(0)
+    fBase(aBase),
+    fpElement(0)
 {
     assert(aName == "modify");
-/*    if (find(aAtts.begin(), aAtts.end(), pair<string, string>("version", "0.6")) == aAtts.end())
-        throw Exception("osm Version 0.6 attendu",
-                        __FILE__, __LINE__, __PRETTY_FUNCTION__); */
 }
 
 void ParserModify::startElement(const string& aName,
                                 const vector< pair<string, string> >& aAtts)
 {
-    if (aName == "node") {
-// cerr << 'n';
+    if (aName == Node::NOM)
+    {
         fpEnfant = new ParserNode(fpXML_Parser, *this, aName, aAtts);
-//        fpEnfant = new ParserNode(fpXML_Parser, fBase, this, aName, aAtts);
     }
-    else if (aName == "way") {
-// cerr << 'w';
+    else if (aName == Way::NOM)
+    {
         fpEnfant = new ParserWay(fpXML_Parser, *this, aName, aAtts);
     }
-//    else if (aName == "changeset") {
-//        fpEnfant = new ParserChangeset(fpXML_Parser, fBase, this, aName, aAtts);
-//    }
-    else if (aName == "relation") {
-// cerr << 'r';
+    else if (aName == Relation::NOM)
+    {
         fpEnfant = new ParserRelation(fpXML_Parser, *this, aName, aAtts);
     }
     else throw Exception("Element inattendu (" + aName + ")",
@@ -77,22 +70,28 @@ void ParserModify::endElement(const string& aName)
 
 void ParserModify::traiter(const Node& aNode)
 {
-    try {
+    try
+    {
         fBase.modify(aNode);
-    } catch (Exception& e) {}
+    }
+    catch (Exception& e) {}
 }
 
 void ParserModify::traiter(const Way& aWay)
 {
-    try {
+    try
+    {
         fBase.modify(aWay);
-    } catch (Exception& e) {}
+    }
+    catch (Exception& e) {}
 }
 
 void ParserModify::traiter(const Relation& aRelation)
 {
-    try {
+    try
+    {
         fBase.modify(aRelation);
-    } catch (Exception& e) {}
+    }
+    catch (Exception& e) {}
 }
 

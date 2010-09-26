@@ -25,57 +25,94 @@
 #ifndef PARSERMODIFY_H
 #define PARSERMODIFY_H
 
-// #include "parser.h"     // header de la classe héritée.
 #include "parserconteneurelement.h"    // header de l'interface héritée.
 
 #include "baseinterface.h"
+#include "../Exception.h"
 
 /**
+ * \brief Classe analysant un flux XML commençant à l'élément 'modify'.
  *
+ * Classe analysant un flux XML commençant à l'élément 'modify' et contenant des
+ * éléments 'node', 'way' et 'relation'.
+ * Pour utiliser cette classe, il suffit de l'instancier. Des appels seront fait
+ * automatiquement aux bonnes classes suivant les éléments rencontrés.
+ * Les méthodes traiter() (callback) insèreront les éléments dans la base de données.
+ * Ces  méthodes sont les implémentations de l'interface ParserConteneurElement.
  */
 class ParserModify : public ParserConteneurElement
 {
-    public:
-/**
- * Default constructor
- */
-        ParserModify(XML_Parser *const apXML_Parser,
-                     BaseInterface& aBase,
-                     Parser *const apParent,
-                     const string& aName,
-                     const vector< pair<string, string> >& aAtts);
+public:
+    /**
+     * \brief Constructeur de l'instance qui lance l'analyse du flux.
+     * \param apXML_Parser Un pointeur sur le parseur XML (eXpat).
+     * \param aBase Une référence sur la base de données où se feront les insertions.
+     * \param apParent Un pointeur sur la classe similaire qui est à l'origine de
+     *                 cette instance.
+     * \param aName Nom de l'élément ayant déclenché l'appel pour vérification.
+     * \param aAtts Liste des attributs liés à l'élément 'modify'.
+     * \pre aName == 'modify'.
+     */
+    ParserModify(XML_Parser *const apXML_Parser,
+                 BaseInterface& aBase,
+                 Parser *const apParent,
+                 const string& aName,
+                 const vector< pair<string, string> >& aAtts);
 
- /**
-  * Default destructor
-  */
-        virtual ~ParserModify() {}
+    /**
+     * Destructeur virtuel de l'instance sans action.
+     */
+    virtual ~ParserModify() {}
 
-        void traiter(const Node& aNode);
-        void traiter(const Way& aWay);
-        void traiter(const Relation& aRelation);
-        void traiter(const Changeset&) { throw -1; } // Méthode non-utilisée ici.
+    /**
+     * Méthode callback assurant l'insertion d'un Node dans la base de données.
+     * \param aNode Une référence sur le Node à insérer dans la base.
+     */
+    void traiter(const Node& aNode);
 
-    protected:
-        virtual void startElement(const string& aName,
-                                  const vector< pair<string, string> >& aAtts);
+    /**
+     * Méthode callback assurant l'insertion d'un Way dans la base de données.
+     * \param aWay Une référence sur le Way à insérer dans la base.
+     */
+    void traiter(const Way& aWay);
 
-        virtual void endElement(const string& aName);
+    /**
+     * Méthode callback assurant l'insertion d'une Relation dans la base de données.
+     * \param aRelation Une référence sur la Relation à insérer dans la base.
+     */
+    void traiter(const Relation& aRelation);
 
-    private:
-        BaseInterface& fBase;
+    /**
+     * Méthode callback n'assurant aucune action. Elle déclenche systématiquement une exception.
+     * \param aChangeset Une référence sur le Changeset à insérer dans la base.
+     */
+    void traiter(const Changeset& aChangeset)
+    {
+        throw Exception("Pas de traitement prévu pour le Changeset",
+                        __FILE__, __LINE__, __PRETTY_FUNCTION__);
+    }
 
-        Element* fpElement;
+protected:
+    virtual void startElement(const string& aName,
+                              const vector< pair<string, string> >& aAtts);
 
-/** Copy constructor
- *  \param other Object to copy from
- */
-        ParserModify(const ParserModify& other);
+    virtual void endElement(const string& aName);
 
-/** Assignment operator
- *  \param other Object to assign from
- *  \return A reference to this
- */
-        ParserModify& operator=(const ParserModify& other);
+private:
+    BaseInterface& fBase;
+
+    Element* fpElement;
+
+    /** Copy constructor
+     *  \param other Object to copy from
+     */
+    ParserModify(const ParserModify& other);
+
+    /** Assignment operator
+     *  \param other Object to assign from
+     *  \return A reference to this
+     */
+    ParserModify& operator=(const ParserModify& other);
 
 };
 
