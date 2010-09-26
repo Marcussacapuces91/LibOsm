@@ -33,7 +33,7 @@
 #include "baseosm.h"
 #include "xml/parserplanet.h"
 #include <tclap/CmdLine.h>
-#include "libspatialite/headers/spatialite.h"
+#include <spatialite.h>
 
 using namespace std;
 using namespace TCLAP;

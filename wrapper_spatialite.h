@@ -38,29 +38,29 @@ using namespace std;
  */
 class WrapperSpatialite
 {
-	private:
+private:
 /// Instance unique de la classe
-		static WrapperSpatialite fWrapperSpatialite;
+    static WrapperSpatialite fWrapperSpatialite;
 
-	protected:
-/**
- * Constructeur de l'instance. Il est protégé pour s'assurer du respect du
- * singleton.
- */
-		WrapperSpatialite(void);
+protected:
+    /**
+     * Constructeur de l'instance. Il est protégé pour s'assurer du respect du
+     * singleton.
+     */
+    WrapperSpatialite(void);
 
-	public:
-/**
- * Retourne une référence sur l'unique instance du singleton.
- * @return Une référence sur une instance de Spatialite.
- */
-		static WrapperSpatialite& returnSpatialite(void);
+public:
+    /**
+     * Retourne une référence sur l'unique instance du singleton.
+     * \return Une référence sur une instance de Spatialite.
+     */
+    static WrapperSpatialite& returnSpatialite(void);
 
-/**
- * Retourne une chaîne décrivant les versions des bibliothèques utilisées.
- * @return Une chaîne de caractères.
- */
-		string versions(void) const;
+    /**
+     * Retourne une chaîne décrivant les versions des bibliothèques utilisées.
+     * \return Une chaîne de caractères.
+     */
+    string versions(void) const;
 
 };
 

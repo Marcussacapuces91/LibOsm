@@ -26,8 +26,7 @@
 
 #include <sstream>
 #include "exception.h"
-// #include "libspatialite/headers/spatialite.h"
-#include "libspatialite/headers/spatialite/gaiageo.h"
+#include <spatialite/gaiageo.h>
 #include "osm/way.h"
 #include "osm/relation.h"
 #include <cstdlib>

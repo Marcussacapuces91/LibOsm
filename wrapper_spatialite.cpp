@@ -24,24 +24,24 @@
 
 #include "wrapper_spatialite.h" // class's header file
 
-#include "libspatialite/headers/spatialite.h"
+#include <spatialite.h>
 
 WrapperSpatialite WrapperSpatialite::fWrapperSpatialite;
 
 WrapperSpatialite::WrapperSpatialite(void)
 {
-	spatialite_init(0);
+    spatialite_init(0);
 }
 
 string WrapperSpatialite::versions(void) const
 {
-	return string("SQLite3 version ") + sqlite3_libversion() + "\n" +
-	       "Spatialite version " + spatialite_version() + "\n";
+    return string("SQLite3 version ") + sqlite3_libversion() + "\n" +
+           "Spatialite version " + spatialite_version() + "\n";
 //			       "Proj4 version " + proj4_version() + "\n" +
 //			       "Geos version " + geos_version() + "\n";
 }
 
 WrapperSpatialite& WrapperSpatialite::returnSpatialite(void)
 {
-	return fWrapperSpatialite;
+    return fWrapperSpatialite;
 }

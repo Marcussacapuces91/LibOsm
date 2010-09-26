@@ -25,7 +25,7 @@
 #ifndef BASESQLITE3_H
 #define BASESQLITE3_H
 
-#include "libspatialite/headers/spatialite/sqlite3.h"
+#include <spatialite/sqlite3.h>
 #include <string>
 #include <fstream>
 #include "exception.h"
