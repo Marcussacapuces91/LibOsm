@@ -81,6 +81,7 @@ class Parser
 /**
  * \brief Méthode virtuelle pure appelée lors du début d'un élément XML,
  * un sous-élément de l'élément géré par cette classe.
+ *
  * Cette méthode doit être implémenté afin d'assurer l'appel des autres classes
  * parserXXX suivant l'élément XML détecté. Cette arborescence est liée à la
  * structure XML des fichiers a analyser.
@@ -93,6 +94,7 @@ class Parser
 /**
  * \brief Méthode virtuelle pure appelée lors de la détection de la fin de
  * l'élément XML courant.
+ *
  * L'implémentation de cette méthode doit s'assurer que le libellé de cet
  * élément XML est  cohérant avec le libellé attentu.
  * Une vérification avec un assert() doit être prévue.
@@ -103,6 +105,7 @@ class Parser
 
 /**
  * \brief Méthode classe appelée par le parseur XML (eXpat).
+ *
  * Cette méthode appelle startElement pour l'instance parserXXX courante.
  * \param userData Un pointeur sur l'instance parserXXX courante.
  * \param name Un pointeur sur le nom de l'élément XML.
@@ -116,6 +119,7 @@ class Parser
 
 /**
  * \brief Méthode classe appelée par le parseur XML (eXpat).
+ *
  * Cette méthode appelle endElement pour l'instance parserXXX suivante.
  * \param userData Un pointeur sur l'instance parserXXX précédente (?).
  * \param name Un pointeur sur le nom du sous-élément XML.
@@ -127,6 +131,7 @@ class Parser
 
 /**
  * \brief Destructeur virtuel de l'instance.
+ *
  * Cette méthode rétablit l'instance père de la classe parserXXX courante.
  */
         virtual ~Parser();

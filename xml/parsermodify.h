@@ -86,7 +86,7 @@ public:
      * Méthode callback n'assurant aucune action. Elle déclenche systématiquement une exception.
      * \param aChangeset Une référence sur le Changeset à insérer dans la base.
      */
-    void traiter(const Changeset& aChangeset)
+    void traiter(const Changeset&)
     {
         throw Exception("Pas de traitement prévu pour le Changeset",
                         __FILE__, __LINE__, __PRETTY_FUNCTION__);

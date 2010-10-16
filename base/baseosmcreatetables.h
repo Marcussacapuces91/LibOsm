@@ -25,7 +25,7 @@
 #ifndef BASEOSMCREATETABLES_H
 #define BASEOSMCREATETABLES_H
 
-#include "basesqlite3.h" // inheriting class's header file
+#include "basesqlite3threaded.h" // inheriting class's header file
 //#include "xml/baseinterface.h"
 //#include "osm/way.h"
 //#include "osm/member.h"
@@ -35,13 +35,13 @@
  * Classe assurant la création des tables (si nécessaire) *avant* la création
  * des Commandes Préparées.
  */
-class BaseOsmCreateTables : public BaseSQLite3
+class BaseOsmCreateTables : public BaseSQLite3Threaded
 {
     public:
         BaseOsmCreateTables(const string& aPath,
                             const bool aInitSpatialite,
                             const int aFlags) :
-            BaseSQLite3(aPath, aFlags)
+            BaseSQLite3Threaded(aPath, aFlags)
         {
             if (aInitSpatialite) execFile("init_spatialite-2.3.sql");
 

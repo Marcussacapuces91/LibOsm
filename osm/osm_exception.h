@@ -37,50 +37,90 @@ using namespace std;
 /*
  * Classe de l'exception utilisée par cette API.
  */
-class OsmException : public exception
-{
-    private:
-        string fMessage;
+class OsmException : public exception {
+private:
+     /// Contient le message préparé de l'exception.
+     string fMessage;
 
-    public:
-        inline OsmException(const string& aMessage,
-                            const string& aFichier,
-                            const unsigned aLine,
-                            const string& aFonction) :
-            fMessage()
-        {
-            ostringstream oss;
-            oss << "Exception OSM : " << aMessage
-                << " dans " << aFichier << ":"
-                << aLine << " ("
-                << aFonction << ")";
-            fMessage = oss.str();
-        }
+public:
+     /**
+      * \brief Constructeur de l'instance.
+      *
+      * \param aMessage Texte décrivant la raison de la levée d'exception.
+      * \param aFichier Le fichier où s'est produite l'exception (__FILE__).
+      * \param aLine La numéro de la ligne où s'est produite l'exception
+      *              (__LINE__).
+      * \param aFonction La fonction ou méthode où s'est produite l'exception
+      *                  (__PRETTY_FUNCTION__).
+      */
+     inline OsmException(const string& aMessage,
+                         const string& aFichier,
+                         const unsigned aLine,
+                         const string& aFonction) :
+          fMessage() {
+          ostringstream oss;
+          oss << "Exception OSM : " << aMessage
+          << " dans " << aFichier << ":"
+          << aLine << " ("
+          << aFonction << ")";
+          fMessage = oss.str();
+     }
 
-        virtual ~OsmException() throw()  {}
+     /**
+      * Destructeur virtuel de l'instance, sans action.
+      */
+     virtual ~OsmException() throw()  {}
 
-        virtual const char* what() const throw()
-        {   return fMessage.c_str(); }
+     /**
+      * Retourne La description complète de l'exception.
+      * \return Une chaîne de caractères contenant la description.
+      */
+     virtual const char* what() const throw() {
+          return fMessage.c_str();
+     }
 };
 
-class HttpException : public OsmException
-{
-    private:
-        const unsigned fCode;
+/**
+ * Classe décrivant l'exception utilisée dans le cas particulier de
+ * requêtes HTTP.
+ */
+class HttpException : public OsmException {
+private:
+     /// Code de l'erreur HTTP.
+     const unsigned fCode;
 
-    public:
-        inline HttpException(const unsigned aCode,
-                             const string& aMessage,
-                             const string& aFichier,
-                             const unsigned aLine,
-                             const string& aFonction) :
-            OsmException(aMessage, aFichier, aLine, aFonction),
-            fCode(aCode)
-        {}
+public:
+     /**
+      * Constructeur de l'instance.
+      * \param aCode Numéro du code retour de la requête HTTP.
+      * \param aMessage Texte décrivant la raison de la levée d'exception.
+      * \param aFichier Le fichier où s'est produite l'exception (__FILE__).
+      * \param aLine La numéro de la ligne où s'est produite l'exception
+      *              (__LINE__).
+      * \param aFonction La fonction ou méthode où s'est produite l'exception
+      *                  (__PRETTY_FUNCTION__).
+      */
+     inline HttpException(const unsigned aCode,
+                          const string& aMessage,
+                          const string& aFichier,
+                          const unsigned aLine,
+                          const string& aFonction) :
+          OsmException(aMessage, aFichier, aLine, aFonction),
+          fCode(aCode)
+     {}
 
-        virtual ~HttpException() throw()  {}
+     /**
+      * Destructeur virtuel de l'instance, sans action.
+      */
+     virtual ~HttpException() throw()  {}
 
-        unsigned code() const { return fCode; }
+     /**
+      * Indique le code de l'erreur.
+      * \return Le code retour HTTP.
+      */
+     unsigned code() const {
+          return fCode;
+     }
 };
 
 #endif // EXCEPTION_H
