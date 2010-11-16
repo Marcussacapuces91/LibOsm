@@ -39,7 +39,8 @@ BaseOsm::BaseOsm(const string& aPath,
                  const bool aInitSpatialite,
                  const int aFlags) :
      BaseOsmCreateTables(aPath, aInitSpatialite, aFlags),
-     fInsertUser(this->fpSqlite3, "INSERT OR IGNORE INTO user (id, name) VALUES (?,?)"),
+     fSelectUser(this->fpSqlite3, "SELECT id, name FROM user WHERE id=?"),
+     fInsertUser(this->fpSqlite3, "INSERT INTO user (id, name) VALUES (?,?)"),
      fSelectTag(this->fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)"),
      fInsertTag(this->fpSqlite3, "INSERT INTO tag (key, value) VALUES (?,?)"),
      fInsertChangeset(this->fpSqlite3, "INSERT INTO changeset (id, user, uid, created_at, num_changes, closed_at, open, mbr) VALUES (?,?,?,?,?,?,?,?)"),
@@ -137,20 +138,45 @@ void BaseOsm::bindElement(Commande& aCommande, const Element& aElement)
 
 void BaseOsm::insertUser(const Top& aTop)
 {
-     check(sqlite3_bind_int64(fInsertUser, 1, aTop.uid()),
-           __FILE__, __LINE__, __PRETTY_FUNCTION__);
-     const string& nom = aTop.user();
-     if (nom.empty()) {
-          check(sqlite3_bind_null(fInsertUser, 2),
+// Vérifier dans le "cache" si le user est inconnu
+     const set<unsigned long>::const_iterator it = fUsers.find(aTop.uid());
+     if (it == fUsers.end()) {            // Sinon le rechercher dans la table
+          check(sqlite3_bind_int64(fSelectUser, 1, aTop.uid()),
                 __FILE__, __LINE__, __PRETTY_FUNCTION__);
-     } else {
-          check(sqlite3_bind_text(fInsertUser, 2, nom.c_str(), nom.size(), SQLITE_STATIC),
-                __FILE__, __LINE__, __PRETTY_FUNCTION__);
+          const int err = sqlite3_step(fSelectUser);
+          switch (err) {
+          case SQLITE_ROW : {     // Connu
+               check(sqlite3_reset(fSelectUser),
+                     __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               fUsers.insert(aTop.uid());   // On l'ajoute à l'ensemble.
+               break;
+          }
+          case SQLITE_DONE : {    // Inconnu, alors on l'ajoute dans la table.
+               check(sqlite3_reset(fSelectUser),
+                     __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+               check(sqlite3_bind_int64(fInsertUser, 1, aTop.uid()),
+                     __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               const string& nom = aTop.user();
+               if (nom.empty()) {
+                    check(sqlite3_bind_null(fInsertUser, 2),
+                          __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               } else {
+                    check(sqlite3_bind_text(fInsertUser, 2, nom.c_str(), nom.size(), SQLITE_STATIC),
+                          __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               }
+               const int err = sqlite3_step(fInsertUser);
+               if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               check(sqlite3_reset(fInsertUser),
+                     __FILE__, __LINE__, __PRETTY_FUNCTION__);
+          }
+          default :
+               sqlite3_reset(fSelectUser);
+               check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               assert(0);  // arrivée ici impossible !?
+          }
      }
-     const int err = sqlite3_step(fInsertUser);
-     if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-     check(sqlite3_reset(fInsertUser),
-           __FILE__, __LINE__, __PRETTY_FUNCTION__);
+     // Sinon il existe déjà : on ne l'ajoute pas.
 }
 
 unsigned long BaseOsm::getIdTag(const string& aKey, const string& aValue)

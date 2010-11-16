@@ -7,3 +7,9 @@ libosm.*
 gmon.out
 *.exe
 *.gitignore
+*.osm
+HEAD
+config
+description
+*.dia*
+

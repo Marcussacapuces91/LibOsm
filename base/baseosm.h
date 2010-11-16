@@ -33,6 +33,9 @@
 #include "osm/node.h"
 #include "osm/way.h"
 #include "osm/relation.h"
+#include <set>
+
+using namespace std;
 
 /**
  * Classe permettant d'instancier une base de données contenant les différents
@@ -53,6 +56,12 @@ class BaseOsm : public BaseOsmCreateTables, public BaseInterface
  * Opérateur de recopie rendu non visible.
  */
         BaseOsm& operator=(const BaseOsm&);
+
+/// Ensemble des UID connus (pour éviter les tentatives d'insertion).
+        set<unsigned long> fUsers;
+
+/// Commande précompilée pour lire un user dans la table user.
+        Commande fSelectUser;
 
 /// Commande précompilée pour ajouter un enregistrement dans la table user.
         Commande fInsertUser;

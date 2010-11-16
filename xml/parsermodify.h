@@ -28,7 +28,7 @@
 #include "parserconteneurelement.h"    // header de l'interface héritée.
 
 #include "baseinterface.h"
-#include "../Exception.h"
+#include "../exception.h"
 
 /**
  * \brief Classe analysant un flux XML commençant à l'élément 'modify'.
