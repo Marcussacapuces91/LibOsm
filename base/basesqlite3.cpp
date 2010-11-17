@@ -32,6 +32,10 @@ BaseSQLite3::BaseSQLite3(const string& aNom,
      fpSqlite3(open(aNom, aFlags))
 {
      assert(fpSqlite3);
+     if (string(sqlite3_version) != SQLITE_VERSION) {
+          const string mess = string("Version attendue de la librairie SQLite3 : ") + SQLITE_VERSION;
+          throw Exception(mess, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+     }
      check(sqlite3_extended_result_codes(fpSqlite3, 1),
            __FILE__, __LINE__, __PRETTY_FUNCTION__);
 }

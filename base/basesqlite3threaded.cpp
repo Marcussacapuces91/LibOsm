@@ -4,7 +4,8 @@
 
 BaseSQLite3Threaded::BaseSQLite3Threaded(const string& aNom,
           const int aFlags) :
-     BaseSQLite3(aNom, aFlags)
+     BaseSQLite3(aNom, aFlags),
+     fThread()
 {
      if (sqlite3async_initialize(0, 1) != SQLITE_OK)
           throw(Exception("Erreur sur sqlite3async_initialize",
@@ -36,8 +37,9 @@ BaseSQLite3Threaded::~BaseSQLite3Threaded()
      sqlite3async_shutdown();
 }
 
-void* BaseSQLite3Threaded::Thread(void* apParam)
+void* BaseSQLite3Threaded::Thread(void* /* apParam */)
 {
      sqlite3async_run();
-     pthread_exit(0);
+//     pthread_exit(0);
+     return 0;
 }

@@ -45,7 +45,7 @@ private:
       *                créé le thread.
       * \return
       */
-     static void* Thread(void* apParam);
+     static void* Thread(void* /* apParam*/ );
 };
 
 #endif // BASESQLITE3THREADED_H

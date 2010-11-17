@@ -39,6 +39,7 @@ BaseOsm::BaseOsm(const string& aPath,
                  const bool aInitSpatialite,
                  const int aFlags) :
      BaseOsmCreateTables(aPath, aInitSpatialite, aFlags),
+     fUsers(),
      fSelectUser(this->fpSqlite3, "SELECT id, name FROM user WHERE id=?"),
      fInsertUser(this->fpSqlite3, "INSERT INTO user (id, name) VALUES (?,?)"),
      fSelectTag(this->fpSqlite3, "SELECT id FROM tag WHERE (key=? AND value=?)"),
@@ -100,15 +101,15 @@ void BaseOsm::createIndexes()
 // Ways
      cerr << endl << "Indexes de Way : ";
      exec("CREATE INDEX IF NOT EXISTS way_nodes_id_node ON way_nodes (id_node); \
-		  CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
+		   CREATE INDEX IF NOT EXISTS way_tags_id_tag ON way_tags (id_tag)");
      cerr << "Ok" << endl;
 
 // Relations
      cerr << endl << "Indexes de Relation : ";
      exec("CREATE INDEX IF NOT EXISTS relation_members_type_id_member        \
-            ON relation_members (type, id_member);                          \
-          CREATE INDEX IF NOT EXISTS relation_tags_id_tag                   \
-            ON relation_tags (id_tag)");
+             ON relation_members (type, id_member);                          \
+           CREATE INDEX IF NOT EXISTS relation_tags_id_tag                   \
+             ON relation_tags (id_tag)");
      cerr << "Ok" << endl;
 
      exec("COMMIT");
@@ -151,7 +152,8 @@ void BaseOsm::insertUser(const Top& aTop)
                fUsers.insert(aTop.uid());   // On l'ajoute à l'ensemble.
                break;
           }
-          case SQLITE_DONE : {    // Inconnu, alors on l'ajoute dans la table.
+          case SQLITE_DONE : {    // Inconnu, alors on l'ajoute dans la table...
+               fUsers.insert(aTop.uid());   // et à l'ensemble.
                check(sqlite3_reset(fSelectUser),
                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -169,10 +171,10 @@ void BaseOsm::insertUser(const Top& aTop)
                if (err != SQLITE_DONE) check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
                check(sqlite3_reset(fInsertUser),
                      __FILE__, __LINE__, __PRETTY_FUNCTION__);
+               break;
           }
           default :
                sqlite3_reset(fSelectUser);
-               check(err, __FILE__, __LINE__, __PRETTY_FUNCTION__);
                assert(0);  // arrivée ici impossible !?
           }
      }
